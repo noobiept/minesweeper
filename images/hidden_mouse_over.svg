@@ -14,8 +14,8 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="hidden.svg"
-   inkscape:export-filename="C:\Users\drk\Dropbox\projects\minesweeper\images\hidden.png"
+   sodipodi:docname="hidden_mouse_over.svg"
+   inkscape:export-filename="C:\Users\drk\Dropbox\projects\minesweeper\images\hidden_mouse_over.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -28,7 +28,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="14.666667"
-     inkscape:cx="10.758673"
+     inkscape:cx="-1.6163267"
      inkscape:cy="19.259178"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -64,7 +64,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -88,7 +88,7 @@
      transform="translate(0,-1022.3622)"
      style="display:inline">
     <rect
-       style="fill:#808080;fill-opacity:1;stroke:none"
+       style="fill:#8080b8;fill-opacity:1;stroke:none"
        id="rect2985"
        width="30"
        height="30"

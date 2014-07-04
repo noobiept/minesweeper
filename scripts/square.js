@@ -33,6 +33,21 @@ shape.on( 'click', function()
 
     MineSweeper.revealSquare( _this )
     });
+shape.on( 'mouseover', function()
+    {
+    if ( _this.is_hidden )
+        {
+        _this.shape.image = G.PRELOAD.getResult( 'hidden_mouse_over' );
+        }
+    });
+shape.on( 'mouseout', function()
+    {
+    if ( _this.is_hidden )
+        {
+        _this.shape.image = G.PRELOAD.getResult( 'hidden' );
+        }
+    });
+
 
 G.STAGE.addChild( shape );
 

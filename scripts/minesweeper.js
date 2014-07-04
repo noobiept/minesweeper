@@ -49,20 +49,17 @@ for (var a = 0 ; a < numberOfMines ; a++)
 
 
     // add the numbers to the positions (number of mines in adjacent squares)
-for (var column = 0 ; column < gridSize ; column++)
+GRID.forEachSquare( function( square )
     {
-    for (var line = 0 ; line < gridSize ; line++)
+    if ( square.value !== Square.Value.mine )
         {
-        var square = GRID.getSquare( column, line );
+        var minesAround = GRID.minesAround( square.column, square.line );
 
-        if ( square.value !== Square.Value.mine )
-            {
-            var minesAround = GRID.minesAround( column, line );
-
-            square.setValue( minesAround );
-            }
+        square.setValue( minesAround );
         }
-    }
+    });
+
+
 };
 
 
@@ -84,6 +81,7 @@ GRID.revealSquare( square );
 
 if ( square.value == Square.Value.mine )
     {
+    MineSweeper.revealAllMines();
     G.STAGE.update();
     window.alert( 'Defeat!' );   //HERE
     MineSweeper.restart();
@@ -131,12 +129,24 @@ for (var a = 0 ; a < GRID.hidden_squares.length ; a++)
 
 if ( finishLoop )
     {
+    MineSweeper.revealAllMines();
     G.STAGE.update();
     window.alert( 'You Win!' );
     MineSweeper.restart();
     }
 };
 
+
+MineSweeper.revealAllMines = function()
+{
+GRID.forEachSquare( function( square )
+    {
+    if ( square.value === Square.Value.mine )
+        {
+        GRID.revealSquare( square );
+        }
+    });
+};
 
 
 MineSweeper.tick = function()

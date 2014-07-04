@@ -21,6 +21,7 @@ window.onload = function()
 {
 G.CANVAS = document.querySelector( '#MainCanvas' );
 G.STAGE = new createjs.Stage( G.CANVAS );
+G.STAGE.enableMouseOver();
 G.PRELOAD = new createjs.LoadQueue();
 
 var manifest = [
@@ -34,7 +35,8 @@ var manifest = [
         { id: '8', src: STATIC_URL + 'images/eight.png' },
         { id: 'blank', src: STATIC_URL + 'images/blank.png' },
         { id: 'mine', src: STATIC_URL + 'images/mine.png' },
-        { id: 'hidden', src: STATIC_URL + 'images/hidden.png' }
+        { id: 'hidden', src: STATIC_URL + 'images/hidden.png' },
+        { id: 'hidden_mouse_over', src: STATIC_URL + 'images/hidden_mouse_over.png' }
     ];
 
 
