@@ -13,7 +13,7 @@
 
 function Square( column, line )
 {
-this.value = 0;
+this.value = Square.Value.blank;
 this.column = column;
 this.line = line;
 this.is_hidden = true;
@@ -30,9 +30,9 @@ this.shape = shape;
 }
 
 Square.size = 30;   // size of each individual square (30x30 pixels)
-Square.images = {
-        '-1': 'mine',
-        '0': 'blank',
+Square.Value = {
+        mine: 'mine',
+        blank: 'blank',
         '1': '1',
         '2': '2',
         '3': '3',
@@ -51,17 +51,15 @@ if ( !this.is_hidden )
     }
 
 this.is_hidden = false;
-this.shape.image = G.PRELOAD.getResult( Square.images[ String( this.value ) ] );
+this.shape.image = G.PRELOAD.getResult( this.value );
 };
 
 
 
 Square.prototype.setValue = function( value )
 {
-this.value = value;
+this.value = Square.Value[ value ];
 };
-
-
 
 
 
