@@ -13,6 +13,8 @@
 
 function Square( column, line )
 {
+var _this = this;
+
 this.value = Square.Value.blank;
 this.column = column;
 this.line = line;
@@ -22,7 +24,15 @@ var shape = new createjs.Bitmap( G.PRELOAD.getResult( 'hidden' ) );
 
 shape.x = column * Square.size;
 shape.y = line * Square.size;
-shape.on( 'click', this.reveal, this );
+shape.on( 'click', function()
+    {
+    if ( !_this.is_hidden )
+        {
+        return;
+        }
+
+    MineSweeper.revealSquare( _this )
+    });
 
 G.STAGE.addChild( shape );
 
@@ -58,7 +68,20 @@ this.shape.image = G.PRELOAD.getResult( this.value );
 
 Square.prototype.setValue = function( value )
 {
-this.value = Square.Value[ value ];
+if ( value < 0 )
+    {
+    this.value = Square.Value.mine;
+    }
+
+else if ( value === 0 )
+    {
+    this.value = Square.Value.blank;
+    }
+
+else
+    {
+    this.value = Square.Value[ value ];
+    }
 };
 
 

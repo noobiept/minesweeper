@@ -10,7 +10,7 @@ var GRID = null;
 MineSweeper.init = function()
 {
 var gridSize = 10;
-var numberOfMines = 10;
+var numberOfMines = 5;
 
 GRID = new Grid( gridSize );
 
@@ -50,7 +50,7 @@ for (var column = 0 ; column < gridSize ; column++)
         if ( square.value !== Square.Value.mine )
             {
             var minesAround = GRID.minesAround( column, line );
-            
+
             square.setValue( minesAround );
             }
         }
@@ -61,7 +61,36 @@ createjs.Ticker.on( 'tick', MineSweeper.tick );
 };
 
 
+MineSweeper.revealSquare = function( square )
+{
+square.reveal();
 
+    // need to reveal all the blank values around it
+if ( square.value == Square.Value.blank )
+    {
+    var applyToAdjacents = function( aSquare )
+        {
+        var adjacents = GRID.getAdjacentSquares( aSquare.column, aSquare.line );
+
+        for (var a = 0 ; a < adjacents.length ; a++)
+            {
+            var adjacent = adjacents[ a ];
+
+            if ( adjacent.is_hidden )
+                {
+                adjacent.reveal();
+
+                if ( adjacent.value === Square.Value.blank )
+                    {
+                    applyToAdjacents( adjacent );
+                    }
+                }
+            }
+        };
+
+    applyToAdjacents( square );
+    }
+};
 
 
 

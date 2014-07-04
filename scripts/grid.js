@@ -26,8 +26,48 @@ this.grid = grid;
 
 Grid.prototype.getSquare = function( column, line )
 {
+if ( column < 0 || column >= this.size ||
+     line   < 0 || line   >= this.size )
+    {
+    return null;
+    }
+
 return this.grid[ column ][ line ];
 };
+
+
+Grid.prototype.getAdjacentSquares = function( column, line )
+{
+var adjacents = [];
+
+for (var xOffset = -1 ; xOffset <= 1 ; xOffset++)
+    {
+    for (var yOffset = -1 ; yOffset <= 1 ; yOffset++)
+        {
+        var adjacentColumn = xOffset + column;
+        var adjacentLine = yOffset + line;
+
+            // don't consider the center position
+        if ( adjacentColumn == column && adjacentLine == line )
+            {
+            continue;
+            }
+
+            // check the grids limits
+        if ( adjacentColumn >= 0 && adjacentColumn < this.size &&
+             adjacentLine   >= 0 && adjacentLine   < this.size )
+            {
+            var square = this.grid[ adjacentColumn ][ adjacentLine ];
+
+            adjacents.push( square );
+            }
+        }
+    }
+
+
+return adjacents;
+};
+
 
 /*
     How many mines there are in adjacent squares (not counting the position given, just the ones around it)
