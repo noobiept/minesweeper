@@ -3,6 +3,7 @@
 function Grid( size )
 {
 var grid = [];
+var hidden_squares = [];
 
 for (var column = 0 ; column < size ; column++)
     {
@@ -10,7 +11,10 @@ for (var column = 0 ; column < size ; column++)
 
     for (var line = 0 ; line < size ; line++)
         {
-        grid[ column ][ line ] = new Square( column, line );
+        var square = new Square( column, line );
+
+        grid[ column ][ line ] = square;
+        hidden_squares.push( square );
         }
     }
 
@@ -21,7 +25,18 @@ G.CANVAS.height = sizePixels;
 
 this.size = size;
 this.grid = grid;
+this.hidden_squares = hidden_squares;
 }
+
+
+Grid.prototype.revealSquare = function( square )
+{
+var index = this.hidden_squares.indexOf( square );
+
+this.hidden_squares.splice( index, 1 );
+
+square.reveal();
+};
 
 
 Grid.prototype.getSquare = function( column, line )
@@ -123,6 +138,7 @@ for (var column = 0 ; column < size ; column++)
     }
 
 this.grid.length = 0;
+this.hidden_squares.length = 0;
 };
 
 

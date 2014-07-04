@@ -80,17 +80,19 @@ MineSweeper.buildMap();
 
 MineSweeper.revealSquare = function( square )
 {
-square.reveal();
+GRID.revealSquare( square );
 
 if ( square.value == Square.Value.mine )
     {
     G.STAGE.update();
     window.alert( 'Defeat!' );   //HERE
     MineSweeper.restart();
+    return;
     }
 
+
     // need to reveal all the blank values around it
-else if ( square.value == Square.Value.blank )
+if ( square.value == Square.Value.blank )
     {
     var applyToAdjacents = function( aSquare )
         {
@@ -102,7 +104,7 @@ else if ( square.value == Square.Value.blank )
 
             if ( adjacent.is_hidden )
                 {
-                adjacent.reveal();
+                GRID.revealSquare( adjacent );
 
                 if ( adjacent.value === Square.Value.blank )
                     {
@@ -113,6 +115,25 @@ else if ( square.value == Square.Value.blank )
         };
 
     applyToAdjacents( square );
+    }
+
+    // check if the game is won (when the un-revealed squares are all mines)
+var finishLoop = true;
+
+for (var a = 0 ; a < GRID.hidden_squares.length ; a++)
+    {
+    if ( GRID.hidden_squares[ a ].value !== Square.Value.mine )
+        {
+        finishLoop = false;
+        break;
+        }
+    }
+
+if ( finishLoop )
+    {
+    G.STAGE.update();
+    window.alert( 'You Win!' );
+    MineSweeper.restart();
     }
 };
 
