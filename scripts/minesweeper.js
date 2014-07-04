@@ -155,7 +155,7 @@ if ( square.value == Square.Value.blank )
             {
             var adjacent = adjacents[ a ];
 
-            if ( adjacent.is_hidden )
+            if ( adjacent.state !== Square.State.revealed )
                 {
                 GRID.revealSquare( adjacent );
 

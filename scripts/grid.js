@@ -34,7 +34,7 @@ var index = this.hidden_squares.indexOf( square );
 
 this.hidden_squares.splice( index, 1 );
 
-square.reveal();
+square.setState( Square.State.revealed );
 };
 
 

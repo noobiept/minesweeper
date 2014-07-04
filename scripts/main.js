@@ -24,6 +24,9 @@ G.STAGE = new createjs.Stage( G.CANVAS );
 G.STAGE.enableMouseOver();
 G.PRELOAD = new createjs.LoadQueue();
 
+    // disable the context menu (when right-clicking)
+G.CANVAS.oncontextmenu = function( event ) { return false; };
+
 var manifest = [
         { id: '1', src: STATIC_URL + 'images/one.png' },
         { id: '2', src: STATIC_URL + 'images/two.png' },
@@ -36,7 +39,9 @@ var manifest = [
         { id: 'blank', src: STATIC_URL + 'images/blank.png' },
         { id: 'mine', src: STATIC_URL + 'images/mine.png' },
         { id: 'hidden', src: STATIC_URL + 'images/hidden.png' },
-        { id: 'hidden_mouse_over', src: STATIC_URL + 'images/hidden_mouse_over.png' }
+        { id: 'hidden_mouse_over', src: STATIC_URL + 'images/hidden_mouse_over.png' },
+        { id: 'question_mark', src: STATIC_URL + 'images/question_mark.png' },
+        { id: 'mine_flag', src: STATIC_URL + 'images/mine_flag.png' }
     ];
 
 

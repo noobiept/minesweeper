@@ -18,40 +18,81 @@ var _this = this;
 this.value = Square.Value.blank;
 this.column = column;
 this.line = line;
-this.is_hidden = true;
+this.state = Square.State.hidden;
 
-var shape = new createjs.Bitmap( G.PRELOAD.getResult( 'hidden' ) );
+var container = new createjs.Container();
 
-shape.x = column * Square.size;
-shape.y = line * Square.size;
-shape.on( 'click', function()
+var background = new createjs.Bitmap( G.PRELOAD.getResult( 'hidden' ) );
+var front = new createjs.Bitmap();
+
+container.addChild( background );
+container.addChild( front );
+
+container.x = column * Square.size;
+container.y = line * Square.size;
+container.on( 'click', function( event )
     {
-    if ( !_this.is_hidden )
+    var button = event.nativeEvent.button;
+
+    if ( _this.state == Square.State.revealed )
         {
         return;
         }
 
-    MineSweeper.revealSquare( _this )
-    });
-shape.on( 'mouseover', function()
-    {
-    if ( _this.is_hidden )
+        // left click
+    if ( button == 0 )
         {
-        _this.shape.image = G.PRELOAD.getResult( 'hidden_mouse_over' );
+        if ( _this.state == Square.State.mine_flag )
+            {
+            return;
+            }
+
+        MineSweeper.revealSquare( _this )
+        }
+
+        // right click
+    else if ( button == 2 )
+        {
+        if ( _this.state === Square.State.hidden )
+            {
+            _this.setState( Square.State.question_mark );
+            }
+
+        else if ( _this.state === Square.State.question_mark )
+            {
+            _this.setState( Square.State.mine_flag );
+            }
+
+        else
+            {
+            _this.setState( Square.State.hidden );
+            }
+
+            // the .setState() sets the background to hidden, but when we click we have the mouse over, so need to set to that image
+        _this.background.image = G.PRELOAD.getResult( 'hidden_mouse_over' );
         }
     });
-shape.on( 'mouseout', function()
+container.on( 'mouseover', function()
     {
-    if ( _this.is_hidden )
+    if ( _this.state !== Square.State.revealed )
         {
-        _this.shape.image = G.PRELOAD.getResult( 'hidden' );
+        _this.background.image = G.PRELOAD.getResult( 'hidden_mouse_over' );
+        }
+    });
+container.on( 'mouseout', function()
+    {
+    if ( _this.state !== Square.State.revealed )
+        {
+        _this.background.image = G.PRELOAD.getResult( 'hidden' );
         }
     });
 
 
-G.STAGE.addChild( shape );
+G.STAGE.addChild( container );
 
-this.shape = shape;
+this.container = container;
+this.background = background;
+this.front = front;
 }
 
 Square.size = 30;   // size of each individual square (30x30 pixels)
@@ -67,17 +108,48 @@ Square.Value = {
         '7': '7',
         '8': '8'
     };
+Square.State = {
+        hidden: 0,          // still hasn't been shown
+        revealed: 1,        // by clicking on the square, we find out its value
+        question_mark: 2,   // we think its a mine in that position, just a visual help
+        mine_flag: 3        // marks the square as containing a mine, again just to help
+    };
 
-Square.prototype.reveal = function()
+
+Square.prototype.setState = function( state )
 {
-if ( !this.is_hidden )
+this.state = state;
+
+if ( state === Square.State.hidden )
     {
-    return;
+    this.background.image = G.PRELOAD.getResult( 'hidden' );
+    this.front.image = '';
     }
 
-this.is_hidden = false;
-this.shape.image = G.PRELOAD.getResult( this.value );
+else if ( state === Square.State.revealed )
+    {
+    this.background.image = G.PRELOAD.getResult( this.value );
+    this.front.image = '';
+    }
+
+else if ( state === Square.State.question_mark )
+    {
+    this.background.image = G.PRELOAD.getResult( 'hidden' );
+    this.front.image = G.PRELOAD.getResult( 'question_mark' );
+    }
+
+else if ( state === Square.State.mine_flag )
+    {
+    this.background.image = G.PRELOAD.getResult( 'hidden' );
+    this.front.image = G.PRELOAD.getResult( 'mine_flag' );
+    }
+
+else
+    {
+    console.log( 'error, wrong state argument.' );
+    }
 };
+
 
 
 
@@ -102,7 +174,7 @@ else
 
 Square.prototype.clear = function()
 {
-G.STAGE.removeChild( this.shape );
+G.STAGE.removeChild( this.container );
 };
 
 
