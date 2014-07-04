@@ -1,15 +1,15 @@
 (function(window)
 {
-function Grid( size )
+function Grid( columnSize, lineSize )
 {
 var grid = [];
 var hidden_squares = [];
 
-for (var column = 0 ; column < size ; column++)
+for (var column = 0 ; column < columnSize ; column++)
     {
     grid[ column ] = [];
 
-    for (var line = 0 ; line < size ; line++)
+    for (var line = 0 ; line < lineSize ; line++)
         {
         var square = new Square( column, line );
 
@@ -18,12 +18,11 @@ for (var column = 0 ; column < size ; column++)
         }
     }
 
-var sizePixels = size * Square.size;
+G.CANVAS.width = Square.size * columnSize;
+G.CANVAS.height = Square.size * lineSize;
 
-G.CANVAS.width = sizePixels;
-G.CANVAS.height = sizePixels;
-
-this.size = size;
+this.column_size = columnSize;
+this.line_size = lineSize;
 this.grid = grid;
 this.hidden_squares = hidden_squares;
 }
@@ -41,8 +40,8 @@ square.reveal();
 
 Grid.prototype.getSquare = function( column, line )
 {
-if ( column < 0 || column >= this.size ||
-     line   < 0 || line   >= this.size )
+if ( column < 0 || column >= this.column_size ||
+     line   < 0 || line   >= this.line_size )
     {
     return null;
     }
@@ -69,8 +68,8 @@ for (var xOffset = -1 ; xOffset <= 1 ; xOffset++)
             }
 
             // check the grids limits
-        if ( adjacentColumn >= 0 && adjacentColumn < this.size &&
-             adjacentLine   >= 0 && adjacentLine   < this.size )
+        if ( adjacentColumn >= 0 && adjacentColumn < this.column_size &&
+             adjacentLine   >= 0 && adjacentLine   < this.line_size )
             {
             var square = this.grid[ adjacentColumn ][ adjacentLine ];
 
@@ -106,8 +105,8 @@ for (var xOffset = -1 ; xOffset <= 1 ; xOffset++)
             }
 
             // check the grids limits
-        if ( adjacentColumn >= 0 && adjacentColumn < this.size &&
-             adjacentLine   >= 0 && adjacentLine   < this.size )
+        if ( adjacentColumn >= 0 && adjacentColumn < this.column_size &&
+             adjacentLine   >= 0 && adjacentLine   < this.line_size )
             {
             var square = this.grid[ adjacentColumn ][ adjacentLine ];
 
@@ -125,11 +124,9 @@ return count;
 
 Grid.prototype.forEachSquare = function( callback )
 {
-var size = this.size;
-
-for (var column = 0 ; column < size ; column++)
+for (var column = 0 ; column < this.column_size ; column++)
     {
-    for (var line = 0 ; line < size ; line++)
+    for (var line = 0 ; line < this.line_size ; line++)
         {
         var square = this.grid[ column ][ line ];
 
@@ -141,11 +138,9 @@ for (var column = 0 ; column < size ; column++)
 
 Grid.prototype.clear = function()
 {
-var size = this.size;
-
-for (var column = 0 ; column < size ; column++)
+for (var column = 0 ; column < this.column_size ; column++)
     {
-    for (var line = 0 ; line < size ; line++)
+    for (var line = 0 ; line < this.line_size ; line++)
         {
         var square = this.grid[ column ][ line ];
 

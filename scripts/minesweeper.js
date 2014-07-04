@@ -6,27 +6,78 @@ function MineSweeper()
 }
 
 var GRID = null;
+var COLUMN_SIZE = 10;
+var LINE_SIZE = 10;
+var NUMBER_OF_MINES = 5;
 
 MineSweeper.init = function()
 {
 MineSweeper.buildMap();
+MineSweeper.initMenu();
 
 createjs.Ticker.on( 'tick', MineSweeper.tick );
 };
 
 
+MineSweeper.initMenu = function()
+{
+    // :: column size :: //
+var columnSize = document.querySelector( '#ColumnSize' );
+var columnSizeValue = document.querySelector( '#ColumnSizeValue' );
+
+columnSize.value = COLUMN_SIZE;
+columnSizeValue.innerHTML = COLUMN_SIZE;
+columnSize.onchange = function()
+    {
+    columnSizeValue.innerHTML = columnSize.value;
+    };
+
+    // :: line size :: //
+var lineSize = document.querySelector( '#LineSize' );
+var lineSizeValue = document.querySelector( '#LineSizeValue' );
+
+lineSize.value = LINE_SIZE;
+lineSizeValue.innerHTML = LINE_SIZE;
+lineSize.onchange = function()
+    {
+    lineSizeValue.innerHTML = lineSize.value;
+    };
+
+
+    // :: number of mines :: //
+var numberOfMines = document.querySelector( '#NumberOfMines' );
+var numberOfMinesValue = document.querySelector( '#NumberOfMinesValue' );
+
+numberOfMines.value = NUMBER_OF_MINES;
+numberOfMinesValue.innerHTML = NUMBER_OF_MINES;
+numberOfMines.onchange = function()
+    {
+    numberOfMinesValue.innerHTML = numberOfMines.value;
+    };
+
+    // :: restart :: //
+var restart = document.querySelector( '#Restart' );
+
+restart.onclick = function()
+    {
+    COLUMN_SIZE = columnSize.value;
+    LINE_SIZE = lineSize.value;
+    NUMBER_OF_MINES = numberOfMines.value;
+
+    MineSweeper.restart();
+    };
+};
+
+
 MineSweeper.buildMap = function()
 {
-var gridSize = 10;
-var numberOfMines = 5;
-
-GRID = new Grid( gridSize );
+GRID = new Grid( COLUMN_SIZE, LINE_SIZE );
 
 var positions = [];
 
-for (var column = 0 ; column < gridSize ; column++)
+for (var column = 0 ; column < COLUMN_SIZE ; column++)
     {
-    for (var line = 0 ; line < gridSize ; line++)
+    for (var line = 0 ; line < LINE_SIZE ; line++)
         {
         positions.push({
                 column: column,
@@ -36,8 +87,14 @@ for (var column = 0 ; column < gridSize ; column++)
     }
 
     // add mines in random positions
-for (var a = 0 ; a < numberOfMines ; a++)
+for (var a = 0 ; a < NUMBER_OF_MINES ; a++)
     {
+        // when there's more bomb positions than there are squares in the grid
+    if ( positions.length === 0 )
+        {
+        break;
+        }
+
     var random = getRandomInt( 0, positions.length - 1 );
 
     var position = positions.splice( random, 1 )[ 0 ];
@@ -58,8 +115,6 @@ GRID.forEachSquare( function( square )
         square.setValue( minesAround );
         }
     });
-
-
 };
 
 

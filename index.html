@@ -20,10 +20,19 @@
     <canvas id="MainCanvas"></canvas>
 
     <div id="Menu">
-        <label for="GridSize">Grid size</label>
-        <input id="GridSize" type="number" min="5" max="10" value="5" />
+        <label for="ColumnSize">columns</label>
+        <input id="ColumnSize" type="range" min="5" max="20" />
+        <span id="ColumnSizeValue"></span>
+
+        <label for="LineSize">lines</label>
+        <input id="LineSize" type="range" min="5" max="20" />
+        <span id="LineSizeValue"></span>
+
         <label for="NumberOfMines">Number of mines</label>
-        <input id="NumberOfMines" type="number" min="5" max="10" value="5" />
+        <input id="NumberOfMines" type="range" min="5" max="60" />
+        <span id="NumberOfMinesValue"></span>
+
+        <input id="Restart" type="button" value="restart" />
     </div>
 
     <div id="LoadMessage"></div>
