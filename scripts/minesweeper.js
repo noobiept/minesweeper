@@ -9,6 +9,14 @@ var GRID = null;
 
 MineSweeper.init = function()
 {
+MineSweeper.buildMap();
+
+createjs.Ticker.on( 'tick', MineSweeper.tick );
+};
+
+
+MineSweeper.buildMap = function()
+{
 var gridSize = 10;
 var numberOfMines = 5;
 
@@ -55,9 +63,18 @@ for (var column = 0 ; column < gridSize ; column++)
             }
         }
     }
+};
 
 
-createjs.Ticker.on( 'tick', MineSweeper.tick );
+MineSweeper.restart = function()
+{
+if ( GRID )
+    {
+    GRID.clear();
+    GRID = null;
+    }
+
+MineSweeper.buildMap();
 };
 
 
@@ -65,8 +82,15 @@ MineSweeper.revealSquare = function( square )
 {
 square.reveal();
 
+if ( square.value == Square.Value.mine )
+    {
+    G.STAGE.update();
+    window.alert( 'Defeat!' );   //HERE
+    MineSweeper.restart();
+    }
+
     // need to reveal all the blank values around it
-if ( square.value == Square.Value.blank )
+else if ( square.value == Square.Value.blank )
     {
     var applyToAdjacents = function( aSquare )
         {

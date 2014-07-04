@@ -85,6 +85,11 @@ else
 };
 
 
+Square.prototype.clear = function()
+{
+G.STAGE.removeChild( this.shape );
+};
+
 
 window.Square = Square;
 

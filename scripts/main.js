@@ -6,17 +6,6 @@
             - preloadjs : 0.4
         - jquery        : 2.1
         - underscore    : 1.6
-
-
-    - starts with a grid of undifferentiated squares
-    - some randomly selected squares, contain mines
-    - have the size of the grid, and the number of mines as an option to the user
-    - clicking on a square, reveals it, which will show how many mines there are around it (or blank if none)
-    - if click on a mine the game ends
-    - be able to add a question mark to a square to help
-    - have the first square protected (as in, you can't choose a mine on the first selected square)
-    - when clicking on a blank square (no mines around it), show all the blank squares adjacent, plus the first numbered square around
-    - Commonly, the color code for the numbers is blue for 1, green for 2, red for 3, purple for 4, maroon for 5, cyan for 6, black for 7, and grey for 8.
  */
 
 var G = {

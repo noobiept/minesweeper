@@ -108,6 +108,24 @@ return count;
 };
 
 
+Grid.prototype.clear = function()
+{
+var size = this.size;
+
+for (var column = 0 ; column < size ; column++)
+    {
+    for (var line = 0 ; line < size ; line++)
+        {
+        var square = this.grid[ column ][ line ];
+
+        square.clear();
+        }
+    }
+
+this.grid.length = 0;
+};
+
+
 window.Grid = Grid;
 
 }(window));
