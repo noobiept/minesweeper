@@ -21,6 +21,12 @@ for (var column = 0 ; column < columnSize ; column++)
 G.CANVAS.width = Square.size * columnSize;
 G.CANVAS.height = Square.size * lineSize;
 
+var windowWidth = $( window ).width();
+
+var left = windowWidth / 2 - G.CANVAS.width / 2;
+
+G.CANVAS.style.paddingLeft = left + 'px';
+
 this.column_size = columnSize;
 this.line_size = lineSize;
 this.grid = grid;

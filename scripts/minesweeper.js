@@ -9,6 +9,7 @@ var GRID = null;
 var COLUMN_SIZE = 10;
 var LINE_SIZE = 10;
 var NUMBER_OF_MINES = 5;
+var TIMER = null;
 
 MineSweeper.init = function()
 {
@@ -66,6 +67,11 @@ restart.onclick = function()
 
     MineSweeper.restart();
     };
+
+    // :: timer :: //
+var timerValue = document.querySelector( '#TimerValue' );
+
+TIMER = new Timer( timerValue );
 };
 
 
@@ -127,12 +133,18 @@ if ( GRID )
     }
 
 MineSweeper.buildMap();
+TIMER.reset();
 };
 
 
 MineSweeper.revealSquare = function( square )
 {
 GRID.revealSquare( square );
+
+if ( !TIMER.isActive() )
+    {
+    TIMER.start();
+    }
 
 if ( square.value == Square.Value.mine )
     {
@@ -184,9 +196,13 @@ for (var a = 0 ; a < GRID.hidden_squares.length ; a++)
 
 if ( finishLoop )
     {
+    TIMER.stop();
     MineSweeper.revealAllMines();
     G.STAGE.update();
+
+    HighScore.add( COLUMN_SIZE, LINE_SIZE, NUMBER_OF_MINES, TIMER.getElapsedTime() );
     window.alert( 'You Win!' );
+
     MineSweeper.restart();
     }
 };
