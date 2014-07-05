@@ -40,7 +40,7 @@ HIGH_SCORE[ name ].push( time );
     // have the better scores first (better means a lesser value (finished the map faster))
 HIGH_SCORE[ name ].sort( function( a, b )
     {
-    return b - a;
+    return a - b;
     });
 
     // if we pass the limit, remove one of the lesser scores
