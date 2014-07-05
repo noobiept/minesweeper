@@ -1,0 +1,1 @@
+You can try it out here: http://nbpt.eu/games/minesweeper/
