@@ -13,6 +13,7 @@ var TIMER = null;
 
 MineSweeper.init = function()
 {
+HighScore.load();
 MineSweeper.buildMap();
 MineSweeper.initMenu();
 
@@ -121,6 +122,30 @@ GRID.forEachSquare( function( square )
         square.setValue( minesAround );
         }
     });
+
+
+    // show the high-score for this combination of columns/lines/number of mines
+var scores = HighScore.get( COLUMN_SIZE, LINE_SIZE, NUMBER_OF_MINES );
+var scoreContainer = document.querySelector( '#HighScoreContainer' );
+
+scoreContainer.innerHTML = '';
+
+if ( scores === null )
+    {
+    scoreContainer.innerHTML = 'No scores yet.';
+    }
+
+else
+    {
+    for (var a = 0 ; a < scores.length ; a++)
+        {
+        var scoreElement = document.createElement( 'span' );
+
+        scoreElement.innerHTML = timeToString( scores[ a ] );
+
+        scoreContainer.appendChild( scoreElement );
+        }
+    }
 };
 
 

@@ -59,8 +59,10 @@ return HIGH_SCORE;
 };
 
 
-HighScore.get = function( key )
+HighScore.get = function( columns, lines, mines )
 {
+var key = columns + '_' + lines + '_' + mines;
+
 if ( typeof HIGH_SCORE[ key ] == 'undefined' )
     {
     return null;

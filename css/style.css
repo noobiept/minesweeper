@@ -3,3 +3,20 @@
     position: fixed;
     text-align: center;
     }
+
+#Menu, #HighScore
+    {
+    text-align: center;
+    margin-top: 10px;
+    }
+
+#Menu > *
+    {
+    margin: 0 10px;
+    }
+
+#Restart
+    {
+    font-size: 20px;
+    }
+
