@@ -29,7 +29,7 @@ var columnSizeValue = document.querySelector( '#ColumnSizeValue' );
 
 columnSize.value = COLUMN_SIZE;
 columnSizeValue.innerHTML = COLUMN_SIZE;
-columnSize.onchange = function()
+columnSize.oninput = function()
     {
     columnSizeValue.innerHTML = columnSize.value;
     };
@@ -40,7 +40,7 @@ var lineSizeValue = document.querySelector( '#LineSizeValue' );
 
 lineSize.value = LINE_SIZE;
 lineSizeValue.innerHTML = LINE_SIZE;
-lineSize.onchange = function()
+lineSize.oninput = function()
     {
     lineSizeValue.innerHTML = lineSize.value;
     };
@@ -52,7 +52,7 @@ var numberOfMinesValue = document.querySelector( '#NumberOfMinesValue' );
 
 numberOfMines.value = NUMBER_OF_MINES;
 numberOfMinesValue.innerHTML = NUMBER_OF_MINES;
-numberOfMines.onchange = function()
+numberOfMines.oninput = function()
     {
     numberOfMinesValue.innerHTML = numberOfMines.value;
     };
@@ -73,6 +73,10 @@ restart.onclick = function()
 var timerValue = document.querySelector( '#TimerValue' );
 
 TIMER = new Timer( timerValue );
+
+    // show the menu/high-score
+$( '#Menu' ).css( 'display', 'block' );
+$( '#HighScore' ).css( 'display', 'block' );
 };
 
 

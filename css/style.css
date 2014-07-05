@@ -12,6 +12,7 @@ body
 #Menu, #HighScore
     {
     margin-top: 10px;
+    display: none;
     }
 
 #Menu > *

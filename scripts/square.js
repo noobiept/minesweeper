@@ -1,16 +1,5 @@
 (function(window)
 {
-/*
-    Each square has a value
-
-        -1 : is a mine
-         0 : its blank (no mines in adjacent squares)
-         1 : means there's 1 mine in adjacent squares
-         2 : means there's 2 mines in adjacent squares
-         etc..
-         8 : all the squares around it have mines
- */
-
 function Square( column, line )
 {
 var _this = this;

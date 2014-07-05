@@ -1,0 +1,11 @@
+{
+    "resultingFolder": "minesweeper",
+    "basePath": "..",
+    "files":
+        [
+            "css/",
+            "images/",
+            "libraries/",
+            "manifest.json"
+        ]
+}

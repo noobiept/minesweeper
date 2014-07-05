@@ -1,0 +1,11 @@
+{
+    "C:\\Users\\drk\\Dropbox\\projects\\minesweeper": [
+        "scripts/utilities.js", 
+        "scripts/square.js", 
+        "scripts/timer.js", 
+        "scripts/high_score.js", 
+        "scripts/grid.js", 
+        "scripts/minesweeper.js", 
+        "scripts/main.js"
+    ]
+}
