@@ -175,7 +175,7 @@ if ( square.value == Square.Value.mine )
     {
     MineSweeper.revealAllMines();
     G.STAGE.update();
-    window.alert( 'Defeat!' );   //HERE
+    window.alert( 'Defeat!' );
     MineSweeper.restart();
     return;
     }
