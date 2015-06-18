@@ -1,13 +1,3 @@
-/*
-    libraries:
-
-        - createjs
-            - easeljs   : 0.7
-            - preloadjs : 0.4
-        - jquery        : 2.1
-        - underscore    : 1.6
- */
-
 var G = {
     PRELOAD: null,
     STAGE: null,

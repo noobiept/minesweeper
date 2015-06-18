@@ -6,9 +6,9 @@ function MineSweeper()
 }
 
 var GRID = null;
-var COLUMN_SIZE = 10;
-var LINE_SIZE = 10;
-var NUMBER_OF_MINES = 5;
+var COLUMN_SIZE = 9;
+var LINE_SIZE = 9;
+var NUMBER_OF_MINES = 10;
 var TIMER = null;
 
 MineSweeper.init = function()
@@ -29,10 +29,10 @@ var columnSizeValue = document.querySelector( '#ColumnSizeValue' );
 
 columnSize.value = COLUMN_SIZE;
 columnSizeValue.innerHTML = COLUMN_SIZE;
-columnSize.oninput = function()
+$( columnSize ).on( 'input change', function()
     {
     columnSizeValue.innerHTML = columnSize.value;
-    };
+    });
 
     // :: line size :: //
 var lineSize = document.querySelector( '#LineSize' );
@@ -40,10 +40,10 @@ var lineSizeValue = document.querySelector( '#LineSizeValue' );
 
 lineSize.value = LINE_SIZE;
 lineSizeValue.innerHTML = LINE_SIZE;
-lineSize.oninput = function()
+$( lineSize ).on( 'input change', function()
     {
     lineSizeValue.innerHTML = lineSize.value;
-    };
+    });
 
 
     // :: number of mines :: //
@@ -52,22 +52,22 @@ var numberOfMinesValue = document.querySelector( '#NumberOfMinesValue' );
 
 numberOfMines.value = NUMBER_OF_MINES;
 numberOfMinesValue.innerHTML = NUMBER_OF_MINES;
-numberOfMines.oninput = function()
+$( numberOfMines ).on( 'input change', function()
     {
     numberOfMinesValue.innerHTML = numberOfMines.value;
-    };
+    });
 
     // :: restart :: //
 var restart = document.querySelector( '#Restart' );
 
-restart.onclick = function()
+$( restart ).on( 'click', function()
     {
     COLUMN_SIZE = columnSize.value;
     LINE_SIZE = lineSize.value;
     NUMBER_OF_MINES = numberOfMines.value;
 
     MineSweeper.restart();
-    };
+    });
 
     // :: timer :: //
 var timerValue = document.querySelector( '#TimerValue' );
