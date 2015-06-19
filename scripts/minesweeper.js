@@ -11,12 +11,17 @@ var LINE_SIZE = 9;
 var NUMBER_OF_MINES = 10;
 var TIMER = null;
 
+var CURRENT_MOUSE_OVER = null;     // the current square element that is being highlighted
+
+
 MineSweeper.init = function()
 {
 HighScore.load();
 MineSweeper.buildMap();
 MineSweeper.initMenu();
 
+G.CANVAS.addEventListener( 'mousemove', MineSweeper.mouseMove );
+G.CANVAS.addEventListener( 'click', MineSweeper.mouseClick );
 createjs.Ticker.on( 'tick', MineSweeper.tick );
 };
 
@@ -247,6 +252,95 @@ GRID.forEachSquare( function( square )
         }
     });
 };
+
+
+/**
+ * Update the selected square on mouse move.
+ */
+MineSweeper.mouseMove = function( event )
+{
+var canvasRect = G.CANVAS.getBoundingClientRect();
+
+var x = event.clientX - canvasRect.left;
+var y = event.clientY - canvasRect.top;
+
+var column = Math.floor( x / Square.size );
+var line = Math.floor( y / Square.size );
+
+var square = GRID.getSquare( column, line );
+
+if ( square )
+    {
+    if ( CURRENT_MOUSE_OVER && square !== CURRENT_MOUSE_OVER )
+        {
+        CURRENT_MOUSE_OVER.unSelect();
+        }
+
+    CURRENT_MOUSE_OVER = square;
+    square.select();
+    }
+
+else
+    {
+    if ( CURRENT_MOUSE_OVER )
+        {
+        CURRENT_MOUSE_OVER.unSelect();
+        CURRENT_MOUSE_OVER = null;
+        }
+    }
+};
+
+
+/**
+ * Reveal the current selected square on mouse left click.
+ * Flag the square on right click (question mark/mine flag/hidden).
+ */
+MineSweeper.mouseClick = function( event )
+{
+if ( CURRENT_MOUSE_OVER )
+    {
+    var button = event.button;
+
+    if ( CURRENT_MOUSE_OVER.state == Square.State.revealed )
+        {
+        return;
+        }
+
+        // left click
+    if ( button == 0 )
+        {
+        if ( CURRENT_MOUSE_OVER.state == Square.State.mine_flag )
+            {
+            return;
+            }
+
+        MineSweeper.revealSquare( CURRENT_MOUSE_OVER )
+        }
+
+        // right click
+    else if ( button == 2 )
+        {
+        if ( CURRENT_MOUSE_OVER.state === Square.State.hidden )
+            {
+            CURRENT_MOUSE_OVER.setState( Square.State.question_mark );
+            }
+
+        else if ( CURRENT_MOUSE_OVER.state === Square.State.question_mark )
+            {
+            CURRENT_MOUSE_OVER.setState( Square.State.mine_flag );
+            }
+
+        else
+            {
+            CURRENT_MOUSE_OVER.setState( Square.State.hidden );
+            }
+
+            // the .setState() sets the background to hidden, but when we click we have the mouse over, so need to set to that image
+        CURRENT_MOUSE_OVER.background.image = G.PRELOAD.getResult( 'hidden_mouse_over' );
+        }
+    }
+};
+
 
 
 MineSweeper.tick = function()

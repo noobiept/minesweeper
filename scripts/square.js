@@ -8,6 +8,7 @@ this.value = Square.Value.blank;
 this.column = column;
 this.line = line;
 this.state = Square.State.hidden;
+this.is_selected = false;
 
 var container = new createjs.Container();
 
@@ -19,63 +20,6 @@ container.addChild( front );
 
 container.x = column * Square.size;
 container.y = line * Square.size;
-container.on( 'click', function( event )
-    {
-    var button = event.nativeEvent.button;
-
-    if ( _this.state == Square.State.revealed )
-        {
-        return;
-        }
-
-        // left click
-    if ( button == 0 )
-        {
-        if ( _this.state == Square.State.mine_flag )
-            {
-            return;
-            }
-
-        MineSweeper.revealSquare( _this )
-        }
-
-        // right click
-    else if ( button == 2 )
-        {
-        if ( _this.state === Square.State.hidden )
-            {
-            _this.setState( Square.State.question_mark );
-            }
-
-        else if ( _this.state === Square.State.question_mark )
-            {
-            _this.setState( Square.State.mine_flag );
-            }
-
-        else
-            {
-            _this.setState( Square.State.hidden );
-            }
-
-            // the .setState() sets the background to hidden, but when we click we have the mouse over, so need to set to that image
-        _this.background.image = G.PRELOAD.getResult( 'hidden_mouse_over' );
-        }
-    });
-container.on( 'mouseover', function()
-    {
-    if ( _this.state !== Square.State.revealed )
-        {
-        _this.background.image = G.PRELOAD.getResult( 'hidden_mouse_over' );
-        }
-    });
-container.on( 'mouseout', function()
-    {
-    if ( _this.state !== Square.State.revealed )
-        {
-        _this.background.image = G.PRELOAD.getResult( 'hidden' );
-        }
-    });
-
 
 G.STAGE.addChild( container );
 
@@ -107,6 +51,11 @@ Square.State = {
 
 Square.prototype.setState = function( state )
 {
+if ( state === this.state )
+    {
+    return;
+    }
+
 this.state = state;
 
 if ( state === Square.State.hidden )
@@ -139,6 +88,25 @@ else
     }
 };
 
+
+Square.prototype.select = function()
+{
+if ( !this.is_selected && this.state !== Square.State.revealed )
+    {
+    this.background.image = G.PRELOAD.getResult( 'hidden_mouse_over' );
+    this.is_selected = true;
+    }
+};
+
+
+Square.prototype.unSelect = function()
+{
+if ( this.is_selected && this.state !== Square.State.revealed )
+    {
+    this.background.image = G.PRELOAD.getResult( 'hidden' );
+    this.is_selected = false;
+    }
+};
 
 
 

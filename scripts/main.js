@@ -10,7 +10,6 @@ window.onload = function()
 {
 G.CANVAS = document.querySelector( '#MainCanvas' );
 G.STAGE = new createjs.Stage( G.CANVAS );
-G.STAGE.enableMouseOver();
 G.PRELOAD = new createjs.LoadQueue();
 
     // disable the context menu (when right-clicking)
