@@ -61,7 +61,6 @@ Timer.prototype.getElapsedTime = function()
 return this.count_time;
 };
 
-
 window.Timer = Timer;
 
 }(window));

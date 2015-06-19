@@ -21,7 +21,7 @@ MineSweeper.buildMap();
 MineSweeper.initMenu();
 
 G.CANVAS.addEventListener( 'mousemove', MineSweeper.mouseMove );
-G.CANVAS.addEventListener( 'click', MineSweeper.mouseClick );
+G.CANVAS.addEventListener( 'mouseup', MineSweeper.mouseClick );
 createjs.Ticker.on( 'tick', MineSweeper.tick );
 };
 
@@ -234,8 +234,10 @@ if ( finishLoop )
     MineSweeper.revealAllMines();
     G.STAGE.update();
 
-    HighScore.add( COLUMN_SIZE, LINE_SIZE, NUMBER_OF_MINES, TIMER.getElapsedTime() );
-    window.alert( 'You Win!' );
+    var time = TIMER.getElapsedTime();
+
+    HighScore.add( COLUMN_SIZE, LINE_SIZE, NUMBER_OF_MINES, time );
+    window.alert( 'You Win! ' + timeToString( time ) );
 
     MineSweeper.restart();
     }
