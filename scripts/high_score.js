@@ -11,13 +11,13 @@ var MAX_SCORES_SAVED = 5;
 
 HighScore.save = function()
 {
-saveObject( 'high_score', HIGH_SCORE );
+saveObject( 'minesweeper_high_score', HIGH_SCORE );
 };
 
 
 HighScore.load = function()
 {
-var score = getObject( 'high_score' );
+var score = getObject( 'minesweeper_high_score' );
 
 if ( score !== null )
     {
@@ -76,7 +76,7 @@ HighScore.removeAll = function()
 {
 HIGH_SCORE.length = 0;
 
-localStorage.removeItem( 'high_score' );
+localStorage.removeItem( 'minesweeper_high_score' );
 };
 
 

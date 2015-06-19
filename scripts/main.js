@@ -5,7 +5,6 @@ var G = {
     GRID: null
 };
 
-var BASE_URL = '';
 
 window.onload = function()
 {
@@ -18,20 +17,20 @@ G.PRELOAD = new createjs.LoadQueue();
 G.CANVAS.oncontextmenu = function( event ) { return false; };
 
 var manifest = [
-        { id: '1', src: BASE_URL + 'images/one.png' },
-        { id: '2', src: BASE_URL + 'images/two.png' },
-        { id: '3', src: BASE_URL + 'images/three.png' },
-        { id: '4', src: BASE_URL + 'images/four.png' },
-        { id: '5', src: BASE_URL + 'images/five.png' },
-        { id: '6', src: BASE_URL + 'images/six.png' },
-        { id: '7', src: BASE_URL + 'images/seven.png' },
-        { id: '8', src: BASE_URL + 'images/eight.png' },
-        { id: 'blank', src: BASE_URL + 'images/blank.png' },
-        { id: 'mine', src: BASE_URL + 'images/mine.png' },
-        { id: 'hidden', src: BASE_URL + 'images/hidden.png' },
-        { id: 'hidden_mouse_over', src: BASE_URL + 'images/hidden_mouse_over.png' },
-        { id: 'question_mark', src: BASE_URL + 'images/question_mark.png' },
-        { id: 'mine_flag', src: BASE_URL + 'images/mine_flag.png' }
+        { id: '1', src: 'images/one.png' },
+        { id: '2', src: 'images/two.png' },
+        { id: '3', src: 'images/three.png' },
+        { id: '4', src: 'images/four.png' },
+        { id: '5', src: 'images/five.png' },
+        { id: '6', src: 'images/six.png' },
+        { id: '7', src: 'images/seven.png' },
+        { id: '8', src: 'images/eight.png' },
+        { id: 'blank', src: 'images/blank.png' },
+        { id: 'mine', src: 'images/mine.png' },
+        { id: 'hidden', src: 'images/hidden.png' },
+        { id: 'hidden_mouse_over', src: 'images/hidden_mouse_over.png' },
+        { id: 'question_mark', src: 'images/question_mark.png' },
+        { id: 'mine_flag', src: 'images/mine_flag.png' }
     ];
 
 
