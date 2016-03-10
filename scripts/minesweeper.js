@@ -184,8 +184,15 @@ if ( square.value == Square.Value.mine )
     {
     MineSweeper.revealAllMines();
     G.STAGE.update();
-    window.alert( 'Defeat!' );
-    MineSweeper.restart();
+    $( '#DialogMessage' ).text( 'Defeat!' ).dialog({
+            modal: true,
+            buttons: {
+                ok: function() {
+                    $( this ).dialog( 'close' );
+                    MineSweeper.restart();
+                }
+            }
+        });
     return;
     }
 
@@ -237,9 +244,15 @@ if ( finishLoop )
     var time = TIMER.getElapsedTime();
 
     HighScore.add( COLUMN_SIZE, LINE_SIZE, NUMBER_OF_MINES, time );
-    window.alert( 'You Win! ' + timeToString( time ) );
-
-    MineSweeper.restart();
+    $( '#DialogMessage' ).text( 'You Win! ' + timeToString( time ) ).dialog({
+            modal: true,
+            buttons: {
+                ok: function() {
+                    $( this ).dialog( 'close' );
+                    MineSweeper.restart();
+                }
+            }
+        });
     }
 };
 

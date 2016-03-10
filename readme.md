@@ -8,3 +8,6 @@ Libraries
     - easeljs -- 0.8
     - preloadjs -- 0.6
 - jquery -- 2.2
+- jqueryui -- 1.11
+    - dialog
+    - base theme
