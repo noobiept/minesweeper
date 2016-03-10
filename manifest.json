@@ -1,7 +1,7 @@
 {
     "name": "Minesweeper",
     "version": "1.2.0",
-    "description": "A minesweeper clone. Can change the number of columns/lines/mines, and has an independent high-score for each combination.",
+    "description": "Can change the number of columns/lines/mines, and has an independent high-score for each combination.",
     "app": { "background": { "scripts": [ "background.js" ] } },
     "manifest_version": 2,
     "permissions": [ "storage" ]

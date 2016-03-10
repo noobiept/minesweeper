@@ -1,4 +1,4 @@
-/*global createjs, MineSweeper*/
+/*global createjs, MineSweeper, AppStorage, HighScore*/
 
 var G = {
     PRELOAD: null,
@@ -9,6 +9,12 @@ var G = {
 
 
 window.onload = function()
+{
+AppStorage.getData( [ 'minesweeper_high_score' ], initApp );
+};
+
+
+function initApp( data )
 {
 G.CANVAS = document.querySelector( '#MainCanvas' );
 G.STAGE = new createjs.Stage( G.CANVAS );
@@ -34,7 +40,7 @@ var manifest = [
         { id: 'mine_flag', src: 'images/mine_flag.png' }
     ];
 
-
+HighScore.load( data );
 var loadMessage = document.querySelector( '#LoadMessage' );
 
 var left = $( window ).width() / 2;
@@ -54,5 +60,4 @@ G.PRELOAD.addEventListener( 'complete', function()
     MineSweeper.init();
     });
 G.PRELOAD.loadManifest( manifest, true );
-};
-
+}
