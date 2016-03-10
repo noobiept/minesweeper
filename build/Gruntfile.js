@@ -10,7 +10,7 @@ grunt.initConfig({
             options: {
                 configFile: root + '.eslintrc.json'
             },
-            target: [ root + 'js' ]
+            target: [ root + 'scripts' ]
         },
 
             // delete the destination folder
@@ -40,19 +40,13 @@ grunt.initConfig({
 
         uglify: {
             release: {
-                files: {
-                    '../release/<%= pkg.name %> <%= pkg.version %>/min.js': [
-                            // the order matters, since some classes inherit from others, so the base ones need to be defined first
-                            // this is based on the order in index.html
-                        '../scripts/utilities.js',
-                        '../scripts/square.js',
-                        '../scripts/timer.js',
-                        '../scripts/high_score.js',
-                        '../scripts/grid.js',
-                        '../scripts/minesweeper.js',
-                        '../scripts/main.js'
-                    ]
-                }
+                files: [{
+                    src: [
+                            // the order might matter, depending on whether a function is used while loading the file
+                        root + 'scripts/*.js'
+                    ],
+                    dest: dest + 'min.js'
+                }]
             }
         },
 
@@ -64,6 +58,9 @@ grunt.initConfig({
                     src: '*.css',
                     dest: dest + 'css'
                 }]
+            },
+            options: {
+                advanced: false
             }
         },
 
@@ -80,6 +77,7 @@ grunt.initConfig({
     });
 
     // load the plugins
+grunt.loadNpmTasks( 'grunt-eslint' );
 grunt.loadNpmTasks( 'grunt-contrib-copy' );
 grunt.loadNpmTasks( 'grunt-contrib-uglify' );
 grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
