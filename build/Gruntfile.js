@@ -1,11 +1,17 @@
-var PATH = require( 'path' );
-
 module.exports = function( grunt )
 {
+var root = '../';
 var dest = '../release/<%= pkg.name %> <%= pkg.version %>/';
 
 grunt.initConfig({
         pkg: grunt.file.readJSON( 'package.json' ),
+
+        eslint: {
+            options: {
+                configFile: root + '.eslintrc.json'
+            },
+            target: [ root + 'js' ]
+        },
 
             // delete the destination folder
         clean: {
@@ -21,10 +27,12 @@ grunt.initConfig({
         copy: {
             release: {
                 expand: true,
-                cwd: '../',
+                cwd: root,
                 src: [
                     'images/*.png',
-                    'libraries/**'
+                    'libraries/**',
+                    'background.js',
+                    'manifest.json'
                 ],
                 dest: dest
             }
@@ -52,9 +60,9 @@ grunt.initConfig({
             release: {
                 files: [{
                     expand: true,
-                    cwd: '../css/',
-                    src: 'style.css',
-                    dest: PATH.join( dest, 'css' )
+                    cwd: root + 'css',
+                    src: '*.css',
+                    dest: dest + 'css'
                 }]
             }
         },
@@ -63,7 +71,7 @@ grunt.initConfig({
             release: {
                 files: [{
                     expand: true,
-                    cwd: '../',
+                    cwd: root,
                     src: 'index.html',
                     dest: dest
                 }]
@@ -79,5 +87,5 @@ grunt.loadNpmTasks( 'grunt-contrib-clean' );
 grunt.loadNpmTasks( 'grunt-processhtml' );
 
     // tasks
-grunt.registerTask( 'default', [ 'clean', 'copy', 'uglify', 'cssmin', 'processhtml' ] );
+grunt.registerTask( 'default', [ 'eslint', 'clean', 'copy', 'uglify', 'cssmin', 'processhtml' ] );
 };
