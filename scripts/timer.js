@@ -1,3 +1,5 @@
+/*global timeToString*/
+
 (function(window)
 {
 function Timer( htmlElement )

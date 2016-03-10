@@ -1,3 +1,5 @@
+/*global createjs, MineSweeper*/
+
 var G = {
     PRELOAD: null,
     STAGE: null,

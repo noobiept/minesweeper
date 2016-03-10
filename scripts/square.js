@@ -1,9 +1,9 @@
+/*global createjs, G*/
+
 (function(window)
 {
 function Square( column, line )
 {
-var _this = this;
-
 this.value = Square.Value.blank;
 this.column = column;
 this.line = line;
@@ -84,7 +84,7 @@ else if ( state === Square.State.mine_flag )
 
 else
     {
-    console.log( 'error, wrong state argument.' );
+    throw new Error( 'Wrong state argument.' );
     }
 };
 

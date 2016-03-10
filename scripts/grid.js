@@ -1,3 +1,5 @@
+/*global Square, G*/
+
 (function(window)
 {
 function Grid( columnSize, lineSize )

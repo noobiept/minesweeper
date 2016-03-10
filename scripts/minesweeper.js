@@ -1,3 +1,5 @@
+/*global HighScore, G, createjs, Timer, Grid, Square, getRandomInt, timeToString*/
+
 (function(window)
 {
 function MineSweeper()
@@ -90,6 +92,7 @@ MineSweeper.buildMap = function()
 GRID = new Grid( COLUMN_SIZE, LINE_SIZE );
 
 var positions = [];
+var a;
 
 for (var column = 0 ; column < COLUMN_SIZE ; column++)
     {
@@ -103,7 +106,7 @@ for (var column = 0 ; column < COLUMN_SIZE ; column++)
     }
 
     // add mines in random positions
-for (var a = 0 ; a < NUMBER_OF_MINES ; a++)
+for (a = 0 ; a < NUMBER_OF_MINES ; a++)
     {
         // when there's more bomb positions than there are squares in the grid
     if ( positions.length === 0 )
@@ -112,9 +115,7 @@ for (var a = 0 ; a < NUMBER_OF_MINES ; a++)
         }
 
     var random = getRandomInt( 0, positions.length - 1 );
-
     var position = positions.splice( random, 1 )[ 0 ];
-
     var square = GRID.getSquare( position.column, position.line );
 
     square.setValue( Square.Value.mine );
@@ -146,12 +147,11 @@ if ( scores === null )
 
 else
     {
-    for (var a = 0 ; a < scores.length ; a++)
+    for (a = 0 ; a < scores.length ; a++)
         {
         var scoreElement = document.createElement( 'span' );
 
         scoreElement.innerHTML = timeToString( scores[ a ] );
-
         scoreContainer.appendChild( scoreElement );
         }
     }
