@@ -23,7 +23,7 @@ MineSweeper.buildMap();
 MineSweeper.initMenu();
 
 G.CANVAS.addEventListener( 'mousemove', MineSweeper.mouseMove );
-G.CANVAS.addEventListener( 'mouseup', MineSweeper.mouseClick );
+G.CANVAS.addEventListener( 'mousedown', MineSweeper.mouseClick );
 createjs.Ticker.on( 'tick', MineSweeper.tick );
 };
 
@@ -182,17 +182,7 @@ if ( !TIMER.isActive() )
 
 if ( square.value == Square.Value.mine )
     {
-    MineSweeper.revealAllMines();
-    G.STAGE.update();
-    $( '#DialogMessage' ).text( 'Defeat!' ).dialog({
-            modal: true,
-            buttons: {
-                ok: function() {
-                    $( this ).dialog( 'close' );
-                    MineSweeper.restart();
-                }
-            }
-        });
+    gameOver( false );
     return;
     }
 
@@ -237,22 +227,7 @@ for (var a = 0 ; a < GRID.hidden_squares.length ; a++)
 
 if ( finishLoop )
     {
-    TIMER.stop();
-    MineSweeper.revealAllMines();
-    G.STAGE.update();
-
-    var time = TIMER.getElapsedTime();
-
-    HighScore.add( COLUMN_SIZE, LINE_SIZE, NUMBER_OF_MINES, time );
-    $( '#DialogMessage' ).text( 'You Win! ' + timeToString( time ) ).dialog({
-            modal: true,
-            buttons: {
-                ok: function() {
-                    $( this ).dialog( 'close' );
-                    MineSweeper.restart();
-                }
-            }
-        });
+    gameOver( true );
     }
 };
 
@@ -357,6 +332,42 @@ if ( CURRENT_MOUSE_OVER )
 };
 
 
+function gameOver( victory )
+{
+TIMER.stop();
+MineSweeper.revealAllMines();
+G.STAGE.update();
+
+if ( victory )
+    {
+    var time = TIMER.getElapsedTime();
+    HighScore.add( COLUMN_SIZE, LINE_SIZE, NUMBER_OF_MINES, time );
+
+    $( '#DialogMessage' ).text( 'You Win! ' + timeToString( time ) ).dialog({
+            modal: true,
+            buttons: {
+                ok: function() {
+                    $( this ).dialog( 'close' );
+                    MineSweeper.restart();
+                }
+            }
+        });
+    }
+
+else
+    {
+    $( '#DialogMessage' ).text( 'Defeat!' ).dialog({
+            modal: true,
+            buttons: {
+                ok: function() {
+                    $( this ).dialog( 'close' );
+                    MineSweeper.restart();
+                }
+            }
+        });
+    }
+}
+
 
 MineSweeper.tick = function()
 {
@@ -365,5 +376,4 @@ G.STAGE.update();
 
 
 window.MineSweeper = MineSweeper;
-
 }(window));
