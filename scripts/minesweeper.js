@@ -345,10 +345,12 @@ if ( victory )
 
     $( '#DialogMessage' ).text( 'You Win! ' + timeToString( time ) ).dialog({
             modal: true,
+            close: function( event, ui ) {
+                MineSweeper.restart();
+            },
             buttons: {
                 ok: function() {
                     $( this ).dialog( 'close' );
-                    MineSweeper.restart();
                 }
             }
         });
@@ -358,10 +360,12 @@ else
     {
     $( '#DialogMessage' ).text( 'Defeat!' ).dialog({
             modal: true,
+            close: function( event, ui ) {
+                MineSweeper.restart();
+            },
             buttons: {
                 ok: function() {
                     $( this ).dialog( 'close' );
-                    MineSweeper.restart();
                 }
             }
         });
