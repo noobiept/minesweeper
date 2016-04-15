@@ -31,3 +31,8 @@ body
     color: #7342A0;
     font-weight: bold;
     }
+
+.hidden
+    {
+    display: none;
+    }

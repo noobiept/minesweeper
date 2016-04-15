@@ -86,7 +86,7 @@ $( '#Menu' ).css( 'display', 'block' );
 $( '#HighScore' ).css( 'display', 'block' );
 
     // :: donate :: //
-$( '#DonateButton' ).button();
+$( '#DonateButton' ).removeClass( 'hidden' ).button();
 };
 
 
