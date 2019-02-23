@@ -1,4 +1,7 @@
 import * as AppStorage from './app_storage.js';
+import * as HighScore from './high_score.js';
+import * as MineSweeper from './minesweeper.js';
+import Grid from './grid.js';
 
 
 interface Global {
@@ -23,9 +26,9 @@ AppStorage.getData( [ 'minesweeper_high_score' ], initApp );
 };
 
 
-function initApp( data )
+function initApp( data: AppStorage.StorageData )
 {
-G.CANVAS = document.querySelector( '#MainCanvas' );
+G.CANVAS = document.getElementById( 'MainCanvas' ) as HTMLCanvasElement;
 G.STAGE = new createjs.Stage( G.CANVAS );
 G.PRELOAD = new createjs.LoadQueue();
 
@@ -50,10 +53,10 @@ var manifest = [
     ];
 
 HighScore.load( data );
-var loadMessage = document.querySelector( '#LoadMessage' );
+var loadMessage = document.getElementById( 'LoadMessage' )!;
 
-var left = $( window ).width() / 2;
-var top = $( window ).height() / 2;
+var left = $( window ).width()! / 2;
+var top = $( window ).height()! / 2;
 
 $( loadMessage ).css( 'top', top + 'px' );
 $( loadMessage ).css( 'left', left + 'px' );

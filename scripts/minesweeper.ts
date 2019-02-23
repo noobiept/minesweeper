@@ -1,34 +1,32 @@
-/*global HighScore, G, createjs, Timer, Grid, Square, getRandomInt, timeToString*/
+import * as HighScore from './high_score.js';
+import Grid from './grid.js';
+import Square from './square.js';
+import { G } from './main.js';
+import Timer from './timer.js';
 
-(function(window)
-{
-function MineSweeper()
-{
 
-}
-
-var GRID = null;
+var GRID: Grid | null = null;
 var COLUMN_SIZE = 9;
 var LINE_SIZE = 9;
 var NUMBER_OF_MINES = 10;
-var TIMER = null;
+var TIMER: Timer | null = null;
 
 var CURRENT_MOUSE_OVER = null;     // the current square element that is being highlighted
 
 
-MineSweeper.init = function()
+export function init()
 {
 HighScore.load();
-MineSweeper.buildMap();
-MineSweeper.initMenu();
+buildMap();
+initMenu();
 
-G.CANVAS.addEventListener( 'mousemove', MineSweeper.mouseMove );
-G.CANVAS.addEventListener( 'mousedown', MineSweeper.mouseClick );
-createjs.Ticker.on( 'tick', MineSweeper.tick );
+G.CANVAS.addEventListener( 'mousemove', mouseMove );
+G.CANVAS.addEventListener( 'mousedown', mouseClick );
+createjs.Ticker.on( 'tick', tick );
 };
 
 
-MineSweeper.initMenu = function()
+function initMenu()
 {
     // :: column size :: //
 var columnSize = document.querySelector( '#ColumnSize' );
@@ -87,10 +85,10 @@ $( '#HighScore' ).css( 'display', 'block' );
 
     // :: donate :: //
 $( '#DonateButton' ).removeClass( 'hidden' ).button();
-};
+}
 
 
-MineSweeper.buildMap = function()
+function buildMap()
 {
 GRID = new Grid( COLUMN_SIZE, LINE_SIZE );
 
@@ -158,10 +156,10 @@ else
         scoreContainer.appendChild( scoreElement );
         }
     }
-};
+}
 
 
-MineSweeper.restart = function()
+function restart()
 {
 if ( GRID )
     {
@@ -169,12 +167,12 @@ if ( GRID )
     GRID = null;
     }
 
-MineSweeper.buildMap();
+buildMap();
 TIMER.reset();
-};
+}
 
 
-MineSweeper.revealSquare = function( square )
+function revealSquare( square: Square )
 {
 GRID.revealSquare( square );
 
@@ -232,10 +230,10 @@ if ( finishLoop )
     {
     gameOver( true );
     }
-};
+}
 
 
-MineSweeper.revealAllMines = function()
+function revealAllMines()
 {
 GRID.forEachSquare( function( square )
     {
@@ -244,13 +242,13 @@ GRID.forEachSquare( function( square )
         GRID.revealSquare( square );
         }
     });
-};
+}
 
 
 /**
  * Update the selected square on mouse move.
  */
-MineSweeper.mouseMove = function( event )
+function mouseMove( event )
 {
 var canvasRect = G.CANVAS.getBoundingClientRect();
 
@@ -281,14 +279,14 @@ else
         CURRENT_MOUSE_OVER = null;
         }
     }
-};
+}
 
 
 /**
  * Reveal the current selected square on mouse left click.
  * Flag the square on right click (question mark/mine flag/hidden).
  */
-MineSweeper.mouseClick = function( event )
+function mouseClick( event )
 {
 if ( CURRENT_MOUSE_OVER )
     {
@@ -332,13 +330,13 @@ if ( CURRENT_MOUSE_OVER )
         CURRENT_MOUSE_OVER.background.image = G.PRELOAD.getResult( 'hidden_mouse_over' );
         }
     }
-};
+}
 
 
 function gameOver( victory )
 {
 TIMER.stop();
-MineSweeper.revealAllMines();
+revealAllMines();
 G.STAGE.update();
 
 if ( victory )
@@ -349,7 +347,7 @@ if ( victory )
     $( '#DialogMessage' ).text( 'You Win! ' + timeToString( time ) ).dialog({
             modal: true,
             close: function( event, ui ) {
-                MineSweeper.restart();
+                restart();
             },
             buttons: {
                 ok: function() {
@@ -376,11 +374,7 @@ else
 }
 
 
-MineSweeper.tick = function()
+function tick()
 {
 G.STAGE.update();
-};
-
-
-window.MineSweeper = MineSweeper;
-}(window));
+}

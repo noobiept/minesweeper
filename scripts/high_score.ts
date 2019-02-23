@@ -1,10 +1,11 @@
-/*global AppStorage*/
-
-var HighScore;
-(function (HighScore) {
+import * as AppStorage from './app_storage.js';
 
 
-var HIGH_SCORE = {};
+export interface HighScoreData {
+    [name: string]: number[];
+}
+
+var HIGH_SCORE: HighScoreData = {};
 var MAX_SCORES_SAVED = 5;
 
 
@@ -14,7 +15,7 @@ AppStorage.setData({ 'minesweeper_high_score': HIGH_SCORE });
 }
 
 
-HighScore.load = function( data )
+export function load( data?: AppStorage.StorageData )
 {
 if ( data )
     {
@@ -25,10 +26,10 @@ if ( data )
         HIGH_SCORE = score;
         }
     }
-};
+}
 
 
-HighScore.add = function( columns, lines, mines, time )
+export function add( columns: number, lines: number, mines: number, time: number )
 {
 var name = columns + '_' + lines + '_' + mines;
 
@@ -52,16 +53,16 @@ if ( HIGH_SCORE[ name ].length > MAX_SCORES_SAVED )
     }
 
 save();
-};
+}
 
 
-HighScore.getAll = function()
+export function getAll()
 {
 return HIGH_SCORE;
-};
+}
 
 
-HighScore.get = function( columns, lines, mines )
+export function get( columns: number, lines: number, mines: number )
 {
 var key = columns + '_' + lines + '_' + mines;
 
@@ -71,7 +72,4 @@ if ( typeof HIGH_SCORE[ key ] == 'undefined' )
     }
 
 return HIGH_SCORE[ key ];
-};
-
-
-})(HighScore || (HighScore = {}));
+}
