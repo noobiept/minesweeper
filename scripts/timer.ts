@@ -1,18 +1,20 @@
+import { timeToString } from "./utilities";
+
 
 export default class Timer {
 
 interval_time: number;
 is_active: boolean;
 count_time: number;
-interval_f: number | null;
 html_element: HTMLElement;
+interval_f?: number;
 
 constructor( htmlElement: HTMLElement )
 {
 this.interval_time = 100;
 this.is_active = false;
 this.count_time = 0;
-this.interval_f = null;
+this.interval_f = undefined;
 this.html_element = htmlElement;
 
 htmlElement.innerHTML = timeToString( this.count_time );
@@ -47,7 +49,7 @@ if ( this.is_active === false )
     }
 
 window.clearInterval( this.interval_f );
-this.interval_f = null;
+this.interval_f = undefined;
 this.is_active = false;
 }
 

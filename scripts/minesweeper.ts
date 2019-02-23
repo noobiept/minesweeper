@@ -3,15 +3,16 @@ import Grid from './grid.js';
 import Square from './square.js';
 import { G } from './main.js';
 import Timer from './timer.js';
+import { getRandomInt, timeToString } from './utilities.js';
 
 
-var GRID: Grid | null = null;
+var GRID: Grid;
 var COLUMN_SIZE = 9;
 var LINE_SIZE = 9;
 var NUMBER_OF_MINES = 10;
-var TIMER: Timer | null = null;
+var TIMER: Timer;
 
-var CURRENT_MOUSE_OVER = null;     // the current square element that is being highlighted
+var CURRENT_MOUSE_OVER: Square | null = null;     // the current square element that is being highlighted
 
 
 export function init()
@@ -29,22 +30,24 @@ createjs.Ticker.on( 'tick', tick );
 function initMenu()
 {
     // :: column size :: //
-var columnSize = document.querySelector( '#ColumnSize' );
-var columnSizeValue = document.querySelector( '#ColumnSizeValue' );
+const columnSize = document.getElementById( 'ColumnSize' ) as HTMLInputElement;
+const columnSizeValue = document.getElementById( 'ColumnSizeValue' )!;
+const columnSizeStr = COLUMN_SIZE.toString();
 
-columnSize.value = COLUMN_SIZE;
-columnSizeValue.innerHTML = COLUMN_SIZE;
+columnSize.value = columnSizeStr;
+columnSizeValue.innerHTML = columnSizeStr;
 $( columnSize ).on( 'input change', function()
     {
     columnSizeValue.innerHTML = columnSize.value;
     });
 
     // :: line size :: //
-var lineSize = document.querySelector( '#LineSize' );
-var lineSizeValue = document.querySelector( '#LineSizeValue' );
+const lineSize = document.getElementById( 'LineSize' ) as HTMLInputElement;
+const lineSizeValue = document.getElementById( 'LineSizeValue' )!;
+const lineSizeStr = LINE_SIZE.toString();
 
-lineSize.value = LINE_SIZE;
-lineSizeValue.innerHTML = LINE_SIZE;
+lineSize.value = lineSizeStr;
+lineSizeValue.innerHTML = lineSizeStr;
 $( lineSize ).on( 'input change', function()
     {
     lineSizeValue.innerHTML = lineSize.value;
@@ -52,30 +55,31 @@ $( lineSize ).on( 'input change', function()
 
 
     // :: number of mines :: //
-var numberOfMines = document.querySelector( '#NumberOfMines' );
-var numberOfMinesValue = document.querySelector( '#NumberOfMinesValue' );
+const numberOfMines = document.getElementById( 'NumberOfMines' ) as HTMLInputElement;
+const numberOfMinesValue = document.getElementById( 'NumberOfMinesValue' )!;
+const numberOfLinesStr = NUMBER_OF_MINES.toString();
 
-numberOfMines.value = NUMBER_OF_MINES;
-numberOfMinesValue.innerHTML = NUMBER_OF_MINES;
+numberOfMines.value = numberOfLinesStr;
+numberOfMinesValue.innerHTML = numberOfLinesStr;
 $( numberOfMines ).on( 'input change', function()
     {
     numberOfMinesValue.innerHTML = numberOfMines.value;
     });
 
     // :: restart :: //
-var restart = document.querySelector( '#Restart' );
+var restartButton = document.getElementById( 'Restart' )!;
 
-$( restart ).on( 'click', function()
+$( restartButton ).on( 'click', function()
     {
-    COLUMN_SIZE = columnSize.value;
-    LINE_SIZE = lineSize.value;
-    NUMBER_OF_MINES = numberOfMines.value;
+    COLUMN_SIZE = parseInt( columnSize.value, 10 );
+    LINE_SIZE = parseInt( lineSize.value, 10 );
+    NUMBER_OF_MINES = parseInt( numberOfMines.value, 10 );
 
-    MineSweeper.restart();
+    restart();
     });
 
     // :: timer :: //
-var timerValue = document.querySelector( '#TimerValue' );
+var timerValue = document.getElementById( 'TimerValue' )!;
 
 TIMER = new Timer( timerValue );
 
@@ -117,7 +121,7 @@ for (a = 0 ; a < NUMBER_OF_MINES ; a++)
 
     var random = getRandomInt( 0, positions.length - 1 );
     var position = positions.splice( random, 1 )[ 0 ];
-    var square = GRID.getSquare( position.column, position.line );
+    var square = GRID.getSquare( position.column, position.line )!;
 
     square.setValue( Square.Value.mine );
     }
@@ -137,7 +141,7 @@ GRID.forEachSquare( function( square )
 
     // show the high-score for this combination of columns/lines/number of mines
 var scores = HighScore.get( COLUMN_SIZE, LINE_SIZE, NUMBER_OF_MINES );
-var scoreContainer = document.querySelector( '#HighScoreContainer' );
+var scoreContainer = document.getElementById( 'HighScoreContainer' )!;
 
 scoreContainer.innerHTML = '';
 
@@ -191,7 +195,7 @@ if ( square.value == Square.Value.mine )
     // need to reveal all the blank values around it
 if ( square.value == Square.Value.blank )
     {
-    var applyToAdjacents = function( aSquare )
+    var applyToAdjacents = function( aSquare: Square )
         {
         var adjacents = GRID.getAdjacentSquares( aSquare.column, aSquare.line );
 
@@ -248,7 +252,7 @@ GRID.forEachSquare( function( square )
 /**
  * Update the selected square on mouse move.
  */
-function mouseMove( event )
+function mouseMove( event: MouseEvent )
 {
 var canvasRect = G.CANVAS.getBoundingClientRect();
 
@@ -286,7 +290,7 @@ else
  * Reveal the current selected square on mouse left click.
  * Flag the square on right click (question mark/mine flag/hidden).
  */
-function mouseClick( event )
+function mouseClick( event: MouseEvent )
 {
 if ( CURRENT_MOUSE_OVER )
     {
@@ -305,7 +309,7 @@ if ( CURRENT_MOUSE_OVER )
             return;
             }
 
-        MineSweeper.revealSquare( CURRENT_MOUSE_OVER )
+        revealSquare( CURRENT_MOUSE_OVER )
         }
 
         // right click
@@ -333,7 +337,7 @@ if ( CURRENT_MOUSE_OVER )
 }
 
 
-function gameOver( victory )
+function gameOver( victory: boolean )
 {
 TIMER.stop();
 revealAllMines();
@@ -362,7 +366,7 @@ else
     $( '#DialogMessage' ).text( 'Defeat!' ).dialog({
             modal: true,
             close: function( event, ui ) {
-                MineSweeper.restart();
+                restart();
             },
             buttons: {
                 ok: function() {

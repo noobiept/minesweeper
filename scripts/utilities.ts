@@ -1,26 +1,22 @@
-/*exported timeToString, getRandomInt*/
-
-function getRandomInt( min, max )
+export function getRandomInt( min: number, max: number )
 {
 return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 
-/*
-    Rounds a number to a specified decimal case
+/**
+ * Rounds a number to a specified decimal case.
  */
-
-function round(num, dec)
+export function round(num: number, dec: number)
 {
 return Math.round( num * Math.pow(10,dec) ) / Math.pow( 10,dec );
 }
 
 
-/*
-    Converts a time (in milliseconds) to a string (with the number of days/hours...)
+/**
+ * Converts a time (in milliseconds) to a string (with the number of days/hours...).
  */
-
-function timeToString( dateMilliseconds )
+export function timeToString( dateMilliseconds: number )
 {
     // :: convert to days/hours :: //
 
@@ -34,7 +30,6 @@ var minutesLeft = 0;
 var hoursLeft = 0;
 var daysLeft = 0;
 var secondsLeft = 0;
-
 
     //count the days
 while (dateMilliseconds > day)
@@ -61,14 +56,13 @@ while (dateMilliseconds > minute)
     }
 
     //and the seconds
-secondsLeft = round( dateMilliseconds / 1000, 2).toFixed( 1 );
-
+secondsLeft = round( dateMilliseconds / 1000, 2);
 
     // :: construct the string :: //
 
 var theDate = [ ["day", daysLeft], ["hour", hoursLeft], ["minute", minutesLeft], ["second", secondsLeft] ];
 
-var constructDate = function(dateTmp, numberOf)
+var constructDate = function(dateTmp: string, numberOf: number)
     {
         // day to days, hour to hours...
     if (numberOf !== 1)
@@ -84,27 +78,28 @@ var totalUnits = 2;
 
 var date = "";
 
-
-var i;
-
-for (i = 0 ; i < theDate.length ; i++)
+for (let i = 0 ; i < theDate.length ; i++)
     {
+    const dateInfo = theDate[ i ];
+    const dateUnit = dateInfo[ 0 ] as string;
+    const dateValue = dateInfo[ 1 ] as number;
+
         // reached the limit of the units
     if (totalUnits === 0)
         {
         break;
         }
 
+
         // only show when there's something relevant to be shown
         // (for example: 0 days 2 hours 2 minutes... no point showing the days part)
     if ( theDate[ i ][ 1 ] !== 0 )
         {
-        date += constructDate( theDate[ i ][ 0 ], theDate[ i ][ 1 ] );
+        date += constructDate( dateUnit, dateValue );
 
         totalUnits--;
         }
     }
-
 
 return date;
 }
