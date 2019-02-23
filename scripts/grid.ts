@@ -1,10 +1,17 @@
-/*global Square, G*/
+import Square from './square.js';
+import { G } from './main.js';
 
-(function(window)
+
+export default class Grid
 {
-function Grid( columnSize, lineSize )
-{
-var grid = [];
+column_size: number;
+line_size: number;
+grid: Square[][];
+hidden_squares: Square[];
+
+constructor(columnSize: number, lineSize: number) {
+
+var grid: Square[][] = [];
 var hidden_squares = [];
 
 for (var column = 0 ; column < columnSize ; column++)
@@ -30,17 +37,17 @@ this.hidden_squares = hidden_squares;
 }
 
 
-Grid.prototype.revealSquare = function( square )
+revealSquare( square: Square )
 {
 var index = this.hidden_squares.indexOf( square );
 
 this.hidden_squares.splice( index, 1 );
 
 square.setState( Square.State.revealed );
-};
+}
 
 
-Grid.prototype.getSquare = function( column, line )
+getSquare( column: number, line: number )
 {
 if ( column < 0 || column >= this.column_size ||
      line   < 0 || line   >= this.line_size )
@@ -49,10 +56,10 @@ if ( column < 0 || column >= this.column_size ||
     }
 
 return this.grid[ column ][ line ];
-};
+}
 
 
-Grid.prototype.getAdjacentSquares = function( column, line )
+getAdjacentSquares( column: number, line: number )
 {
 var adjacents = [];
 
@@ -82,14 +89,13 @@ for (var xOffset = -1 ; xOffset <= 1 ; xOffset++)
 
 
 return adjacents;
-};
+}
 
 
 /*
     How many mines there are in adjacent squares (not counting the position given, just the ones around it)
  */
-
-Grid.prototype.minesAround = function( column, line )
+minesAround( column: number, line: number )
 {
 var count = 0;
 
@@ -121,10 +127,10 @@ for (var xOffset = -1 ; xOffset <= 1 ; xOffset++)
     }
 
 return count;
-};
+}
 
 
-Grid.prototype.forEachSquare = function( callback )
+forEachSquare( callback: (square: Square) => void )
 {
 for (var column = 0 ; column < this.column_size ; column++)
     {
@@ -135,10 +141,10 @@ for (var column = 0 ; column < this.column_size ; column++)
         callback( square );
         }
     }
-};
+}
 
 
-Grid.prototype.clear = function()
+clear()
 {
 for (var column = 0 ; column < this.column_size ; column++)
     {
@@ -152,9 +158,5 @@ for (var column = 0 ; column < this.column_size ; column++)
 
 this.grid.length = 0;
 this.hidden_squares.length = 0;
-};
-
-
-window.Grid = Grid;
-
-}(window));
+}
+}

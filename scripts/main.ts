@@ -1,6 +1,15 @@
-/*global createjs, MineSweeper, AppStorage, HighScore*/
+import * as AppStorage from './app_storage.js';
 
-var G = {
+
+interface Global {
+    PRELOAD: createjs.LoadQueue;
+    STAGE: createjs.Stage;
+    CANVAS: HTMLCanvasElement;
+    GRID: Grid;
+}
+
+
+export var G: Global = {
     PRELOAD: null,
     STAGE: null,
     CANVAS: null,

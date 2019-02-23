@@ -1,35 +1,10 @@
-/*global createjs, G*/
+import { G } from './main.js';
 
-(function(window)
+
+export default class Square
 {
-function Square( column, line )
-{
-this.value = Square.Value.blank;
-this.column = column;
-this.line = line;
-this.state = Square.State.hidden;
-this.is_selected = false;
-
-var container = new createjs.Container();
-
-var background = new createjs.Bitmap( G.PRELOAD.getResult( 'hidden' ) );
-var front = new createjs.Bitmap();
-
-container.addChild( background );
-container.addChild( front );
-
-container.x = column * Square.size;
-container.y = line * Square.size;
-
-G.STAGE.addChild( container );
-
-this.container = container;
-this.background = background;
-this.front = front;
-}
-
-Square.size = 30;   // size of each individual square (30x30 pixels)
-Square.Value = {
+static size = 30;   // size of each individual square (30x30 pixels)
+static Value = {
         mine: 'mine',
         blank: 'blank',
         '1': '1',
@@ -41,15 +16,50 @@ Square.Value = {
         '7': '7',
         '8': '8'
     };
-Square.State = {
+static State = {
         hidden: 0,          // still hasn't been shown
         revealed: 1,        // by clicking on the square, we find out its value
         question_mark: 2,   // we think its a mine in that position, just a visual help
         mine_flag: 3        // marks the square as containing a mine, again just to help
     };
 
+value: string;
+column: number;
+line: number;
+state: number;
+is_selected: boolean;
+container: createjs.Container;
+background: createjs.Bitmap;
+front: createjs.Bitmap;
 
-Square.prototype.setState = function( state )
+constructor( column: number, line: number ) {
+
+    this.value = Square.Value.blank;
+    this.column = column;
+    this.line = line;
+    this.state = Square.State.hidden;
+    this.is_selected = false;
+
+    var container = new createjs.Container();
+
+    var background = new createjs.Bitmap( G.PRELOAD.getResult( 'hidden' ) );
+    var front = new createjs.Bitmap();
+
+    container.addChild( background );
+    container.addChild( front );
+
+    container.x = column * Square.size;
+    container.y = line * Square.size;
+
+    G.STAGE.addChild( container );
+
+    this.container = container;
+    this.background = background;
+    this.front = front;
+}
+
+
+setState( state: number )
 {
 if ( state === this.state )
     {
@@ -86,31 +96,30 @@ else
     {
     throw new Error( 'Wrong state argument.' );
     }
-};
+}
 
 
-Square.prototype.select = function()
+select()
 {
 if ( !this.is_selected && this.state !== Square.State.revealed )
     {
     this.background.image = G.PRELOAD.getResult( 'hidden_mouse_over' );
     this.is_selected = true;
     }
-};
+}
 
 
-Square.prototype.unSelect = function()
+unSelect()
 {
 if ( this.is_selected && this.state !== Square.State.revealed )
     {
     this.background.image = G.PRELOAD.getResult( 'hidden' );
     this.is_selected = false;
     }
-};
+}
 
 
-
-Square.prototype.setValue = function( value )
+setValue( value: number )
 {
 if ( value < 0 )
     {
@@ -129,12 +138,9 @@ else
 };
 
 
-Square.prototype.clear = function()
+clear()
 {
 G.STAGE.removeChild( this.container );
-};
+}
 
-
-window.Square = Square;
-
-}(window));
+}

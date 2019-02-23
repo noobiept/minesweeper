@@ -1,11 +1,7 @@
-var AppStorage;
-(function(AppStorage) {
-
-
 /**
  * Calls the `callback` with a dictionary that has all the requested keys/values from `localStorage`.
  */
-function getLocalStorage( keys, callback )
+export function getData( keys, callback )
     {
     var objects = {};
 
@@ -25,7 +21,7 @@ function getLocalStorage( keys, callback )
  * Sets the given key/value into `localStorage`. Calls the `callback` when its done.
  * Converts the value to string (with json).
  */
-function setLocalStorage( items, callback )
+export function setData( items, callback )
     {
     for ( var key in items )
         {
@@ -40,59 +36,3 @@ function setLocalStorage( items, callback )
         callback();
         }
     }
-
-
-/**
- * Calls the `callback` with a dictionary that has all the requested keys/values from `chrome.storage.local`.
- */
-function chromeStorageGet( keys, callback )
-    {
-    window.chrome.storage.local.get( keys, callback );
-    }
-
-
-/**
- * Sets the given key/value into `chrome.storage.local`. Calls the `callback` when its done.
- * Converts the value to string (with json).
- */
-function chromeStorageSet( items, callback )
-    {
-    window.chrome.storage.local.set( items, callback );
-    }
-
-
-/**
- * Uses the `chrome storage` if it's available (when running as a chrome app), otherwise uses the `localStorage`.
- */
-AppStorage.getData = function( keys, callback )
-    {
-    if ( window.chrome && window.chrome.storage )
-        {
-        chromeStorageGet( keys, callback );
-        }
-
-    else
-        {
-        getLocalStorage( keys, callback );
-        }
-    };
-
-
-/**
- * Uses the `chrome storage` if it's available (when running as a chrome app), otherwise uses the `localStorage`.
- */
-AppStorage.setData = function( items, callback )
-    {
-    if ( window.chrome && window.chrome.storage )
-        {
-        chromeStorageSet( items, callback );
-        }
-
-    else
-        {
-        setLocalStorage( items, callback );
-        }
-    };
-
-
-})(AppStorage || (AppStorage = {}));
