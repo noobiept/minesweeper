@@ -1,4 +1,4 @@
-import Square from './square.js';
+import Square, { SquareState, SquareValue } from './square.js';
 import { G } from './main.js';
 
 
@@ -43,7 +43,7 @@ var index = this.hidden_squares.indexOf( square );
 
 this.hidden_squares.splice( index, 1 );
 
-square.setState( Square.State.revealed );
+square.setState( SquareState.revealed );
 }
 
 
@@ -118,7 +118,7 @@ for (var xOffset = -1 ; xOffset <= 1 ; xOffset++)
             {
             var square = this.grid[ adjacentColumn ][ adjacentLine ];
 
-            if ( square.value === Square.Value.mine )
+            if ( square.value === SquareValue.mine )
                 {
                 count++;
                 }

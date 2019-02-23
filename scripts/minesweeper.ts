@@ -1,6 +1,6 @@
 import * as HighScore from './high_score.js';
 import Grid from './grid.js';
-import Square from './square.js';
+import Square, { SquareValue, SquareState } from './square.js';
 import { G } from './main.js';
 import Timer from './timer.js';
 import { getRandomInt, timeToString } from './utilities.js';
@@ -123,14 +123,14 @@ for (a = 0 ; a < NUMBER_OF_MINES ; a++)
     var position = positions.splice( random, 1 )[ 0 ];
     var square = GRID.getSquare( position.column, position.line )!;
 
-    square.setValue( Square.Value.mine );
+    square.setValue( SquareValue.mine );
     }
 
 
     // add the numbers to the positions (number of mines in adjacent squares)
 GRID.forEachSquare( function( square )
     {
-    if ( square.value !== Square.Value.mine )
+    if ( square.value !== SquareValue.mine )
         {
         var minesAround = GRID.minesAround( square.column, square.line );
 
@@ -185,7 +185,7 @@ if ( !TIMER.isActive() )
     TIMER.start();
     }
 
-if ( square.value == Square.Value.mine )
+if ( square.value == SquareValue.mine )
     {
     gameOver( false );
     return;
@@ -193,7 +193,7 @@ if ( square.value == Square.Value.mine )
 
 
     // need to reveal all the blank values around it
-if ( square.value == Square.Value.blank )
+if ( square.value == SquareValue.blank )
     {
     var applyToAdjacents = function( aSquare: Square )
         {
@@ -203,11 +203,11 @@ if ( square.value == Square.Value.blank )
             {
             var adjacent = adjacents[ a ];
 
-            if ( adjacent.state !== Square.State.revealed )
+            if ( adjacent.state !== SquareState.revealed )
                 {
                 GRID.revealSquare( adjacent );
 
-                if ( adjacent.value === Square.Value.blank )
+                if ( adjacent.value === SquareValue.blank )
                     {
                     applyToAdjacents( adjacent );
                     }
@@ -223,7 +223,7 @@ var finishLoop = true;
 
 for (var a = 0 ; a < GRID.hidden_squares.length ; a++)
     {
-    if ( GRID.hidden_squares[ a ].value !== Square.Value.mine )
+    if ( GRID.hidden_squares[ a ].value !== SquareValue.mine )
         {
         finishLoop = false;
         break;
@@ -241,7 +241,7 @@ function revealAllMines()
 {
 GRID.forEachSquare( function( square )
     {
-    if ( square.value === Square.Value.mine )
+    if ( square.value === SquareValue.mine )
         {
         GRID.revealSquare( square );
         }
@@ -296,7 +296,7 @@ if ( CURRENT_MOUSE_OVER )
     {
     var button = event.button;
 
-    if ( CURRENT_MOUSE_OVER.state == Square.State.revealed )
+    if ( CURRENT_MOUSE_OVER.state == SquareState.revealed )
         {
         return;
         }
@@ -304,7 +304,7 @@ if ( CURRENT_MOUSE_OVER )
         // left click
     if ( button == 0 )
         {
-        if ( CURRENT_MOUSE_OVER.state == Square.State.mine_flag )
+        if ( CURRENT_MOUSE_OVER.state == SquareState.mine_flag )
             {
             return;
             }
@@ -315,19 +315,19 @@ if ( CURRENT_MOUSE_OVER )
         // right click
     else if ( button == 2 )
         {
-        if ( CURRENT_MOUSE_OVER.state === Square.State.hidden )
+        if ( CURRENT_MOUSE_OVER.state === SquareState.hidden )
             {
-            CURRENT_MOUSE_OVER.setState( Square.State.question_mark );
+            CURRENT_MOUSE_OVER.setState( SquareState.question_mark );
             }
 
-        else if ( CURRENT_MOUSE_OVER.state === Square.State.question_mark )
+        else if ( CURRENT_MOUSE_OVER.state === SquareState.question_mark )
             {
-            CURRENT_MOUSE_OVER.setState( Square.State.mine_flag );
+            CURRENT_MOUSE_OVER.setState( SquareState.mine_flag );
             }
 
         else
             {
-            CURRENT_MOUSE_OVER.setState( Square.State.hidden );
+            CURRENT_MOUSE_OVER.setState( SquareState.hidden );
             }
 
             // the .setState() sets the background to hidden, but when we click we have the mouse over, so need to set to that image

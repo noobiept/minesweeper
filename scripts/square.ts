@@ -1,32 +1,28 @@
 import { G } from './main.js';
 
 
+export enum SquareState {
+    hidden,          // still hasn't been shown
+    revealed,        // by clicking on the square, we find out its value
+    question_mark,   // we think its a mine in that position, just a visual help
+    mine_flag        // marks the square as containing a mine, again just to help
+}
+
+export enum SquareValue {
+    mine, blank,
+    one, two, three, four,
+    five, six, seven, eight
+}
+
+
 export default class Square
 {
 static size = 30;   // size of each individual square (30x30 pixels)
-static Value = {
-        mine: 'mine',
-        blank: 'blank',
-        '1': '1',
-        '2': '2',
-        '3': '3',
-        '4': '4',
-        '5': '5',
-        '6': '6',
-        '7': '7',
-        '8': '8'
-    };
-static State = {
-        hidden: 0,          // still hasn't been shown
-        revealed: 1,        // by clicking on the square, we find out its value
-        question_mark: 2,   // we think its a mine in that position, just a visual help
-        mine_flag: 3        // marks the square as containing a mine, again just to help
-    };
 
-value: string;
+value: SquareValue;
 column: number;
 line: number;
-state: number;
+state: SquareState;
 is_selected: boolean;
 container: createjs.Container;
 background: createjs.Bitmap;
@@ -34,10 +30,10 @@ front: createjs.Bitmap;
 
 constructor( column: number, line: number ) {
 
-    this.value = Square.Value.blank;
+    this.value = SquareValue.blank;
     this.column = column;
     this.line = line;
-    this.state = Square.State.hidden;
+    this.state = SquareState.hidden;
     this.is_selected = false;
 
     var container = new createjs.Container();
@@ -59,7 +55,7 @@ constructor( column: number, line: number ) {
 }
 
 
-setState( state: number )
+setState( state: SquareState )
 {
 if ( state === this.state )
     {
@@ -68,25 +64,25 @@ if ( state === this.state )
 
 this.state = state;
 
-if ( state === Square.State.hidden )
+if ( state === SquareState.hidden )
     {
     this.background.image = G.PRELOAD.getResult( 'hidden' );
     this.front.image = '';
     }
 
-else if ( state === Square.State.revealed )
+else if ( state === SquareState.revealed )
     {
     this.background.image = G.PRELOAD.getResult( this.value );
     this.front.image = '';
     }
 
-else if ( state === Square.State.question_mark )
+else if ( state === SquareState.question_mark )
     {
     this.background.image = G.PRELOAD.getResult( 'hidden' );
     this.front.image = G.PRELOAD.getResult( 'question_mark' );
     }
 
-else if ( state === Square.State.mine_flag )
+else if ( state === SquareState.mine_flag )
     {
     this.background.image = G.PRELOAD.getResult( 'hidden' );
     this.front.image = G.PRELOAD.getResult( 'mine_flag' );
@@ -101,7 +97,7 @@ else
 
 select()
 {
-if ( !this.is_selected && this.state !== Square.State.revealed )
+if ( !this.is_selected && this.state !== SquareState.revealed )
     {
     this.background.image = G.PRELOAD.getResult( 'hidden_mouse_over' );
     this.is_selected = true;
@@ -111,7 +107,7 @@ if ( !this.is_selected && this.state !== Square.State.revealed )
 
 unSelect()
 {
-if ( this.is_selected && this.state !== Square.State.revealed )
+if ( this.is_selected && this.state !== SquareState.revealed )
     {
     this.background.image = G.PRELOAD.getResult( 'hidden' );
     this.is_selected = false;
@@ -119,21 +115,50 @@ if ( this.is_selected && this.state !== Square.State.revealed )
 }
 
 
-setValue( value: number )
-{
-if ( value < 0 )
-    {
-    this.value = Square.Value.mine;
-    }
+/**
+ * 'numberOfMines': -1 if there's a mine, otherwise its a number between 0 and 8 (and the correspondent square value).
+ */
+setValue( numberOfMines: number ) {
+    switch( numberOfMines) {
+        case 0:
+            this.value = SquareValue.blank;
+            break;
 
-else if ( value === 0 )
-    {
-    this.value = Square.Value.blank;
-    }
+        case 1:
+            this.value = SquareValue.one;
+            break;
 
-else
-    {
-    this.value = Square.Value[ value ];
+        case 2:
+            this.value = SquareValue.two;
+            break;
+
+        case 3:
+            this.value = SquareValue.three;
+            break;
+
+        case 4:
+            this.value = SquareValue.four;
+            break;
+
+        case 5:
+            this.value = SquareValue.five;
+            break;
+
+        case 6:
+            this.value = SquareValue.six;
+            break;
+
+        case 7:
+            this.value = SquareValue.seven;
+            break;
+
+        case 8:
+            this.value = SquareValue.eight;
+            break;
+
+        default:
+            this.value = SquareValue.mine;
+            break;
     }
 };
 
