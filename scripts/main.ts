@@ -61,10 +61,10 @@ var top = $( window ).height()! / 2;
 $( loadMessage ).css( 'top', top + 'px' );
 $( loadMessage ).css( 'left', left + 'px' );
 
-G.PRELOAD.addEventListener( 'progress', function( event )
+G.PRELOAD.addEventListener( 'progress', function( event: createjs.ProgressEvent )
     {
     $( loadMessage ).text( (event.progress * 100 | 0) + '%' );
-    });
+    } as (event: Object) => void);
 G.PRELOAD.addEventListener( 'complete', function()
     {
     $( loadMessage ).css( 'display', 'none' );

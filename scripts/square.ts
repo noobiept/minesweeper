@@ -8,10 +8,11 @@ export enum SquareState {
     mine_flag        // marks the square as containing a mine, again just to help
 }
 
+// the string values match the images ids that get pre-loaded at the start of the application
 export enum SquareValue {
-    mine, blank,
-    one, two, three, four,
-    five, six, seven, eight
+    mine = 'mine', blank = 'blank',
+    one = '1', two = '2', three = '3', four = '4',
+    five = '5', six = '6', seven = '7', eight = '8'
 }
 
 
