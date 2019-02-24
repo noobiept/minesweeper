@@ -1,4 +1,4 @@
-import { timeToString } from "./utilities";
+import { timeToString } from "./utilities.js";
 
 
 export default class Timer {
