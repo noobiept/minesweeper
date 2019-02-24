@@ -40,7 +40,8 @@ constructor( column: number, line: number ) {
     var container = new createjs.Container();
 
     var background = new createjs.Bitmap( getAsset( 'hidden' ) );
-    var front = new createjs.Bitmap();
+    var front = new createjs.Bitmap( getAsset( 'question_mark' ) ); // need to initialize with an image, but its not visible initially
+    front.visible = false;
 
     container.addChild( background );
     container.addChild( front );
@@ -68,25 +69,27 @@ this.state = state;
 if ( state === SquareState.hidden )
     {
     this.background.image = getAsset( 'hidden' );
-    this.front.image = '';
+    this.front.visible = false;
     }
 
 else if ( state === SquareState.revealed )
     {
     this.background.image = getAsset( this.value );
-    this.front.image = '';
+    this.front.visible = false;
     }
 
 else if ( state === SquareState.question_mark )
     {
     this.background.image = getAsset( 'hidden' );
     this.front.image = getAsset( 'question_mark' );
+    this.front.visible = true;
     }
 
 else if ( state === SquareState.mine_flag )
     {
     this.background.image = getAsset( 'hidden' );
     this.front.image = getAsset( 'mine_flag' );
+    this.front.visible = true;
     }
 
 else
