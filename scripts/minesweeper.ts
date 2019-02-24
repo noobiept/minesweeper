@@ -1,7 +1,7 @@
 import * as HighScore from './high_score.js';
 import Grid from './grid.js';
 import Square, { SquareValue, SquareState } from './square.js';
-import { G, getAsset } from './main.js';
+import { getAsset, addCanvasListeners, getCanvasRect } from './main.js';
 import Timer from './timer.js';
 import { getRandomInt, timeToString } from './utilities.js';
 
@@ -21,9 +21,7 @@ HighScore.load();
 buildMap();
 initMenu();
 
-G.CANVAS.addEventListener( 'mousemove', mouseMove );
-G.CANVAS.addEventListener( 'mousedown', mouseClick );
-createjs.Ticker.on( 'tick', tick );
+addCanvasListeners( mouseMove, mouseClick );
 };
 
 
@@ -254,7 +252,7 @@ GRID.forEachSquare( function( square )
  */
 function mouseMove( event: MouseEvent )
 {
-var canvasRect = G.CANVAS.getBoundingClientRect();
+var canvasRect = getCanvasRect();
 
 var x = event.clientX - canvasRect.left;
 var y = event.clientY - canvasRect.top;
@@ -341,7 +339,6 @@ function gameOver( victory: boolean )
 {
 TIMER.stop();
 revealAllMines();
-G.STAGE.update();
 
 if ( victory )
     {
@@ -375,10 +372,4 @@ else
             }
         });
     }
-}
-
-
-function tick()
-{
-G.STAGE.update();
 }

@@ -1,4 +1,4 @@
-import { G, getAsset } from './main.js';
+import { getAsset, addToStage, removeFromStage } from './main.js';
 
 
 export enum SquareState {
@@ -49,7 +49,7 @@ constructor( column: number, line: number ) {
     container.x = column * Square.size;
     container.y = line * Square.size;
 
-    G.STAGE.addChild( container );
+    addToStage( container );
 
     this.container = container;
     this.background = background;
@@ -167,9 +167,7 @@ setValue( numberOfMines: number ) {
 };
 
 
-clear()
-{
-G.STAGE.removeChild( this.container );
+clear() {
+    removeFromStage( this.container );
 }
-
 }

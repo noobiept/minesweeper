@@ -1,5 +1,5 @@
 import Square, { SquareState, SquareValue } from './square.js';
-import { G } from './main.js';
+import { setCanvasDimensions } from './main.js';
 
 
 export default class Grid
@@ -27,8 +27,7 @@ for (var column = 0 ; column < columnSize ; column++)
         }
     }
 
-G.CANVAS.width = Square.size * columnSize;
-G.CANVAS.height = Square.size * lineSize;
+setCanvasDimensions( Square.size * columnSize, Square.size * lineSize );
 
 this.column_size = columnSize;
 this.line_size = lineSize;

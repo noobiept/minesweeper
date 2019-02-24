@@ -1,23 +1,11 @@
 import * as AppStorage from './app_storage.js';
 import * as HighScore from './high_score.js';
 import * as MineSweeper from './minesweeper.js';
-import Grid from './grid.js';
 
-
-interface Global {
-    STAGE: createjs.Stage;
-    CANVAS: HTMLCanvasElement;
-    GRID: Grid;
-}
-
-
-export var G: Global = {
-    STAGE: null,
-    CANVAS: null,
-    GRID: null
-};
 
 let PRELOAD: createjs.LoadQueue;
+let STAGE: createjs.Stage;
+let CANVAS: HTMLCanvasElement;
 
 
 window.onload = function()
@@ -28,12 +16,14 @@ AppStorage.getData( [ 'minesweeper_high_score' ], initApp );
 
 function initApp( data: AppStorage.StorageData )
 {
-G.CANVAS = document.getElementById( 'MainCanvas' ) as HTMLCanvasElement;
-G.STAGE = new createjs.Stage( G.CANVAS );
+CANVAS = document.getElementById( 'MainCanvas' ) as HTMLCanvasElement;
+STAGE = new createjs.Stage( CANVAS );
 PRELOAD = new createjs.LoadQueue();
 
     // disable the context menu (when right-clicking)
-G.CANVAS.oncontextmenu = function( event ) { return false; };
+CANVAS.oncontextmenu = function( event ) { return false; };
+
+createjs.Ticker.on( 'tick', tick );
 
 var manifest = [
         { id: '1', src: 'images/one.png' },
@@ -80,4 +70,54 @@ PRELOAD.loadManifest( manifest, true );
  */
 export function getAsset( id: string ) {
     return PRELOAD.getResult( id ) as HTMLImageElement;
+}
+
+
+/**
+ * Add an element to the stage (so it can be drawn).
+ */
+export function addToStage( element: createjs.DisplayObject ) {
+    STAGE.addChild( element );
+}
+
+
+/**
+ * Remove an element from the stage.
+ */
+export function removeFromStage( element: createjs.DisplayObject ) {
+    STAGE.removeChild( element );
+}
+
+
+/**
+ * Add some event listeners to the canvas element.
+ */
+export function addCanvasListeners( mouseMove: (event: MouseEvent) => void, mouseDown: (event: MouseEvent) => void ) {
+    CANVAS.addEventListener( 'mousemove', mouseMove );
+    CANVAS.addEventListener( 'mousedown', mouseDown );
+}
+
+
+/**
+ * Get the `ClientRect` of the canvas element.
+ */
+export function getCanvasRect() {
+    return CANVAS.getBoundingClientRect();
+}
+
+
+/**
+ * Set a new width/height for the canvas element.
+ */
+export function setCanvasDimensions( width: number, height: number ) {
+    CANVAS.width = width;
+    CANVAS.height = height;
+}
+
+
+/**
+ * Draw at every tick.
+ */
+function tick() {
+    STAGE.update();
 }
