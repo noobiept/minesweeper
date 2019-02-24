@@ -1,38 +1,32 @@
-body
-    {
+body {
     text-align: center;
     font-size: 24px;
-    }
+}
 
-#LoadMessage
-    {
+#LoadMessage {
     position: fixed;
     text-align: center;
-    }
+}
 
-#Menu, #HighScore
-    {
+#Menu,
+#HighScore {
     margin-top: 10px;
     display: none;
-    }
+}
 
-#Menu > *
-    {
+#Menu > * {
     margin: 0 10px;
-    }
+}
 
-#Restart
-    {
+#Restart {
     font-size: 20px;
-    }
+}
 
-.MenuLabel
-    {
-    color: #7342A0;
+.MenuLabel {
+    color: #7342a0;
     font-weight: bold;
-    }
+}
 
-.hidden
-    {
+.hidden {
     display: none;
-    }
+}

@@ -32,7 +32,7 @@
         "dev:typescript": "tsc -w",
         "dev:server": "http-server -p 8000",
         "build": "grunt",
-        "formatting:check": "prettier --check \"**/*.{html,css,json,ts}\"",
-        "formatting:run": "prettier --write \"**/*.{html,css,json,ts}\""
+        "formatting:check": "prettier --check \"**/*.{html,css,json,js,ts,md}\"",
+        "formatting:run": "prettier --write \"**/*.{html,css,json,js,ts,md}\""
     }
 }

@@ -8,5 +8,6 @@
     "search.exclude": {
         "**/release": true,
         "**/libraries": true
-    }
+    },
+    "editor.formatOnSave": true
 }
