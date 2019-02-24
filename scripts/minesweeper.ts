@@ -78,11 +78,6 @@ function initMenu() {
     // show the menu/high-score
     $("#Menu").css("display", "block");
     $("#HighScore").css("display", "block");
-
-    // :: donate :: //
-    $("#DonateButton")
-        .removeClass("hidden")
-        .button();
 }
 
 function buildMap() {
