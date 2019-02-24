@@ -6,7 +6,7 @@ import Timer from './timer.js';
 import { getRandomInt, timeToString } from './utilities.js';
 
 
-var GRID: Grid;
+var GRID: Grid | null;
 var COLUMN_SIZE = 9;
 var LINE_SIZE = 9;
 var NUMBER_OF_MINES = 10;
@@ -130,7 +130,7 @@ GRID.forEachSquare( function( square )
     {
     if ( square.value !== SquareValue.mine )
         {
-        var minesAround = GRID.minesAround( square.column, square.line );
+        var minesAround = GRID!.minesAround( square.column, square.line );
 
         square.setValue( minesAround );
         }
@@ -176,6 +176,10 @@ TIMER.reset();
 
 function revealSquare( square: Square )
 {
+if ( !GRID ) {
+    throw new Error( "Grid not available." );
+}
+
 GRID.revealSquare( square );
 
 if ( !TIMER.isActive() )
@@ -195,7 +199,7 @@ if ( square.value == SquareValue.blank )
     {
     var applyToAdjacents = function( aSquare: Square )
         {
-        var adjacents = GRID.getAdjacentSquares( aSquare.column, aSquare.line );
+        var adjacents = GRID!.getAdjacentSquares( aSquare.column, aSquare.line );
 
         for (var a = 0 ; a < adjacents.length ; a++)
             {
@@ -203,7 +207,7 @@ if ( square.value == SquareValue.blank )
 
             if ( adjacent.state !== SquareState.revealed )
                 {
-                GRID.revealSquare( adjacent );
+                GRID!.revealSquare( adjacent );
 
                 if ( adjacent.value === SquareValue.blank )
                     {
@@ -237,11 +241,15 @@ if ( finishLoop )
 
 function revealAllMines()
 {
+if ( !GRID ) {
+    throw new Error( "Grid not available" );
+}
+
 GRID.forEachSquare( function( square )
     {
     if ( square.value === SquareValue.mine )
         {
-        GRID.revealSquare( square );
+        GRID!.revealSquare( square );
         }
     });
 }
@@ -252,6 +260,10 @@ GRID.forEachSquare( function( square )
  */
 function mouseMove( event: MouseEvent )
 {
+if ( !GRID ) {
+    throw new Error( "Grid not available" );
+}
+
 var canvasRect = getCanvasRect();
 
 var x = event.clientX - canvasRect.left;

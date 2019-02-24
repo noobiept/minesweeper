@@ -122,8 +122,12 @@ if ( this.is_selected && this.state !== SquareState.revealed )
 /**
  * 'numberOfMines': -1 if there's a mine, otherwise its a number between 0 and 8 (and the correspondent square value).
  */
-setValue( numberOfMines: number ) {
-    switch( numberOfMines) {
+setValue( numberOfMines: number | SquareValue ) {
+    if ( typeof numberOfMines !== 'number' ) {
+        this.value = numberOfMines;
+    }
+
+    switch( numberOfMines ) {
         case 0:
             this.value = SquareValue.blank;
             break;
