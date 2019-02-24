@@ -1,7 +1,7 @@
 import * as HighScore from './high_score.js';
 import Grid from './grid.js';
 import Square, { SquareValue, SquareState } from './square.js';
-import { G } from './main.js';
+import { G, getAsset } from './main.js';
 import Timer from './timer.js';
 import { getRandomInt, timeToString } from './utilities.js';
 
@@ -331,7 +331,7 @@ if ( CURRENT_MOUSE_OVER )
             }
 
             // the .setState() sets the background to hidden, but when we click we have the mouse over, so need to set to that image
-        CURRENT_MOUSE_OVER.background.image = G.PRELOAD.getResult( 'hidden_mouse_over' );
+        CURRENT_MOUSE_OVER.background.image = getAsset( 'hidden_mouse_over' );
         }
     }
 }

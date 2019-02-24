@@ -1,4 +1,4 @@
-import { G } from './main.js';
+import { G, getAsset } from './main.js';
 
 
 export enum SquareState {
@@ -39,7 +39,7 @@ constructor( column: number, line: number ) {
 
     var container = new createjs.Container();
 
-    var background = new createjs.Bitmap( G.PRELOAD.getResult( 'hidden' ) );
+    var background = new createjs.Bitmap( getAsset( 'hidden' ) );
     var front = new createjs.Bitmap();
 
     container.addChild( background );
@@ -67,26 +67,26 @@ this.state = state;
 
 if ( state === SquareState.hidden )
     {
-    this.background.image = G.PRELOAD.getResult( 'hidden' );
+    this.background.image = getAsset( 'hidden' );
     this.front.image = '';
     }
 
 else if ( state === SquareState.revealed )
     {
-    this.background.image = G.PRELOAD.getResult( this.value );
+    this.background.image = getAsset( this.value );
     this.front.image = '';
     }
 
 else if ( state === SquareState.question_mark )
     {
-    this.background.image = G.PRELOAD.getResult( 'hidden' );
-    this.front.image = G.PRELOAD.getResult( 'question_mark' );
+    this.background.image = getAsset( 'hidden' );
+    this.front.image = getAsset( 'question_mark' );
     }
 
 else if ( state === SquareState.mine_flag )
     {
-    this.background.image = G.PRELOAD.getResult( 'hidden' );
-    this.front.image = G.PRELOAD.getResult( 'mine_flag' );
+    this.background.image = getAsset( 'hidden' );
+    this.front.image = getAsset( 'mine_flag' );
     }
 
 else
@@ -100,7 +100,7 @@ select()
 {
 if ( !this.is_selected && this.state !== SquareState.revealed )
     {
-    this.background.image = G.PRELOAD.getResult( 'hidden_mouse_over' );
+    this.background.image = getAsset( 'hidden_mouse_over' );
     this.is_selected = true;
     }
 }
@@ -110,7 +110,7 @@ unSelect()
 {
 if ( this.is_selected && this.state !== SquareState.revealed )
     {
-    this.background.image = G.PRELOAD.getResult( 'hidden' );
+    this.background.image = getAsset( 'hidden' );
     this.is_selected = false;
     }
 }

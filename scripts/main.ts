@@ -5,7 +5,6 @@ import Grid from './grid.js';
 
 
 interface Global {
-    PRELOAD: createjs.LoadQueue;
     STAGE: createjs.Stage;
     CANVAS: HTMLCanvasElement;
     GRID: Grid;
@@ -13,11 +12,12 @@ interface Global {
 
 
 export var G: Global = {
-    PRELOAD: null,
     STAGE: null,
     CANVAS: null,
     GRID: null
 };
+
+let PRELOAD: createjs.LoadQueue;
 
 
 window.onload = function()
@@ -30,7 +30,7 @@ function initApp( data: AppStorage.StorageData )
 {
 G.CANVAS = document.getElementById( 'MainCanvas' ) as HTMLCanvasElement;
 G.STAGE = new createjs.Stage( G.CANVAS );
-G.PRELOAD = new createjs.LoadQueue();
+PRELOAD = new createjs.LoadQueue();
 
     // disable the context menu (when right-clicking)
 G.CANVAS.oncontextmenu = function( event ) { return false; };
@@ -61,15 +61,23 @@ var top = $( window ).height()! / 2;
 $( loadMessage ).css( 'top', top + 'px' );
 $( loadMessage ).css( 'left', left + 'px' );
 
-G.PRELOAD.addEventListener( 'progress', function( event: createjs.ProgressEvent )
+PRELOAD.addEventListener( 'progress', function( event: createjs.ProgressEvent )
     {
     $( loadMessage ).text( (event.progress * 100 | 0) + '%' );
     } as (event: Object) => void);
-G.PRELOAD.addEventListener( 'complete', function()
+PRELOAD.addEventListener( 'complete', function()
     {
     $( loadMessage ).css( 'display', 'none' );
 
     MineSweeper.init();
     });
-G.PRELOAD.loadManifest( manifest, true );
+PRELOAD.loadManifest( manifest, true );
+}
+
+
+/**
+ * Get an image asset associated with the given `id`.
+ */
+export function getAsset( id: string ) {
+    return PRELOAD.getResult( id ) as HTMLImageElement;
 }
