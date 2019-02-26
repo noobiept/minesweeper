@@ -42,19 +42,13 @@ function initApp(data: AppStorage.StorageData) {
     HighScore.load(data);
     var loadMessage = document.getElementById("LoadMessage")!;
 
-    var left = $(window).width()! / 2;
-    var top = $(window).height()! / 2;
-
-    $(loadMessage).css("top", top + "px");
-    $(loadMessage).css("left", left + "px");
-
     PRELOAD.addEventListener("progress", function(
         event: createjs.ProgressEvent
     ) {
-        $(loadMessage).text(((event.progress * 100) | 0) + "%");
+        loadMessage.innerText = ((event.progress * 100) | 0) + "%";
     } as (event: Object) => void);
     PRELOAD.addEventListener("complete", function() {
-        $(loadMessage).css("display", "none");
+        loadMessage.classList.add("hidden");
 
         MineSweeper.init();
     });
