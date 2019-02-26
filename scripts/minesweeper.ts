@@ -32,9 +32,9 @@ function initMenu() {
 
     columnSize.value = columnSizeStr;
     columnSizeValue.innerHTML = columnSizeStr;
-    $(columnSize).on("input change", function() {
+    columnSize.oninput = function() {
         columnSizeValue.innerHTML = columnSize.value;
-    });
+    };
 
     // :: line size :: //
     const lineSize = document.getElementById("LineSize") as HTMLInputElement;
@@ -43,9 +43,9 @@ function initMenu() {
 
     lineSize.value = lineSizeStr;
     lineSizeValue.innerHTML = lineSizeStr;
-    $(lineSize).on("input change", function() {
+    lineSize.oninput = function() {
         lineSizeValue.innerHTML = lineSize.value;
-    });
+    };
 
     // :: number of mines :: //
     const numberOfMines = document.getElementById(
@@ -56,20 +56,20 @@ function initMenu() {
 
     numberOfMines.value = numberOfLinesStr;
     numberOfMinesValue.innerHTML = numberOfLinesStr;
-    $(numberOfMines).on("input change", function() {
+    numberOfMines.oninput = function() {
         numberOfMinesValue.innerHTML = numberOfMines.value;
-    });
+    };
 
     // :: restart :: //
     var restartButton = document.getElementById("Restart")!;
 
-    $(restartButton).on("click", function() {
+    restartButton.onclick = function() {
         COLUMN_SIZE = parseInt(columnSize.value, 10);
         LINE_SIZE = parseInt(lineSize.value, 10);
         NUMBER_OF_MINES = parseInt(numberOfMines.value, 10);
 
         restart();
-    });
+    };
 
     // :: timer :: //
     var timerValue = document.getElementById("TimerValue")!;
@@ -77,8 +77,11 @@ function initMenu() {
     TIMER = new Timer(timerValue);
 
     // show the menu/high-score
-    $("#Menu").css("display", "block");
-    $("#HighScore").css("display", "block");
+    const menu = document.getElementById("Menu")!;
+    const highScore = document.getElementById("HighScore")!;
+
+    menu.classList.remove("hidden");
+    highScore.classList.remove("hidden");
 }
 
 function buildMap() {

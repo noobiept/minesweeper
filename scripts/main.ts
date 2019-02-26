@@ -41,6 +41,7 @@ function initApp(data: AppStorage.StorageData) {
 
     HighScore.load(data);
     var loadMessage = document.getElementById("LoadMessage")!;
+    loadMessage.classList.remove("hidden");
 
     PRELOAD.addEventListener("progress", function(
         event: createjs.ProgressEvent
