@@ -4,6 +4,7 @@ import Square, { SquareValue, SquareState } from "./square.js";
 import { getAsset, addCanvasListeners, getCanvasRect } from "./main.js";
 import Timer from "./timer.js";
 import { getRandomInt, timeToString } from "./utilities.js";
+import Dialog from "./dialog.js";
 
 var GRID: Grid | null;
 var COLUMN_SIZE = 9;
@@ -287,36 +288,24 @@ function gameOver(victory: boolean) {
     TIMER.stop();
     revealAllMines();
 
+    let text = "";
+
     if (victory) {
         var time = TIMER.getElapsedTime();
         HighScore.add(COLUMN_SIZE, LINE_SIZE, NUMBER_OF_MINES, time);
 
-        $("#DialogMessage")
-            .text("You Win! " + timeToString(time))
-            .dialog({
-                modal: true,
-                close: function(event, ui) {
-                    restart();
-                },
-                buttons: {
-                    ok: function() {
-                        $(this).dialog("close");
-                    },
-                },
-            });
+        text = "You Win! " + timeToString(time);
     } else {
-        $("#DialogMessage")
-            .text("Defeat!")
-            .dialog({
-                modal: true,
-                close: function(event, ui) {
-                    restart();
-                },
-                buttons: {
-                    ok: function() {
-                        $(this).dialog("close");
-                    },
-                },
-            });
+        text = "Defeat!";
     }
+
+    const dialog = new Dialog({
+        title: "Game Over!",
+        body: text,
+        buttonText: "Restart",
+        onClose: () => {
+            dialog.remove();
+            restart();
+        },
+    });
 }
