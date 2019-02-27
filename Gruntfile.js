@@ -1,22 +1,43 @@
-module.exports = function(grunt) {
-    var root = "./";
-    var dest = "./release/<%= pkg.name %> <%= pkg.version %>/";
+const Path = require("path");
+const Fs = require("fs");
 
+const Package = JSON.parse(Fs.readFileSync("package.json", "utf8"));
+const ROOT = "./";
+const DEST = `./release/${Package.name} ${Package.version}/`;
+
+module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
 
-        // delete the destination folder
+        // delete the destination folder and the previously compiled javascript files
         clean: {
-            release: [dest],
+            release: [DEST, Path.join(ROOT, "scripts/**/*.js")],
+            libraries: [Path.join(ROOT, "libraries/**")],
         },
 
         // copy the images and libraries files
         copy: {
+            libraries: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: Path.join(ROOT, "node_modules/easeljs/lib/"),
+                        src: "easeljs.min.js",
+                        dest: Path.join(ROOT, "libraries/"),
+                    },
+                    {
+                        expand: true,
+                        cwd: Path.join(ROOT, "node_modules/preloadjs/lib/"),
+                        src: "preloadjs.min.js",
+                        dest: Path.join(ROOT, "libraries/"),
+                    },
+                ],
+            },
             release: {
                 expand: true,
-                cwd: root,
+                cwd: ROOT,
                 src: ["images/*.png", "libraries/**"],
-                dest: dest,
+                dest: DEST,
             },
         },
 
@@ -25,9 +46,9 @@ module.exports = function(grunt) {
                 files: [
                     {
                         expand: true,
-                        cwd: root + "css",
+                        cwd: ROOT + "css",
                         src: "*.css",
-                        dest: dest + "css",
+                        dest: DEST + "css",
                     },
                 ],
             },
@@ -43,5 +64,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-clean");
 
     // tasks
+    grunt.registerTask("update_libraries", [
+        "clean:libraries",
+        "copy:libraries",
+    ]);
     grunt.registerTask("default", ["clean", "copy", "cssmin"]);
 };
