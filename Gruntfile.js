@@ -1,5 +1,8 @@
-const Path = require("path");
+const Glob = require("glob");
+const Terser = require("terser");
 const Fs = require("fs");
+const Path = require("path");
+const ChildProcess = require("child_process");
 
 const Package = JSON.parse(Fs.readFileSync("package.json", "utf8"));
 const ROOT = "./";
@@ -36,7 +39,12 @@ module.exports = function(grunt) {
             release: {
                 expand: true,
                 cwd: ROOT,
-                src: ["images/*.png", "libraries/**"],
+                src: [
+                    "images/*.png",
+                    "libraries/**",
+                    "index.html",
+                    "package.json",
+                ],
                 dest: DEST,
             },
         },
@@ -58,6 +66,41 @@ module.exports = function(grunt) {
         },
     });
 
+    /**
+     * Run the javascript minimizer task.
+     */
+    grunt.registerTask("terser", function() {
+        const files = Glob.sync(ROOT + "scripts/**/*.js");
+
+        for (let a = 0; a < files.length; a++) {
+            const filePath = files[a];
+            const destPath = Path.join(DEST, filePath);
+            const directoryPath = Path.dirname(destPath);
+
+            const code = Fs.readFileSync(filePath, "utf8");
+            const result = Terser.minify(code, {
+                ecma: 8,
+            });
+
+            if (result.error) {
+                throw new Error(result.error.message);
+            }
+
+            if (!Fs.existsSync(directoryPath)) {
+                Fs.mkdirSync(directoryPath, { recursive: true });
+            }
+
+            Fs.writeFileSync(destPath, result.code);
+        }
+    });
+
+    /**
+     * Run the typescript compiler.
+     */
+    grunt.registerTask("typescript", function() {
+        ChildProcess.execSync("tsc");
+    });
+
     // load the plugins
     grunt.loadNpmTasks("grunt-contrib-copy");
     grunt.loadNpmTasks("grunt-contrib-cssmin");
@@ -68,5 +111,12 @@ module.exports = function(grunt) {
         "clean:libraries",
         "copy:libraries",
     ]);
-    grunt.registerTask("default", ["clean", "copy", "cssmin"]);
+    grunt.registerTask("default", [
+        "clean",
+        "typescript",
+        "copy:libraries",
+        "copy:release",
+        "terser",
+        "cssmin",
+    ]);
 };
