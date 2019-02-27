@@ -14,6 +14,8 @@ function initApp(data: AppStorage.StorageData) {
     CANVAS = document.getElementById("MainCanvas") as HTMLCanvasElement;
     STAGE = new createjs.Stage(CANVAS);
     PRELOAD = new createjs.LoadQueue();
+    PRELOAD.setMaxConnections(10);
+    PRELOAD.maintainScriptOrder = false;
 
     // disable the context menu (when right-clicking)
     CANVAS.oncontextmenu = function(event) {
