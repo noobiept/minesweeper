@@ -1,5 +1,9 @@
 import { timeToString } from "./utilities.js";
 
+export interface TimerArgs {
+    htmlElement: HTMLElement;
+}
+
 export default class Timer {
     interval_time: number;
     is_active: boolean;
@@ -7,14 +11,14 @@ export default class Timer {
     html_element: HTMLElement;
     interval_f?: number;
 
-    constructor(htmlElement: HTMLElement) {
+    constructor(args: TimerArgs) {
         this.interval_time = 100;
         this.is_active = false;
         this.count_time = 0;
         this.interval_f = undefined;
-        this.html_element = htmlElement;
+        this.html_element = args.htmlElement;
 
-        htmlElement.innerHTML = timeToString(this.count_time);
+        args.htmlElement.innerHTML = timeToString(this.count_time);
     }
 
     start() {

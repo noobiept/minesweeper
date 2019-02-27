@@ -73,8 +73,7 @@ function initMenu() {
 
     // :: timer :: //
     var timerValue = document.getElementById("TimerValue")!;
-
-    TIMER = new Timer(timerValue);
+    TIMER = new Timer({ htmlElement: timerValue });
 
     // show the menu/high-score
     const menu = document.getElementById("Menu")!;
@@ -85,7 +84,7 @@ function initMenu() {
 }
 
 function buildMap() {
-    GRID = new Grid(COLUMN_SIZE, LINE_SIZE);
+    GRID = new Grid({ columnSize: COLUMN_SIZE, lineSize: LINE_SIZE });
 
     var positions = [];
     var a;

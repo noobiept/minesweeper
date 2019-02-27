@@ -21,6 +21,11 @@ export enum SquareValue {
     eight = "8",
 }
 
+export interface SquareArgs {
+    column: number;
+    line: number;
+}
+
 export default class Square {
     static size = 30; // size of each individual square (30x30 pixels)
 
@@ -33,7 +38,10 @@ export default class Square {
     background: createjs.Bitmap;
     front: createjs.Bitmap;
 
-    constructor(column: number, line: number) {
+    constructor(args: SquareArgs) {
+        const column = args.column;
+        const line = args.line;
+
         this.value = SquareValue.blank;
         this.column = column;
         this.line = line;

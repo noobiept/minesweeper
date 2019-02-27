@@ -1,21 +1,28 @@
 import Square, { SquareState, SquareValue } from "./square.js";
 import { setCanvasDimensions } from "./main.js";
 
+export interface GridArgs {
+    columnSize: number;
+    lineSize: number;
+}
+
 export default class Grid {
     column_size: number;
     line_size: number;
     grid: Square[][];
     hidden_squares: Square[];
 
-    constructor(columnSize: number, lineSize: number) {
-        var grid: Square[][] = [];
-        var hidden_squares = [];
+    constructor(args: GridArgs) {
+        const columnSize = args.columnSize;
+        const lineSize = args.lineSize;
+        const grid: Square[][] = [];
+        const hidden_squares = [];
 
-        for (var column = 0; column < columnSize; column++) {
+        for (let column = 0; column < columnSize; column++) {
             grid[column] = [];
 
-            for (var line = 0; line < lineSize; line++) {
-                var square = new Square(column, line);
+            for (let line = 0; line < lineSize; line++) {
+                const square = new Square({ column: column, line: line });
 
                 grid[column][line] = square;
                 hidden_squares.push(square);
