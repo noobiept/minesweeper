@@ -13,6 +13,21 @@ body {
     min-height: 100%;
 }
 
+.MenuLabel {
+    color: #7342a0;
+    font-weight: bold;
+}
+
+.hidden {
+    display: none;
+}
+
+#TimerValue {
+    position: fixed;
+    top: 5px;
+    right: 5px;
+}
+
 #LoadMessage {
     position: fixed;
     top: 50%;
@@ -39,15 +54,6 @@ body {
 
 #Restart {
     font-size: 20px;
-}
-
-.MenuLabel {
-    color: #7342a0;
-    font-weight: bold;
-}
-
-.hidden {
-    display: none;
 }
 
 /* Dialog */
