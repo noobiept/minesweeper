@@ -60,6 +60,10 @@ export function timeToString(dateMilliseconds: number) {
     ];
 
     var constructDate = function(dateTmp: string, numberOf: number) {
+        // a digit past the decimal case only to the second values
+        const numberStr =
+            dateTmp === "second" ? numberOf.toFixed(1) : numberOf.toString();
+
         // day to days, hour to hours...
         if (numberOf !== 1) {
             dateTmp += "s";
@@ -67,7 +71,7 @@ export function timeToString(dateMilliseconds: number) {
             dateTmp += "&nbsp;"; // add a space when not adding the 's', so that the width ends up the same (otherwise the text moves a bit when passing through these cases)
         }
 
-        return numberOf.toFixed(1) + " " + dateTmp + " ";
+        return numberStr + " " + dateTmp + " ";
     };
 
     // limit the number of units to be shown (days/hours, or hours/minutes or minutes/seconds, and not days/hours/minutes for example)
