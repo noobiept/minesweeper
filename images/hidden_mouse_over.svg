@@ -13,11 +13,11 @@
    height="30"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
    sodipodi:docname="hidden_mouse_over.svg"
-   inkscape:export-filename="C:\Users\drk\Dropbox\projects\minesweeper\images\hidden_mouse_over.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-filename="C:\Users\drk\Google Drive\projects\minesweeper\images\hidden_mouse_over.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -25,18 +25,18 @@
      pagecolor="#ffffff"
      bordercolor="#666666"
      borderopacity="1.0"
-     inkscape:pageopacity="0.0"
+     inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="14.666667"
-     inkscape:cx="-1.6163267"
-     inkscape:cy="19.259178"
+     inkscape:cx="-7.7045439"
+     inkscape:cy="11.07736"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:window-width="1920"
-     inkscape:window-height="1005"
+     inkscape:window-height="1001"
      inkscape:window-x="-9"
      inkscape:window-y="-9"
      inkscape:window-maximized="1">
@@ -50,11 +50,13 @@
     <sodipodi:guide
        orientation="0,1"
        position="5,15"
-       id="guide2991" />
+       id="guide2991"
+       inkscape:locked="false" />
     <sodipodi:guide
        orientation="1,0"
        position="15,-5"
-       id="guide2993" />
+       id="guide2993"
+       inkscape:locked="false" />
   </sodipodi:namedview>
   <metadata
      id="metadata7">
@@ -64,23 +66,14 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
      inkscape:groupmode="layer"
      id="layer2"
-     inkscape:label="background">
-    <rect
-       style="fill:#ffffff;fill-opacity:1;stroke:none"
-       id="rect2987"
-       width="30"
-       height="30"
-       x="0"
-       y="0"
-       ry="0" />
-  </g>
+     inkscape:label="background" />
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
@@ -88,13 +81,13 @@
      transform="translate(0,-1022.3622)"
      style="display:inline">
     <rect
-       style="fill:#8080b8;fill-opacity:1;stroke:none"
+       style="fill:#8080b8;fill-opacity:1;stroke:none;stroke-width:1.23091495"
        id="rect2985"
        width="30"
        height="30"
-       x="0"
-       y="0"
-       transform="translate(0,1022.3622)"
-       ry="6" />
+       x="1.7763568e-015"
+       y="1022.3622"
+       ry="6.0000172"
+       rx="0" />
   </g>
 </svg>
