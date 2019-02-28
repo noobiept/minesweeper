@@ -22,6 +22,7 @@ function initApp(data: AppStorage.StorageData) {
         return false;
     };
 
+    createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.on("tick", tick);
 
     var manifest = [
