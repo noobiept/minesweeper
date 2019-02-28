@@ -63,9 +63,11 @@ export function timeToString(dateMilliseconds: number) {
         // day to days, hour to hours...
         if (numberOf !== 1) {
             dateTmp += "s";
+        } else {
+            dateTmp += "&nbsp;"; // add a space when not adding the 's', so that the width ends up the same (otherwise the text moves a bit when passing through these cases)
         }
 
-        return numberOf + " " + dateTmp + " ";
+        return numberOf.toFixed(1) + " " + dateTmp + " ";
     };
 
     // limit the number of units to be shown (days/hours, or hours/minutes or minutes/seconds, and not days/hours/minutes for example)
