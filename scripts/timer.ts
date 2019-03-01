@@ -18,7 +18,7 @@ export default class Timer {
         this.interval_f = undefined;
         this.html_element = args.htmlElement;
 
-        args.htmlElement.innerHTML = timeToString(this.count_time);
+        this.updateUI();
     }
 
     start() {
@@ -26,14 +26,11 @@ export default class Timer {
             return;
         }
 
-        var _this = this;
-
         this.is_active = true;
 
-        this.interval_f = window.setInterval(function() {
-            _this.count_time += _this.interval_time;
-
-            _this.html_element.innerHTML = timeToString(_this.count_time);
+        this.interval_f = window.setInterval(() => {
+            this.count_time += this.interval_time;
+            this.updateUI();
         }, this.interval_time);
     }
 
@@ -50,7 +47,7 @@ export default class Timer {
     reset() {
         this.stop();
         this.count_time = 0;
-        this.html_element.innerHTML = timeToString(this.count_time);
+        this.updateUI();
     }
 
     isActive() {
@@ -59,5 +56,15 @@ export default class Timer {
 
     getElapsedTime() {
         return this.count_time;
+    }
+
+    updateUI() {
+        let time = "---";
+
+        if (this.count_time !== 0) {
+            time = timeToString(this.count_time);
+        }
+
+        this.html_element.innerHTML = time;
     }
 }
