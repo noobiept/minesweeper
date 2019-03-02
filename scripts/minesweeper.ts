@@ -1,15 +1,13 @@
 import * as HighScore from "./high_score.js";
+import * as Options from "./options.js";
 import Grid from "./grid.js";
+import Dialog from "./dialog.js";
+import Timer from "./timer.js";
 import Square, { SquareValue, SquareState } from "./square.js";
 import { getAsset, addCanvasListeners, getCanvasRect } from "./main.js";
-import Timer from "./timer.js";
 import { getRandomInt, timeToString } from "./utilities.js";
-import Dialog from "./dialog.js";
 
 var GRID: Grid | null;
-var COLUMN_SIZE = 9;
-var LINE_SIZE = 9;
-var NUMBER_OF_MINES = 10;
 var TIMER: Timer;
 
 var CURRENT_MOUSE_OVER: Square | null = null; // the current square element that is being highlighted
@@ -28,23 +26,31 @@ function initMenu() {
         "ColumnSize"
     ) as HTMLInputElement;
     const columnSizeValue = document.getElementById("ColumnSizeValue")!;
-    const columnSizeStr = COLUMN_SIZE.toString();
+    const columnSizeStr = Options.getOption("columnSize").toString();
 
     columnSize.value = columnSizeStr;
     columnSizeValue.innerHTML = columnSizeStr;
     columnSize.oninput = function() {
         columnSizeValue.innerHTML = columnSize.value;
     };
+    columnSize.onchange = function() {
+        const currentColumnSize = parseInt(columnSize.value, 10);
+        Options.setOption("columnSize", currentColumnSize);
+    };
 
     // :: line size :: //
     const lineSize = document.getElementById("LineSize") as HTMLInputElement;
     const lineSizeValue = document.getElementById("LineSizeValue")!;
-    const lineSizeStr = LINE_SIZE.toString();
+    const lineSizeStr = Options.getOption("lineSize").toString();
 
     lineSize.value = lineSizeStr;
     lineSizeValue.innerHTML = lineSizeStr;
     lineSize.oninput = function() {
         lineSizeValue.innerHTML = lineSize.value;
+    };
+    lineSize.onchange = function() {
+        const currentLineSize = parseInt(lineSize.value, 10);
+        Options.setOption("lineSize", currentLineSize);
     };
 
     // :: number of mines :: //
@@ -52,24 +58,21 @@ function initMenu() {
         "NumberOfMines"
     ) as HTMLInputElement;
     const numberOfMinesValue = document.getElementById("NumberOfMinesValue")!;
-    const numberOfLinesStr = NUMBER_OF_MINES.toString();
+    const numberOfLinesStr = Options.getOption("numberOfMines").toString();
 
     numberOfMines.value = numberOfLinesStr;
     numberOfMinesValue.innerHTML = numberOfLinesStr;
     numberOfMines.oninput = function() {
         numberOfMinesValue.innerHTML = numberOfMines.value;
     };
+    numberOfMines.onchange = function() {
+        const currentNumberOfMines = parseInt(numberOfMines.value, 10);
+        Options.setOption("numberOfMines", currentNumberOfMines);
+    };
 
     // :: restart :: //
     var restartButton = document.getElementById("Restart")!;
-
-    restartButton.onclick = function() {
-        COLUMN_SIZE = parseInt(columnSize.value, 10);
-        LINE_SIZE = parseInt(lineSize.value, 10);
-        NUMBER_OF_MINES = parseInt(numberOfMines.value, 10);
-
-        restart();
-    };
+    restartButton.onclick = restart;
 
     // :: timer :: //
     var timerValue = document.getElementById("TimerValue")!;
@@ -83,14 +86,20 @@ function initMenu() {
     highScore.classList.remove("hidden");
 }
 
+/**
+ * Build a new grid/map.
+ */
 function buildMap() {
-    GRID = new Grid({ columnSize: COLUMN_SIZE, lineSize: LINE_SIZE });
+    const columnSize = Options.getOption("columnSize");
+    const lineSize = Options.getOption("lineSize");
+    const numberOfMines = Options.getOption("numberOfMines");
 
-    var positions = [];
-    var a;
+    GRID = new Grid({ columnSize: columnSize, lineSize: lineSize });
 
-    for (var column = 0; column < COLUMN_SIZE; column++) {
-        for (var line = 0; line < LINE_SIZE; line++) {
+    const positions = [];
+
+    for (let column = 0; column < columnSize; column++) {
+        for (let line = 0; line < lineSize; line++) {
             positions.push({
                 column: column,
                 line: line,
@@ -99,15 +108,15 @@ function buildMap() {
     }
 
     // add mines in random positions
-    for (a = 0; a < NUMBER_OF_MINES; a++) {
+    for (let a = 0; a < numberOfMines; a++) {
         // when there's more bomb positions than there are squares in the grid
         if (positions.length === 0) {
             break;
         }
 
-        var random = getRandomInt(0, positions.length - 1);
-        var position = positions.splice(random, 1)[0];
-        var square = GRID.getSquare(position.column, position.line)!;
+        const random = getRandomInt(0, positions.length - 1);
+        const position = positions.splice(random, 1)[0];
+        const square = GRID.getSquare(position.column, position.line)!;
 
         square.setValue(SquareValue.mine);
     }
@@ -115,23 +124,23 @@ function buildMap() {
     // add the numbers to the positions (number of mines in adjacent squares)
     GRID.forEachSquare(function(square) {
         if (square.value !== SquareValue.mine) {
-            var minesAround = GRID!.minesAround(square.column, square.line);
+            const minesAround = GRID!.minesAround(square.column, square.line);
 
             square.setValue(minesAround);
         }
     });
 
     // show the high-score for this combination of columns/lines/number of mines
-    var scores = HighScore.get(COLUMN_SIZE, LINE_SIZE, NUMBER_OF_MINES);
-    var scoreContainer = document.getElementById("HighScoreContainer")!;
+    const scores = HighScore.get(columnSize, lineSize, numberOfMines);
+    const scoreContainer = document.getElementById("HighScoreContainer")!;
 
     scoreContainer.innerHTML = "";
 
     if (scores === null) {
         scoreContainer.innerHTML = "No scores yet.";
     } else {
-        for (a = 0; a < scores.length; a++) {
-            var scoreElement = document.createElement("span");
+        for (let a = 0; a < scores.length; a++) {
+            const scoreElement = document.createElement("span");
 
             scoreElement.innerHTML = timeToString(scores[a]);
             scoreContainer.appendChild(scoreElement);
@@ -139,6 +148,9 @@ function buildMap() {
     }
 }
 
+/**
+ * Clear the previous grid/map, and build a new one.
+ */
 function restart() {
     if (GRID) {
         GRID.clear();
@@ -293,8 +305,12 @@ function gameOver(victory: boolean) {
     let text = "";
 
     if (victory) {
-        var time = TIMER.getElapsedTime();
-        HighScore.add(COLUMN_SIZE, LINE_SIZE, NUMBER_OF_MINES, time);
+        const time = TIMER.getElapsedTime();
+        const columnSize = Options.getOption("columnSize");
+        const lineSize = Options.getOption("lineSize");
+        const numberOfMines = Options.getOption("numberOfMines");
+
+        HighScore.add(columnSize, lineSize, numberOfMines, time);
 
         text = "You Win! " + timeToString(time);
     } else {

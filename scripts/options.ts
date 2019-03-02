@@ -1,3 +1,5 @@
+import * as AppStorage from "./app_storage.js";
+
 export interface OptionsData {
     columnSize: number;
     lineSize: number;
@@ -36,4 +38,12 @@ export function getOption(key: OptionsKey) {
  */
 export function setOption(key: OptionsKey, value: OptionsData[OptionsKey]) {
     OPTIONS[key] = value;
+    save();
+}
+
+/**
+ * Save to local storage.
+ */
+function save() {
+    AppStorage.setData({ minesweeper_options: OPTIONS });
 }
