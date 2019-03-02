@@ -11,13 +11,9 @@ function save() {
     AppStorage.setData({ minesweeper_high_score: HIGH_SCORE });
 }
 
-export function load(data?: AppStorage.StorageData) {
-    if (data) {
-        var score = data["minesweeper_high_score"];
-
-        if (score) {
-            HIGH_SCORE = score;
-        }
+export function load(score?: HighScoreData) {
+    if (score) {
+        HIGH_SCORE = score;
     }
 }
 

@@ -1,13 +1,17 @@
 import * as AppStorage from "./app_storage.js";
 import * as HighScore from "./high_score.js";
 import * as MineSweeper from "./minesweeper.js";
+import * as Options from "./options.js";
 
 let PRELOAD: createjs.LoadQueue;
 let STAGE: createjs.Stage;
 let CANVAS: HTMLCanvasElement;
 
 window.onload = function() {
-    AppStorage.getData(["minesweeper_high_score"], initApp);
+    AppStorage.getData(
+        ["minesweeper_high_score", "minesweeper_options"],
+        initApp
+    );
 };
 
 function initApp(data: AppStorage.StorageData) {
@@ -42,7 +46,9 @@ function initApp(data: AppStorage.StorageData) {
         { id: "mine_flag", src: "images/mine_flag.png" },
     ];
 
-    HighScore.load(data);
+    Options.load(data["minesweeper_options"]);
+    HighScore.load(data["minesweeper_high_score"]);
+
     var loadMessage = document.getElementById("LoadMessage")!;
     loadMessage.classList.remove("hidden");
 

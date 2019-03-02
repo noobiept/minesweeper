@@ -1,7 +1,9 @@
-import { HighScoreData } from "./high_score";
+import { HighScoreData } from "./high_score.js";
+import { OptionsData } from "./options.js";
 
 export interface StorageData {
     minesweeper_high_score?: HighScoreData;
+    minesweeper_options?: OptionsData;
 }
 
 /**
