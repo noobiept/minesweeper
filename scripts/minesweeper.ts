@@ -1,5 +1,6 @@
 import * as HighScore from "./high_score.js";
 import * as Options from "./options.js";
+import * as GameMenu from "./game_menu.js";
 import Grid from "./grid.js";
 import Dialog from "./dialog.js";
 import Timer from "./timer.js";
@@ -15,75 +16,13 @@ var CURRENT_MOUSE_OVER: Square | null = null; // the current square element that
 export function init() {
     HighScore.load();
     buildMap();
-    initMenu();
+    GameMenu.init();
+
+    TIMER = new Timer({
+        update: GameMenu.updateTimer,
+    });
 
     addCanvasListeners(mouseMove, mouseClick);
-}
-
-function initMenu() {
-    // :: column size :: //
-    const columnSize = document.getElementById(
-        "ColumnSize"
-    ) as HTMLInputElement;
-    const columnSizeValue = document.getElementById("ColumnSizeValue")!;
-    const columnSizeStr = Options.getOption("columnSize").toString();
-
-    columnSize.value = columnSizeStr;
-    columnSizeValue.innerHTML = columnSizeStr;
-    columnSize.oninput = function() {
-        columnSizeValue.innerHTML = columnSize.value;
-    };
-    columnSize.onchange = function() {
-        const currentColumnSize = parseInt(columnSize.value, 10);
-        Options.setOption("columnSize", currentColumnSize);
-    };
-
-    // :: line size :: //
-    const lineSize = document.getElementById("LineSize") as HTMLInputElement;
-    const lineSizeValue = document.getElementById("LineSizeValue")!;
-    const lineSizeStr = Options.getOption("lineSize").toString();
-
-    lineSize.value = lineSizeStr;
-    lineSizeValue.innerHTML = lineSizeStr;
-    lineSize.oninput = function() {
-        lineSizeValue.innerHTML = lineSize.value;
-    };
-    lineSize.onchange = function() {
-        const currentLineSize = parseInt(lineSize.value, 10);
-        Options.setOption("lineSize", currentLineSize);
-    };
-
-    // :: number of mines :: //
-    const numberOfMines = document.getElementById(
-        "NumberOfMines"
-    ) as HTMLInputElement;
-    const numberOfMinesValue = document.getElementById("NumberOfMinesValue")!;
-    const numberOfLinesStr = Options.getOption("numberOfMines").toString();
-
-    numberOfMines.value = numberOfLinesStr;
-    numberOfMinesValue.innerHTML = numberOfLinesStr;
-    numberOfMines.oninput = function() {
-        numberOfMinesValue.innerHTML = numberOfMines.value;
-    };
-    numberOfMines.onchange = function() {
-        const currentNumberOfMines = parseInt(numberOfMines.value, 10);
-        Options.setOption("numberOfMines", currentNumberOfMines);
-    };
-
-    // :: restart :: //
-    var restartButton = document.getElementById("Restart")!;
-    restartButton.onclick = restart;
-
-    // :: timer :: //
-    var timerValue = document.getElementById("TimerValue")!;
-    TIMER = new Timer({ htmlElement: timerValue });
-
-    // show the menu/high-score
-    const menu = document.getElementById("Menu")!;
-    const highScore = document.getElementById("HighScore")!;
-
-    menu.classList.remove("hidden");
-    highScore.classList.remove("hidden");
 }
 
 /**
@@ -151,7 +90,7 @@ function buildMap() {
 /**
  * Clear the previous grid/map, and build a new one.
  */
-function restart() {
+export function restart() {
     if (GRID) {
         GRID.clear();
         GRID = null;

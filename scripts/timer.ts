@@ -1,22 +1,22 @@
 import { timeToString } from "./utilities.js";
 
 export interface TimerArgs {
-    htmlElement: HTMLElement;
+    update: (displayValue: string) => void;
 }
 
 export default class Timer {
+    args: TimerArgs;
     interval_time: number;
     is_active: boolean;
     count_time: number;
-    html_element: HTMLElement;
     interval_f?: number;
 
     constructor(args: TimerArgs) {
+        this.args = args;
         this.interval_time = 100;
         this.is_active = false;
         this.count_time = 0;
         this.interval_f = undefined;
-        this.html_element = args.htmlElement;
 
         this.updateUI();
     }
@@ -65,6 +65,6 @@ export default class Timer {
             time = timeToString(this.count_time);
         }
 
-        this.html_element.innerHTML = time;
+        this.args.update(time);
     }
 }
