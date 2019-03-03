@@ -25,19 +25,25 @@
         <div id="Menu" class="hidden">
             <span>
                 <label for="ColumnSize" class="MenuLabel">columns</label>
-                <input id="ColumnSize" type="range" min="5" max="20" />
+                <input id="ColumnSize" type="range" min="5" max="40" step="1" />
                 <span id="ColumnSizeValue"></span>
             </span>
             <span>
                 <label for="LineSize" class="MenuLabel">lines</label>
-                <input id="LineSize" type="range" min="5" max="20" />
+                <input id="LineSize" type="range" min="5" max="40" step="1" />
                 <span id="LineSizeValue"></span>
             </span>
             <span>
                 <label for="NumberOfMines" class="MenuLabel"
                     >Number of mines</label
                 >
-                <input id="NumberOfMines" type="range" min="5" max="60" />
+                <input
+                    id="NumberOfMines"
+                    type="range"
+                    min="5"
+                    max="200"
+                    step="5"
+                />
                 <span id="NumberOfMinesValue"></span>
             </span>
             <input id="Restart" type="button" value="restart" />
