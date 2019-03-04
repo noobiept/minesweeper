@@ -12,6 +12,7 @@ var GRID: Grid | null;
 var TIMER: Timer;
 
 var CURRENT_MOUSE_OVER: Square | null = null; // the current square element that is being highlighted
+let DIALOG: Dialog | undefined;
 
 export function init() {
     HighScore.load();
@@ -23,6 +24,15 @@ export function init() {
     });
 
     addCanvasListeners(mouseMove, mouseClick);
+
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "r") {
+            // if there's a dialog open, let it deal with the event
+            if (!DIALOG) {
+                restart();
+            }
+        }
+    });
 }
 
 /**
@@ -270,12 +280,13 @@ function gameOver(victory: boolean) {
         body = ":(";
     }
 
-    const dialog = new Dialog({
+    DIALOG = new Dialog({
         title: title,
         body: body,
         buttonText: "Restart",
         onClose: () => {
             restart();
+            DIALOG = undefined;
         },
     });
 }

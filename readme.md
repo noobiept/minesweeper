@@ -7,6 +7,8 @@ You can try it out here: [http://nbpt.eu/games/minesweeper/](http://nbpt.eu/game
 
 # Keyboard shortcuts
 
+-   `r`: Restart the game.
+
 ## When the dialog is opened
 
--   `esc` or `enter`: Closes the dialog and restarts the game.
+-   `esc` or `r`: Closes the dialog and restarts the game.

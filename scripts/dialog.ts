@@ -63,8 +63,8 @@ export default class Dialog {
         const key = event.key;
 
         switch (key) {
-            case "Enter":
             case "Escape":
+            case "r":
                 this.close();
                 break;
         }
