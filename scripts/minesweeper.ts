@@ -8,10 +8,10 @@ import Square, { SquareValue, SquareState } from "./square.js";
 import { getAsset, addCanvasListeners, getCanvasRect } from "./main.js";
 import { getRandomInt, timeToString } from "./utilities.js";
 
-var GRID: Grid | null;
-var TIMER: Timer;
-
-var CURRENT_MOUSE_OVER: Square | null = null; // the current square element that is being highlighted
+let GRID: Grid | null;
+let TIMER: Timer;
+let MINES_LEFT: number;
+let CURRENT_MOUSE_OVER: Square | null = null; // the current square element that is being highlighted
 let DIALOG: Dialog | undefined;
 
 export function init() {
@@ -41,10 +41,12 @@ export function init() {
 function buildGrid() {
     const columnSize = Options.getOption("columnSize");
     const lineSize = Options.getOption("lineSize");
+    MINES_LEFT = Options.getOption("numberOfMines");
 
     GRID = new Grid({ columnSize: columnSize, lineSize: lineSize });
 
     GameMenu.updateScores();
+    GameMenu.updateMinesLeft(MINES_LEFT);
 }
 
 /**
@@ -248,8 +250,16 @@ function mouseClick(event: MouseEvent) {
                 CURRENT_MOUSE_OVER.setState(SquareState.question_mark);
             } else if (CURRENT_MOUSE_OVER.state === SquareState.question_mark) {
                 CURRENT_MOUSE_OVER.setState(SquareState.mine_flag);
+
+                // mark the square as a mine, so need to update the number of mines left
+                MINES_LEFT--;
+                GameMenu.updateMinesLeft(MINES_LEFT);
             } else {
                 CURRENT_MOUSE_OVER.setState(SquareState.hidden);
+
+                // removed the 'mine' mark, so need to update the number of mines left
+                MINES_LEFT++;
+                GameMenu.updateMinesLeft(MINES_LEFT);
             }
 
             // the .setState() sets the background to hidden, but when we click we have the mouse over, so need to set to that image

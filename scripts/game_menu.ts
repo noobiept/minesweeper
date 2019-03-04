@@ -3,6 +3,7 @@ import * as HighScore from "./high_score.js";
 import { restart } from "./minesweeper.js";
 import { timeToString } from "./utilities.js";
 
+let MINES_LEFT_VALUE: HTMLElement;
 let TIMER_VALUE: HTMLElement;
 let HIGH_SCORE: HTMLElement;
 
@@ -66,6 +67,9 @@ export function init() {
     // :: timer :: //
     TIMER_VALUE = document.getElementById("TimerValue")!;
 
+    // :: mines left :: //
+    MINES_LEFT_VALUE = document.getElementById("MinesLeftValue")!;
+
     // :: high-score :: //
     HIGH_SCORE = document.getElementById("HighScoreContainer")!;
 
@@ -82,6 +86,13 @@ export function init() {
  */
 export function updateTimer(displayValue: string) {
     TIMER_VALUE.innerHTML = displayValue;
+}
+
+/**
+ * Update the 'mines left' UI element with a new value.
+ */
+export function updateMinesLeft(mines: number) {
+    MINES_LEFT_VALUE.innerText = `Mines left: ${mines.toString()}`;
 }
 
 /**
