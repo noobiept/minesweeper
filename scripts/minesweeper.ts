@@ -252,7 +252,8 @@ function gameOver(victory: boolean) {
     TIMER.stop();
     revealAllMines();
 
-    let text = "";
+    let title = "";
+    let body = "";
 
     if (victory) {
         const time = TIMER.getElapsedTime();
@@ -262,14 +263,16 @@ function gameOver(victory: boolean) {
 
         HighScore.add(columnSize, lineSize, numberOfMines, time);
 
-        text = "You Win! " + timeToString(time);
+        title = "Victory!";
+        body = `Time: ${timeToString(time)}`;
     } else {
-        text = "Defeat!";
+        title = "Defeat!";
+        body = ":(";
     }
 
     const dialog = new Dialog({
-        title: "Game Over!",
-        body: text,
+        title: title,
+        body: body,
         buttonText: "Restart",
         onClose: () => {
             dialog.remove();
