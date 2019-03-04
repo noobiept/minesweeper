@@ -59,21 +59,6 @@ export function timeToString(dateMilliseconds: number) {
         ["second", secondsLeft],
     ];
 
-    var constructDate = function(dateTmp: string, numberOf: number) {
-        // a digit past the decimal case only to the second values
-        const numberStr =
-            dateTmp === "second" ? numberOf.toFixed(1) : numberOf.toString();
-
-        // day to days, hour to hours...
-        if (numberOf !== 1) {
-            dateTmp += "s";
-        } else {
-            dateTmp += "&nbsp;"; // add a space when not adding the 's', so that the width ends up the same (otherwise the text moves a bit when passing through these cases)
-        }
-
-        return numberStr + " " + dateTmp + " ";
-    };
-
     // limit the number of units to be shown (days/hours, or hours/minutes or minutes/seconds, and not days/hours/minutes for example)
     var totalUnits = 2;
 
@@ -91,12 +76,34 @@ export function timeToString(dateMilliseconds: number) {
 
         // only show when there's something relevant to be shown
         // (for example: 0 days 2 hours 2 minutes... no point showing the days part)
-        if (theDate[i][1] !== 0) {
+        if (dateValue !== 0) {
             date += constructDate(dateUnit, dateValue);
-
             totalUnits--;
         }
     }
 
+    // always show something
+    if (date === "") {
+        date = "0 seconds";
+    }
+
     return date;
+}
+
+/**
+ * Helper function to the 'timeToString' function.
+ */
+function constructDate(dateTmp: string, numberOf: number) {
+    // a digit past the decimal case only to the 'second' values
+    const numberStr =
+        dateTmp === "second" ? numberOf.toFixed(1) : numberOf.toString();
+
+    // day to days, hour to hours...
+    if (numberOf !== 1) {
+        dateTmp += "s";
+    } else {
+        dateTmp += "&nbsp;"; // add a space when not adding the 's', so that the width ends up the same (otherwise the text moves a bit when passing through these cases)
+    }
+
+    return numberStr + " " + dateTmp + " ";
 }
