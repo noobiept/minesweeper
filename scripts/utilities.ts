@@ -77,6 +77,11 @@ export function timeToString(dateMilliseconds: number) {
         // only show when there's something relevant to be shown
         // (for example: 0 days 2 hours 2 minutes... no point showing the days part)
         if (dateValue !== 0) {
+            // add a space to separate multiple units sections
+            if (date !== "") {
+                date += " ";
+            }
+
             date += constructDate(dateUnit, dateValue);
             totalUnits--;
         }
@@ -105,5 +110,5 @@ function constructDate(dateTmp: string, numberOf: number) {
         dateTmp += "&nbsp;"; // add a space when not adding the 's', so that the width ends up the same (otherwise the text moves a bit when passing through these cases)
     }
 
-    return numberStr + " " + dateTmp + " ";
+    return numberStr + " " + dateTmp;
 }
