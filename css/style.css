@@ -1,3 +1,5 @@
+/* Basic elements */
+
 html {
     height: 100%;
 }
@@ -15,7 +17,9 @@ body {
     background-color: rgb(240, 240, 240);
 }
 
-.MenuLabel,
+/* Classes */
+
+.menuLabel,
 .separator {
     color: #7342a0;
     font-weight: bold;
@@ -28,6 +32,8 @@ body {
 .separator {
     margin: 10px;
 }
+
+/* Individual elements */
 
 #TimerValue {
     position: fixed;
@@ -49,6 +55,8 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+/* Game menu */
 
 #Menu,
 #HighScore {
