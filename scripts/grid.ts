@@ -1,6 +1,11 @@
 import Square, { SquareState, SquareValue } from "./square.js";
 import { setCanvasDimensions } from "./main.js";
 
+export interface GridPosition {
+    column: number;
+    line: number;
+}
+
 export interface GridArgs {
     columnSize: number;
     lineSize: number;

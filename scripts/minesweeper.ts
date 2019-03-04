@@ -1,9 +1,9 @@
 import * as HighScore from "./high_score.js";
 import * as Options from "./options.js";
 import * as GameMenu from "./game_menu.js";
-import Grid from "./grid.js";
 import Dialog from "./dialog.js";
 import Timer from "./timer.js";
+import Grid, { GridPosition } from "./grid.js";
 import Square, { SquareValue, SquareState } from "./square.js";
 import { getAsset, addCanvasListeners, getCanvasRect } from "./main.js";
 import { getRandomInt, timeToString } from "./utilities.js";
@@ -16,7 +16,7 @@ var CURRENT_MOUSE_OVER: Square | null = null; // the current square element that
 export function init() {
     HighScore.load();
     GameMenu.init();
-    buildMap();
+    buildGrid();
 
     TIMER = new Timer({
         update: GameMenu.updateTimer,
@@ -26,19 +26,37 @@ export function init() {
 }
 
 /**
- * Build a new grid/map.
+ * Build a new grid/map and update the high-score UI.
  */
-function buildMap() {
+function buildGrid() {
     const columnSize = Options.getOption("columnSize");
     const lineSize = Options.getOption("lineSize");
-    const numberOfMines = Options.getOption("numberOfMines");
 
     GRID = new Grid({ columnSize: columnSize, lineSize: lineSize });
 
+    GameMenu.updateScores();
+}
+
+/**
+ * Add the mines and the numbered positions to the map.
+ */
+export function placeMapValues(exclude: GridPosition) {
+    if (!GRID) {
+        throw new Error("Grid not available.");
+    }
+
+    const columnSize = Options.getOption("columnSize");
+    const lineSize = Options.getOption("lineSize");
+    const numberOfMines = Options.getOption("numberOfMines");
     const positions = [];
 
+    // construct a list with the valid positions where we can place the mines
     for (let column = 0; column < columnSize; column++) {
         for (let line = 0; line < lineSize; line++) {
+            if (column === exclude.column && line === exclude.line) {
+                continue;
+            }
+
             positions.push({
                 column: column,
                 line: line,
@@ -68,8 +86,6 @@ function buildMap() {
             square.setValue(minesAround);
         }
     });
-
-    GameMenu.updateScores();
 }
 
 /**
@@ -81,20 +97,30 @@ export function restart() {
         GRID = null;
     }
 
-    buildMap();
+    buildGrid();
     TIMER.reset();
 }
 
+/**
+ * Reveal a square (that was clicked). It can be a blank, a mine or a numbered value.
+ */
 function revealSquare(square: Square) {
     if (!GRID) {
         throw new Error("Grid not available.");
     }
 
-    GRID.revealSquare(square);
-
+    // the first move of the game
     if (!TIMER.isActive()) {
+        // only place the mines/etc after the first move
+        // this way we can make sure the first move doesn't hit a mine
+        placeMapValues({
+            column: square.column,
+            line: square.line,
+        });
         TIMER.start();
     }
+
+    GRID.revealSquare(square);
 
     if (square.value == SquareValue.mine) {
         gameOver(false);
