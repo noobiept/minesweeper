@@ -43,7 +43,18 @@ function buildGrid() {
     const lineSize = Options.getOption("lineSize");
     MINES_LEFT = Options.getOption("numberOfMines");
 
-    GRID = new Grid({ columnSize: columnSize, lineSize: lineSize });
+    GRID = new Grid({
+        columnSize: columnSize,
+        lineSize: lineSize,
+        onStateChange: (previous, next) => {
+            // need to update the number of mines left, as the squares get flagged/un-flagged/revealed
+            if (next === SquareState.mine_flag) {
+                updateMinesLeft(-1);
+            } else if (previous === SquareState.mine_flag) {
+                updateMinesLeft(+1);
+            }
+        },
+    });
 
     GameMenu.updateScores();
     GameMenu.updateMinesLeft(MINES_LEFT);
@@ -250,16 +261,8 @@ function mouseClick(event: MouseEvent) {
                 CURRENT_MOUSE_OVER.setState(SquareState.question_mark);
             } else if (CURRENT_MOUSE_OVER.state === SquareState.question_mark) {
                 CURRENT_MOUSE_OVER.setState(SquareState.mine_flag);
-
-                // mark the square as a mine, so need to update the number of mines left
-                MINES_LEFT--;
-                GameMenu.updateMinesLeft(MINES_LEFT);
             } else {
                 CURRENT_MOUSE_OVER.setState(SquareState.hidden);
-
-                // removed the 'mine' mark, so need to update the number of mines left
-                MINES_LEFT++;
-                GameMenu.updateMinesLeft(MINES_LEFT);
             }
 
             // the .setState() sets the background to hidden, but when we click we have the mouse over, so need to set to that image
@@ -299,4 +302,12 @@ function gameOver(victory: boolean) {
             DIALOG = undefined;
         },
     });
+}
+
+/**
+ * Add to the current number of mines left, and update the UI.
+ */
+function updateMinesLeft(add: number) {
+    MINES_LEFT += add;
+    GameMenu.updateMinesLeft(MINES_LEFT);
 }

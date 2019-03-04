@@ -24,6 +24,7 @@ export enum SquareValue {
 export interface SquareArgs {
     column: number;
     line: number;
+    onStateChange: (previous: SquareState, next: SquareState) => void;
 }
 
 export default class Square {
@@ -37,6 +38,7 @@ export default class Square {
     container: createjs.Container;
     background: createjs.Bitmap;
     front: createjs.Bitmap;
+    onStateChange: (previous: SquareState, next: SquareState) => void;
 
     constructor(args: SquareArgs) {
         const column = args.column;
@@ -47,6 +49,7 @@ export default class Square {
         this.line = line;
         this.state = SquareState.hidden;
         this.is_selected = false;
+        this.onStateChange = args.onStateChange;
 
         var container = new createjs.Container();
 
@@ -72,6 +75,7 @@ export default class Square {
             return;
         }
 
+        this.onStateChange(this.state, state);
         this.state = state;
 
         if (state === SquareState.hidden) {

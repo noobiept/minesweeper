@@ -9,6 +9,7 @@ export interface GridPosition {
 export interface GridArgs {
     columnSize: number;
     lineSize: number;
+    onStateChange: (previous: SquareState, next: SquareState) => void;
 }
 
 export default class Grid {
@@ -27,7 +28,11 @@ export default class Grid {
             grid[column] = [];
 
             for (let line = 0; line < lineSize; line++) {
-                const square = new Square({ column: column, line: line });
+                const square = new Square({
+                    column: column,
+                    line: line,
+                    onStateChange: args.onStateChange,
+                });
 
                 grid[column][line] = square;
                 hidden_squares.push(square);
