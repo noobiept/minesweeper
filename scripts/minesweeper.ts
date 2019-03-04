@@ -15,8 +15,8 @@ var CURRENT_MOUSE_OVER: Square | null = null; // the current square element that
 
 export function init() {
     HighScore.load();
-    buildMap();
     GameMenu.init();
+    buildMap();
 
     TIMER = new Timer({
         update: GameMenu.updateTimer,
@@ -69,22 +69,7 @@ function buildMap() {
         }
     });
 
-    // show the high-score for this combination of columns/lines/number of mines
-    const scores = HighScore.get(columnSize, lineSize, numberOfMines);
-    const scoreContainer = document.getElementById("HighScoreContainer")!;
-
-    scoreContainer.innerHTML = "";
-
-    if (scores === null) {
-        scoreContainer.innerHTML = "No scores yet.";
-    } else {
-        for (let a = 0; a < scores.length; a++) {
-            const scoreElement = document.createElement("span");
-
-            scoreElement.innerHTML = timeToString(scores[a]);
-            scoreContainer.appendChild(scoreElement);
-        }
-    }
+    GameMenu.updateScores();
 }
 
 /**

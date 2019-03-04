@@ -1,7 +1,10 @@
 import * as Options from "./options.js";
+import * as HighScore from "./high_score.js";
 import { restart } from "./minesweeper.js";
+import { timeToString } from "./utilities.js";
 
 let TIMER_VALUE: HTMLElement;
+let HIGH_SCORE: HTMLElement;
 
 /**
  * Initialize the game menu module.
@@ -63,6 +66,9 @@ export function init() {
     // :: timer :: //
     TIMER_VALUE = document.getElementById("TimerValue")!;
 
+    // :: high-score :: //
+    HIGH_SCORE = document.getElementById("HighScoreContainer")!;
+
     // show the menu/high-score
     const menu = document.getElementById("Menu")!;
     const highScore = document.getElementById("HighScore")!;
@@ -76,4 +82,29 @@ export function init() {
  */
 export function updateTimer(displayValue: string) {
     TIMER_VALUE.innerHTML = displayValue;
+}
+
+/**
+ * Show the top high-scores on the menu based on the current set of options.
+ */
+export function updateScores() {
+    const columnSize = Options.getOption("columnSize");
+    const lineSize = Options.getOption("lineSize");
+    const numberOfMines = Options.getOption("numberOfMines");
+
+    // show the high-score for this combination of columns/lines/number of mines
+    const scores = HighScore.get(columnSize, lineSize, numberOfMines);
+
+    HIGH_SCORE.innerHTML = "";
+
+    if (scores === null) {
+        HIGH_SCORE.innerHTML = "No scores yet.";
+    } else {
+        for (let a = 0; a < scores.length; a++) {
+            const scoreElement = document.createElement("span");
+            scoreElement.innerHTML = timeToString(scores[a]);
+
+            HIGH_SCORE.appendChild(scoreElement);
+        }
+    }
 }
