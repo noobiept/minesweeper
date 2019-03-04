@@ -8,6 +8,7 @@ export interface DialogArgs {
 export default class Dialog {
     overlay: HTMLElement;
     container: HTMLElement;
+    onClose: () => void;
 
     constructor(args: DialogArgs) {
         const overlay = document.createElement("div");
@@ -29,7 +30,9 @@ export default class Dialog {
 
         const ok = document.createElement("button");
         ok.className = "dialog-button";
-        ok.onclick = args.onClose;
+        ok.onclick = () => {
+            this.close();
+        };
         ok.innerText = args.buttonText;
 
         const horizontalRule = document.createElement("hr");
@@ -46,10 +49,39 @@ export default class Dialog {
 
         this.overlay = overlay;
         this.container = container;
+        this.onClose = args.onClose;
+
+        // setup some keyboard shortcuts
+        this.onKeyDown = this.onKeyDown.bind(this);
+        document.addEventListener("keydown", this.onKeyDown);
+    }
+
+    /**
+     * Close the 'dialog' when pressing either the 'enter' or the 'escape' key.
+     */
+    onKeyDown(event: KeyboardEvent) {
+        const key = event.key;
+
+        switch (key) {
+            case "Enter":
+            case "Escape":
+                this.close();
+                break;
+        }
+    }
+
+    /**
+     * Close the dialog.
+     */
+    close() {
+        this.remove();
+        this.onClose();
     }
 
     remove() {
         document.body.removeChild(this.container);
         document.body.removeChild(this.overlay);
+
+        document.removeEventListener("keydown", this.onKeyDown);
     }
 }

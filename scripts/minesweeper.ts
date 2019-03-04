@@ -275,7 +275,6 @@ function gameOver(victory: boolean) {
         body: body,
         buttonText: "Restart",
         onClose: () => {
-            dialog.remove();
             restart();
         },
     });
