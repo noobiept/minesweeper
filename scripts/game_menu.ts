@@ -105,6 +105,15 @@ export function updateScores() {
             scoreElement.innerHTML = timeToString(scores[a]);
 
             HIGH_SCORE.appendChild(scoreElement);
+
+            // add a separator between each score (apart from the last position)
+            if (a !== scores.length - 1) {
+                const separator = document.createElement("span");
+                separator.innerText = "/";
+                separator.className = "separator";
+
+                HIGH_SCORE.appendChild(separator);
+            }
         }
     }
 }
