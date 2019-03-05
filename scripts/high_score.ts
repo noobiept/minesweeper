@@ -7,16 +7,27 @@ export interface HighScoreData {
 var HIGH_SCORE: HighScoreData = {};
 var MAX_SCORES_SAVED = 5;
 
+/**
+ * Save the high-scores to the local storage.
+ */
 function save() {
     AppStorage.setData({ minesweeper_high_score: HIGH_SCORE });
 }
 
+/**
+ * Load the given high-scores.
+ */
 export function load(score?: HighScoreData) {
     if (score) {
         HIGH_SCORE = score;
     }
 }
 
+/**
+ * Add a new high-score. The score is the time it took to finish the map.
+ * The score list is independent per combination of columns/lines/mines.
+ * Only the best scores are saved.
+ */
 export function add(
     columns: number,
     lines: number,
@@ -44,10 +55,9 @@ export function add(
     save();
 }
 
-export function getAll() {
-    return HIGH_SCORE;
-}
-
+/**
+ * Get the high-scores of the given columns/lines/mines combination.
+ */
 export function get(columns: number, lines: number, mines: number) {
     var key = columns + "_" + lines + "_" + mines;
 

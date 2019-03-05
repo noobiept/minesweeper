@@ -5,7 +5,7 @@ import Dialog from "./dialog.js";
 import Timer from "./timer.js";
 import Grid, { GridPosition } from "./grid.js";
 import Square, { SquareValue, SquareState } from "./square.js";
-import { getAsset, addCanvasListeners, getCanvasRect } from "./main.js";
+import { addCanvasListeners, getCanvasRect } from "./main.js";
 import { getRandomInt, timeToString } from "./utilities.js";
 
 let GRID: Grid | null;
@@ -14,6 +14,9 @@ let MINES_LEFT: number;
 let CURRENT_MOUSE_OVER: Square | null = null; // the current square element that is being highlighted
 let DIALOG: Dialog | undefined;
 
+/**
+ * Initialize the game.
+ */
 export function init() {
     HighScore.load();
     GameMenu.init();
@@ -181,6 +184,9 @@ function revealSquare(square: Square) {
     }
 }
 
+/**
+ * Reveal all the mines (done when the game is over).
+ */
 function revealAllMines() {
     if (!GRID) {
         throw new Error("Grid not available");
@@ -257,12 +263,16 @@ function mouseClick(event: MouseEvent) {
                 CURRENT_MOUSE_OVER.setState(SquareState.hidden);
             }
 
-            // the .setState() sets the background to hidden, but when we click we have the mouse over, so need to set to that image
-            CURRENT_MOUSE_OVER.background.image = getAsset("hidden_mouse_over");
+            // the .setState() sets the background to hidden, but when we click we have the mouse over, so need to re-set to that image
+            CURRENT_MOUSE_OVER.select();
         }
     }
 }
 
+/**
+ * Game is over, show all the mines, stop the timer and show a dialog with a message to the player.
+ * Add the score to the high-score if its a victory.
+ */
 function gameOver(victory: boolean) {
     TIMER.stop();
     revealAllMines();

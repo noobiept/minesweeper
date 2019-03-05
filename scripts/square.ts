@@ -31,14 +31,13 @@ export default class Square {
     static size = 30; // size of each individual square (30x30 pixels)
 
     value: SquareValue;
-    column: number;
-    line: number;
+    readonly column: number;
+    readonly line: number;
     state: SquareState;
-    is_selected: boolean;
-    container: createjs.Container;
-    background: createjs.Bitmap;
-    front: createjs.Bitmap;
-    onStateChange: (previous: SquareState, next: SquareState) => void;
+    private container: createjs.Container;
+    private background: createjs.Bitmap;
+    private front: createjs.Bitmap;
+    private onStateChange: (previous: SquareState, next: SquareState) => void;
 
     constructor(args: SquareArgs) {
         const column = args.column;
@@ -48,7 +47,6 @@ export default class Square {
         this.column = column;
         this.line = line;
         this.state = SquareState.hidden;
-        this.is_selected = false;
         this.onStateChange = args.onStateChange;
 
         var container = new createjs.Container();
@@ -98,16 +96,14 @@ export default class Square {
     }
 
     select() {
-        if (!this.is_selected && this.state !== SquareState.revealed) {
+        if (this.state !== SquareState.revealed) {
             this.background.image = getAsset("hidden_mouse_over");
-            this.is_selected = true;
         }
     }
 
     unSelect() {
-        if (this.is_selected && this.state !== SquareState.revealed) {
+        if (this.state !== SquareState.revealed) {
             this.background.image = getAsset("hidden");
-            this.is_selected = false;
         }
     }
 

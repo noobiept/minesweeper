@@ -14,6 +14,9 @@ window.onload = function() {
     );
 };
 
+/**
+ * Receives the data loaded from `localStorage`. Start the application.
+ */
 function initApp(data: AppStorage.StorageData) {
     CANVAS = document.getElementById("MainCanvas") as HTMLCanvasElement;
     STAGE = new createjs.Stage(CANVAS);
