@@ -68,6 +68,9 @@ export default class Square {
         this.front = front;
     }
 
+    /**
+     * Change the square to a different state.
+     */
     setState(state: SquareState) {
         if (state === this.state) {
             return;
@@ -95,12 +98,18 @@ export default class Square {
         }
     }
 
+    /**
+     * Select the square (when the mouse is over it).
+     */
     select() {
         if (this.state !== SquareState.revealed) {
             this.background.image = getAsset("hidden_mouse_over");
         }
     }
 
+    /**
+     * Un-select the square (when the mouse is not over it).
+     */
     unSelect() {
         if (this.state !== SquareState.revealed) {
             this.background.image = getAsset("hidden");
@@ -158,6 +167,9 @@ export default class Square {
         }
     }
 
+    /**
+     * Remove the square from the stage.
+     */
     clear() {
         removeFromStage(this.container);
     }

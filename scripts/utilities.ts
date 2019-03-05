@@ -1,3 +1,6 @@
+/**
+ * Get a random integer within the given range (inclusive).
+ */
 export function getRandomInt(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -13,8 +16,6 @@ export function round(num: number, dec: number) {
  * Converts a time (in milliseconds) to a string (with the number of days/hours...).
  */
 export function timeToString(dateMilliseconds: number) {
-    // :: convert to days/hours :: //
-
     //in milliseconds
     var second = 1000;
     var minute = 60 * second;
@@ -29,21 +30,18 @@ export function timeToString(dateMilliseconds: number) {
     //count the days
     while (dateMilliseconds > day) {
         daysLeft++;
-
         dateMilliseconds -= day;
     }
 
     //count the hours
     while (dateMilliseconds > hour) {
         hoursLeft++;
-
         dateMilliseconds -= hour;
     }
 
     //count the minutes
     while (dateMilliseconds > minute) {
         minutesLeft++;
-
         dateMilliseconds -= minute;
     }
 
@@ -51,7 +49,6 @@ export function timeToString(dateMilliseconds: number) {
     secondsLeft = round(dateMilliseconds / 1000, 2);
 
     // :: construct the string :: //
-
     var theDate = [
         ["day", daysLeft],
         ["hour", hoursLeft],
@@ -61,7 +58,6 @@ export function timeToString(dateMilliseconds: number) {
 
     // limit the number of units to be shown (days/hours, or hours/minutes or minutes/seconds, and not days/hours/minutes for example)
     var totalUnits = 2;
-
     var date = "";
 
     for (let i = 0; i < theDate.length; i++) {
