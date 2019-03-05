@@ -175,16 +175,8 @@ function revealSquare(square: Square) {
     }
 
     // check if the game is won (when the un-revealed squares are all mines)
-    var finishLoop = true;
-
-    for (var a = 0; a < GRID.hidden_squares.length; a++) {
-        if (GRID.hidden_squares[a].value !== SquareValue.mine) {
-            finishLoop = false;
-            break;
-        }
-    }
-
-    if (finishLoop) {
+    const isGameOver = GRID.areAllHiddenSquaresMines();
+    if (isGameOver) {
         gameOver(true);
     }
 }

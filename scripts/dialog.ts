@@ -6,9 +6,9 @@ export interface DialogArgs {
 }
 
 export default class Dialog {
-    overlay: HTMLElement;
-    container: HTMLElement;
-    onClose: () => void;
+    private overlay: HTMLElement;
+    private container: HTMLElement;
+    private onClose: () => void;
 
     constructor(args: DialogArgs) {
         const overlay = document.createElement("div");
@@ -78,6 +78,9 @@ export default class Dialog {
         this.onClose();
     }
 
+    /**
+     * Remove the dialog elements and any event listeners.
+     */
     remove() {
         document.body.removeChild(this.container);
         document.body.removeChild(this.overlay);

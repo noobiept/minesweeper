@@ -13,10 +13,10 @@ export interface GridArgs {
 }
 
 export default class Grid {
-    column_size: number;
-    line_size: number;
-    grid: Square[][];
-    hidden_squares: Square[];
+    private column_size: number;
+    private line_size: number;
+    private grid: Square[][];
+    private hidden_squares: Square[];
 
     constructor(args: GridArgs) {
         const columnSize = args.columnSize;
@@ -47,14 +47,19 @@ export default class Grid {
         this.hidden_squares = hidden_squares;
     }
 
+    /**
+     * Reveal a square (shows its actual value).
+     */
     revealSquare(square: Square) {
         var index = this.hidden_squares.indexOf(square);
-
         this.hidden_squares.splice(index, 1);
 
         square.setState(SquareState.revealed);
     }
 
+    /**
+     * Get the square in the given position.
+     */
     getSquare(column: number, line: number) {
         if (
             column < 0 ||
@@ -68,6 +73,9 @@ export default class Grid {
         return this.grid[column][line];
     }
 
+    /**
+     * Get the squares around the given position.
+     */
     getAdjacentSquares(column: number, line: number) {
         var adjacents = [];
 
@@ -98,9 +106,9 @@ export default class Grid {
         return adjacents;
     }
 
-    /*
-    How many mines there are in adjacent squares (not counting the position given, just the ones around it)
- */
+    /**
+     * Returns the number of mines there are in adjacent squares (not counting the position given, just the ones around it).
+     */
     minesAround(column: number, line: number) {
         var count = 0;
 
@@ -133,6 +141,9 @@ export default class Grid {
         return count;
     }
 
+    /**
+     * Loop through all the squares in the grid.
+     */
     forEachSquare(callback: (square: Square) => void) {
         for (var column = 0; column < this.column_size; column++) {
             for (var line = 0; line < this.line_size; line++) {
@@ -143,6 +154,22 @@ export default class Grid {
         }
     }
 
+    /**
+     * Check if all the hidden squares are mines (the game winning condition).
+     */
+    areAllHiddenSquaresMines() {
+        for (let a = 0; a < this.hidden_squares.length; a++) {
+            if (this.hidden_squares[a].value !== SquareValue.mine) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Clear the grid and its squares.
+     */
     clear() {
         for (var column = 0; column < this.column_size; column++) {
             for (var line = 0; line < this.line_size; line++) {
