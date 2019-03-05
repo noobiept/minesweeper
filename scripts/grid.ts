@@ -142,6 +142,25 @@ export default class Grid {
     }
 
     /**
+     * Reveal recursively all the blank squares around the given square until we find a numbered square.
+     */
+    revealSquaresAround(square: Square) {
+        const adjacents = this.getAdjacentSquares(square.column, square.line);
+
+        for (let a = 0; a < adjacents.length; a++) {
+            const adjacent = adjacents[a];
+
+            if (adjacent.getState() !== SquareState.revealed) {
+                this.revealSquare(adjacent);
+
+                if (adjacent.getValue() === SquareValue.blank) {
+                    this.revealSquaresAround(adjacent);
+                }
+            }
+        }
+    }
+
+    /**
      * Loop through all the squares in the grid.
      */
     forEachSquare(callback: (square: Square) => void) {

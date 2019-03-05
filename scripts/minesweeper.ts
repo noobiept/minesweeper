@@ -156,26 +156,7 @@ function revealSquare(square: Square) {
 
     // need to reveal all the blank values around it
     if (squareValue === SquareValue.blank) {
-        var applyToAdjacents = function(aSquare: Square) {
-            var adjacents = GRID!.getAdjacentSquares(
-                aSquare.column,
-                aSquare.line
-            );
-
-            for (var a = 0; a < adjacents.length; a++) {
-                var adjacent = adjacents[a];
-
-                if (adjacent.getState() !== SquareState.revealed) {
-                    GRID!.revealSquare(adjacent);
-
-                    if (adjacent.getValue() === SquareValue.blank) {
-                        applyToAdjacents(adjacent);
-                    }
-                }
-            }
-        };
-
-        applyToAdjacents(square);
+        GRID.revealSquaresAround(square);
     }
 
     // check if the game is won (when the un-revealed squares are all mines)
