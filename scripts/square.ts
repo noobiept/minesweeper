@@ -30,10 +30,10 @@ export interface SquareArgs {
 export default class Square {
     static size = 30; // size of each individual square (30x30 pixels)
 
-    value: SquareValue;
     readonly column: number;
     readonly line: number;
-    state: SquareState;
+    private value: SquareValue;
+    private state: SquareState;
     private container: createjs.Container;
     private background: createjs.Bitmap;
     private front: createjs.Bitmap;
@@ -66,6 +66,20 @@ export default class Square {
         this.container = container;
         this.background = background;
         this.front = front;
+    }
+
+    /**
+     * Get the current value of the square.
+     */
+    getValue() {
+        return this.value;
+    }
+
+    /**
+     * Get the current state of the square.
+     */
+    getState() {
+        return this.state;
     }
 
     /**

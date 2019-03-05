@@ -131,7 +131,7 @@ export default class Grid {
                 ) {
                     var square = this.grid[adjacentColumn][adjacentLine];
 
-                    if (square.value === SquareValue.mine) {
+                    if (square.getValue() === SquareValue.mine) {
                         count++;
                     }
                 }
@@ -159,7 +159,7 @@ export default class Grid {
      */
     areAllHiddenSquaresMines() {
         for (let a = 0; a < this.hidden_squares.length; a++) {
-            if (this.hidden_squares[a].value !== SquareValue.mine) {
+            if (this.hidden_squares[a].getValue() !== SquareValue.mine) {
                 return false;
             }
         }

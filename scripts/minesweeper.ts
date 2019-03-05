@@ -106,7 +106,7 @@ export function placeMapValues(exclude: GridPosition) {
 
     // add the numbers to the positions (number of mines in adjacent squares)
     GRID.forEachSquare(function(square) {
-        if (square.value !== SquareValue.mine) {
+        if (square.getValue() !== SquareValue.mine) {
             const minesAround = GRID!.minesAround(square.column, square.line);
 
             square.setValue(minesAround);
@@ -148,13 +148,14 @@ function revealSquare(square: Square) {
 
     GRID.revealSquare(square);
 
-    if (square.value == SquareValue.mine) {
+    const squareValue = square.getValue();
+    if (squareValue == SquareValue.mine) {
         gameOver(false);
         return;
     }
 
     // need to reveal all the blank values around it
-    if (square.value == SquareValue.blank) {
+    if (squareValue === SquareValue.blank) {
         var applyToAdjacents = function(aSquare: Square) {
             var adjacents = GRID!.getAdjacentSquares(
                 aSquare.column,
@@ -164,10 +165,10 @@ function revealSquare(square: Square) {
             for (var a = 0; a < adjacents.length; a++) {
                 var adjacent = adjacents[a];
 
-                if (adjacent.state !== SquareState.revealed) {
+                if (adjacent.getState() !== SquareState.revealed) {
                     GRID!.revealSquare(adjacent);
 
-                    if (adjacent.value === SquareValue.blank) {
+                    if (adjacent.getValue() === SquareValue.blank) {
                         applyToAdjacents(adjacent);
                     }
                 }
@@ -193,7 +194,7 @@ function revealAllMines() {
     }
 
     GRID.forEachSquare(function(square) {
-        if (square.value === SquareValue.mine) {
+        if (square.getValue() === SquareValue.mine) {
             GRID!.revealSquare(square);
         }
     });
@@ -239,14 +240,15 @@ function mouseMove(event: MouseEvent) {
 function mouseClick(event: MouseEvent) {
     if (CURRENT_MOUSE_OVER) {
         var button = event.button;
+        const state = CURRENT_MOUSE_OVER.getState();
 
-        if (CURRENT_MOUSE_OVER.state == SquareState.revealed) {
+        if (state === SquareState.revealed) {
             return;
         }
 
         // left click
-        if (button == 0) {
-            if (CURRENT_MOUSE_OVER.state == SquareState.mine_flag) {
+        if (button === 0) {
+            if (state === SquareState.mine_flag) {
                 return;
             }
 
@@ -254,10 +256,10 @@ function mouseClick(event: MouseEvent) {
         }
 
         // right click
-        else if (button == 2) {
-            if (CURRENT_MOUSE_OVER.state === SquareState.hidden) {
+        else if (button === 2) {
+            if (state === SquareState.hidden) {
                 CURRENT_MOUSE_OVER.setState(SquareState.question_mark);
-            } else if (CURRENT_MOUSE_OVER.state === SquareState.question_mark) {
+            } else if (state === SquareState.question_mark) {
                 CURRENT_MOUSE_OVER.setState(SquareState.mine_flag);
             } else {
                 CURRENT_MOUSE_OVER.setState(SquareState.hidden);
