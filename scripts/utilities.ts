@@ -14,8 +14,15 @@ export function round(num: number, dec: number) {
 
 /**
  * Converts a time (in milliseconds) to a string (with the number of days/hours...).
+ * The `sSpace` argument is about adding an extra space when the unit doesn't have the 's' at the end (to make sure it is aligned).
+ *     For example (when true):
+ *         1 minute  10 seconds
+ *         2 minutes 10 seconds
+ *     When false:
+ *         1 minute 10 seconds
+ *         2 minutes 10 seconds
  */
-export function timeToString(dateMilliseconds: number) {
+export function timeToString(dateMilliseconds: number, sSpace = false) {
     //in milliseconds
     var second = 1000;
     var minute = 60 * second;
@@ -78,7 +85,7 @@ export function timeToString(dateMilliseconds: number) {
                 date += " ";
             }
 
-            date += constructDate(dateUnit, dateValue);
+            date += constructDate(dateUnit, dateValue, sSpace);
             totalUnits--;
         }
     }
@@ -94,7 +101,7 @@ export function timeToString(dateMilliseconds: number) {
 /**
  * Helper function to the 'timeToString' function.
  */
-function constructDate(dateTmp: string, numberOf: number) {
+function constructDate(dateTmp: string, numberOf: number, sSpace: boolean) {
     // a digit past the decimal case only to the 'second' values
     const numberStr =
         dateTmp === "second" ? numberOf.toFixed(1) : numberOf.toString();
@@ -102,7 +109,7 @@ function constructDate(dateTmp: string, numberOf: number) {
     // day to days, hour to hours...
     if (numberOf !== 1) {
         dateTmp += "s";
-    } else {
+    } else if (sSpace) {
         dateTmp += "&nbsp;"; // add a space when not adding the 's', so that the width ends up the same (otherwise the text moves a bit when passing through these cases)
     }
 

@@ -80,7 +80,7 @@ export default class Timer {
         let time = "---";
 
         if (this.count_time !== 0) {
-            time = timeToString(this.count_time);
+            time = timeToString(this.count_time, true);
         }
 
         this.args.update(time);
