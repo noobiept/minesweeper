@@ -22,7 +22,7 @@ export default class Dialog {
         title.className = "dialog-title";
 
         const body = document.createElement("div");
-        body.innerText = args.body;
+        body.innerHTML = args.body;
         body.className = "dialog-body";
 
         const buttons = document.createElement("div");
