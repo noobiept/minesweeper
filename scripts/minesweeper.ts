@@ -216,36 +216,43 @@ function mouseMove(event: MouseEvent) {
 
 /**
  * Reveal the current selected square on mouse left click.
- * Flag the square on right click (question mark/mine flag/hidden).
+ * Flag the square on right or middle click (question mark/mine flag/hidden).
  */
 function mouseClick(event: MouseEvent) {
     if (CURRENT_MOUSE_OVER) {
-        var button = event.button;
+        const button = event.button;
         const state = CURRENT_MOUSE_OVER.getState();
+        let newState: SquareState | null = null;
 
         if (state === SquareState.revealed) {
             return;
         }
 
-        // left click
-        if (button === 0) {
-            if (state === SquareState.mine_flag) {
-                return;
-            }
-
+        // left click, reveal a hidden square
+        if (button === 0 && state === SquareState.hidden) {
             revealSquare(CURRENT_MOUSE_OVER);
         }
 
-        // right click
-        else if (button === 2) {
-            if (state === SquareState.hidden) {
-                CURRENT_MOUSE_OVER.setState(SquareState.question_mark);
-            } else if (state === SquareState.question_mark) {
-                CURRENT_MOUSE_OVER.setState(SquareState.mine_flag);
+        // middle click, toggle between the 'question mark' and the 'hidden' state
+        else if (button === 1) {
+            if (state === SquareState.question_mark) {
+                newState = SquareState.hidden;
             } else {
-                CURRENT_MOUSE_OVER.setState(SquareState.hidden);
+                newState = SquareState.question_mark;
             }
+        }
 
+        // right click, toggle between the 'mine' and the 'hidden' state
+        else if (button === 2) {
+            if (state === SquareState.mine_flag) {
+                newState = SquareState.hidden;
+            } else {
+                newState = SquareState.mine_flag;
+            }
+        }
+
+        if (newState !== null) {
+            CURRENT_MOUSE_OVER.setState(newState);
             // the .setState() sets the background to hidden, but when we click we have the mouse over, so need to re-set to that image
             CURRENT_MOUSE_OVER.select();
         }
