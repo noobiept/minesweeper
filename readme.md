@@ -1,4 +1,4 @@
-You can try it out here: [http://nbpt.eu/games/minesweeper/](http://nbpt.eu/games/minesweeper/)
+You can try it out here: [https://nbpt.eu/games/minesweeper/](https://nbpt.eu/games/minesweeper/)
 
 # Commands
 
