@@ -7,7 +7,7 @@ let PRELOAD: createjs.LoadQueue;
 let STAGE: createjs.Stage;
 let CANVAS: HTMLCanvasElement;
 
-window.onload = function() {
+window.onload = function () {
     AppStorage.getData(
         ["minesweeper_high_score", "minesweeper_options"],
         initApp
@@ -25,7 +25,7 @@ function initApp(data: AppStorage.StorageData) {
     PRELOAD.maintainScriptOrder = false;
 
     // disable the context menu (when right-clicking)
-    CANVAS.oncontextmenu = function(event) {
+    CANVAS.oncontextmenu = function () {
         return false;
     };
 
@@ -55,12 +55,12 @@ function initApp(data: AppStorage.StorageData) {
     var loadMessage = document.getElementById("LoadMessage")!;
     loadMessage.classList.remove("hidden");
 
-    PRELOAD.addEventListener("progress", function(
+    PRELOAD.addEventListener("progress", function (
         event: createjs.ProgressEvent
     ) {
         loadMessage.innerText = ((event.progress * 100) | 0) + "%";
     } as (event: Object) => void);
-    PRELOAD.addEventListener("complete", function() {
+    PRELOAD.addEventListener("complete", function () {
         loadMessage.classList.add("hidden");
 
         MineSweeper.init();
