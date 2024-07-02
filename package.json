@@ -5,6 +5,7 @@
     "packageManager": "npm@10.7.0",
     "type": "module",
     "dependencies": {
+        "@drk4/utilities": "^6.2.0",
         "easeljs": "^1.0.2",
         "preloadjs": "^1.0.1"
     },

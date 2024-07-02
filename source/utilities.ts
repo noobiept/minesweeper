@@ -1,16 +1,4 @@
-/**
- * Get a random integer within the given range (inclusive).
- */
-export function getRandomInt(min: number, max: number) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-/**
- * Rounds a number to a specified decimal case.
- */
-export function round(num: number, dec: number) {
-    return Math.round(num * Math.pow(10, dec)) / Math.pow(10, dec);
-}
+import { round } from "@drk4/utilities";
 
 /**
  * Converts a time (in milliseconds) to a string (with the number of days/hours...).
@@ -24,15 +12,15 @@ export function round(num: number, dec: number) {
  */
 export function timeToString(dateMilliseconds: number, sSpace = false) {
     //in milliseconds
-    var second = 1000;
-    var minute = 60 * second;
-    var hour = 60 * minute;
-    var day = 24 * hour;
+    const second = 1000;
+    const minute = 60 * second;
+    const hour = 60 * minute;
+    const day = 24 * hour;
 
-    var minutesLeft = 0;
-    var hoursLeft = 0;
-    var daysLeft = 0;
-    var secondsLeft = 0;
+    let minutesLeft = 0;
+    let hoursLeft = 0;
+    let daysLeft = 0;
+    let secondsLeft = 0;
 
     //count the days
     while (dateMilliseconds > day) {
@@ -56,7 +44,7 @@ export function timeToString(dateMilliseconds: number, sSpace = false) {
     secondsLeft = round(dateMilliseconds / 1000, 2);
 
     // :: construct the string :: //
-    var theDate = [
+    const theDate = [
         ["day", daysLeft],
         ["hour", hoursLeft],
         ["minute", minutesLeft],
@@ -64,8 +52,8 @@ export function timeToString(dateMilliseconds: number, sSpace = false) {
     ];
 
     // limit the number of units to be shown (days/hours, or hours/minutes or minutes/seconds, and not days/hours/minutes for example)
-    var totalUnits = 2;
-    var date = "";
+    let totalUnits = 2;
+    let date = "";
 
     for (let i = 0; i < theDate.length; i++) {
         const dateInfo = theDate[i];

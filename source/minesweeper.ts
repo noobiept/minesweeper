@@ -6,7 +6,8 @@ import Timer from "./timer.js";
 import Grid, { GridPosition } from "./grid.js";
 import Square, { SquareValue, SquareState } from "./square.js";
 import { addCanvasListeners, getCanvasRect } from "./main.js";
-import { getRandomInt, timeToString } from "./utilities.js";
+import { timeToString } from "./utilities.js";
+import { getRandomInt } from "@drk4/utilities";
 
 let GRID: Grid | null;
 let TIMER: Timer;

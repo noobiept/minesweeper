@@ -64,7 +64,6 @@ function initApp(data: AppStorage.StorageData) {
     } as (event: object) => void);
     PRELOAD.addEventListener("complete", function () {
         loadMessage.classList.add("hidden");
-
         MineSweeper.init();
     });
     PRELOAD.loadManifest(manifest, true);
