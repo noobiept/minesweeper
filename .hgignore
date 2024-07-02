@@ -1,6 +1,0 @@
-syntax: glob
-info.txt
-release/
-node_modules/
-scripts/**/*.js
-.DS_Store
