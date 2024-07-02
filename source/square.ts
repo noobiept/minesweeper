@@ -49,10 +49,10 @@ export default class Square {
         this.state = SquareState.hidden;
         this.onStateChange = args.onStateChange;
 
-        var container = new createjs.Container();
+        const container = new createjs.Container();
 
-        var background = new createjs.Bitmap(getAsset("hidden"));
-        var front = new createjs.Bitmap(getAsset("question_mark")); // need to initialize with an image, but its not visible initially
+        const background = new createjs.Bitmap(getAsset("hidden"));
+        const front = new createjs.Bitmap(getAsset("question_mark")); // need to initialize with an image, but its not visible initially
         front.visible = false;
 
         container.addChild(background);

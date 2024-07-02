@@ -34,7 +34,7 @@ function initApp(data: AppStorage.StorageData) {
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.on("tick", tick);
 
-    var manifest = [
+    const manifest = [
         { id: "1", src: "images/one.png" },
         { id: "2", src: "images/two.png" },
         { id: "3", src: "images/three.png" },
@@ -54,14 +54,14 @@ function initApp(data: AppStorage.StorageData) {
     Options.load(data["minesweeper_options"]);
     HighScore.load(data["minesweeper_high_score"]);
 
-    var loadMessage = document.getElementById("LoadMessage")!;
+    const loadMessage = document.getElementById("LoadMessage")!;
     loadMessage.classList.remove("hidden");
 
     PRELOAD.addEventListener("progress", function (
         event: createjs.ProgressEvent
     ) {
         loadMessage.innerText = ((event.progress * 100) | 0) + "%";
-    } as (event: Object) => void);
+    } as (event: object) => void);
     PRELOAD.addEventListener("complete", function () {
         loadMessage.classList.add("hidden");
 

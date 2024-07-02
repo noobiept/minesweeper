@@ -13,11 +13,11 @@ export function getData(
     keys: (keyof StorageData)[],
     callback: (data: StorageData) => void
 ) {
-    var objects: StorageData = {};
+    const objects: StorageData = {};
 
-    for (var a = 0; a < keys.length; a++) {
-        var key = keys[a];
-        var value = localStorage.getItem(key);
+    for (let a = 0; a < keys.length; a++) {
+        const key = keys[a];
+        const value = localStorage.getItem(key);
 
         objects[key] = value && JSON.parse(value);
     }
@@ -30,8 +30,8 @@ export function getData(
  * Converts the value to string (with json).
  */
 export function setData(items: StorageData, callback?: () => void) {
-    for (var key in items) {
-        if (items.hasOwnProperty(key)) {
+    for (const key in items) {
+        if (Object.prototype.hasOwnProperty.call(items, key)) {
             const dataKey = key as keyof StorageData;
             localStorage.setItem(key, JSON.stringify(items[dataKey]));
         }

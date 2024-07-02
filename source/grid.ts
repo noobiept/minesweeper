@@ -51,7 +51,7 @@ export default class Grid {
      * Reveal a square (shows its actual value).
      */
     revealSquare(square: Square) {
-        var index = this.hidden_squares.indexOf(square);
+        const index = this.hidden_squares.indexOf(square);
         this.hidden_squares.splice(index, 1);
 
         square.setState(SquareState.revealed);
@@ -77,12 +77,12 @@ export default class Grid {
      * Get the squares around the given position.
      */
     getAdjacentSquares(column: number, line: number) {
-        var adjacents = [];
+        const adjacents = [];
 
-        for (var xOffset = -1; xOffset <= 1; xOffset++) {
-            for (var yOffset = -1; yOffset <= 1; yOffset++) {
-                var adjacentColumn = xOffset + column;
-                var adjacentLine = yOffset + line;
+        for (let xOffset = -1; xOffset <= 1; xOffset++) {
+            for (let yOffset = -1; yOffset <= 1; yOffset++) {
+                const adjacentColumn = xOffset + column;
+                const adjacentLine = yOffset + line;
 
                 // don't consider the center position
                 if (adjacentColumn == column && adjacentLine == line) {
@@ -96,7 +96,7 @@ export default class Grid {
                     adjacentLine >= 0 &&
                     adjacentLine < this.line_size
                 ) {
-                    var square = this.grid[adjacentColumn][adjacentLine];
+                    const square = this.grid[adjacentColumn][adjacentLine];
 
                     adjacents.push(square);
                 }
@@ -110,12 +110,12 @@ export default class Grid {
      * Returns the number of mines there are in adjacent squares (not counting the position given, just the ones around it).
      */
     minesAround(column: number, line: number) {
-        var count = 0;
+        let count = 0;
 
-        for (var xOffset = -1; xOffset <= 1; xOffset++) {
-            for (var yOffset = -1; yOffset <= 1; yOffset++) {
-                var adjacentColumn = xOffset + column;
-                var adjacentLine = yOffset + line;
+        for (let xOffset = -1; xOffset <= 1; xOffset++) {
+            for (let yOffset = -1; yOffset <= 1; yOffset++) {
+                const adjacentColumn = xOffset + column;
+                const adjacentLine = yOffset + line;
 
                 // don't consider the center position
                 if (adjacentColumn == column && adjacentLine == line) {
@@ -129,7 +129,7 @@ export default class Grid {
                     adjacentLine >= 0 &&
                     adjacentLine < this.line_size
                 ) {
-                    var square = this.grid[adjacentColumn][adjacentLine];
+                    const square = this.grid[adjacentColumn][adjacentLine];
 
                     if (square.getValue() === SquareValue.mine) {
                         count++;
@@ -164,9 +164,9 @@ export default class Grid {
      * Loop through all the squares in the grid.
      */
     forEachSquare(callback: (square: Square) => void) {
-        for (var column = 0; column < this.column_size; column++) {
-            for (var line = 0; line < this.line_size; line++) {
-                var square = this.grid[column][line];
+        for (let column = 0; column < this.column_size; column++) {
+            for (let line = 0; line < this.line_size; line++) {
+                const square = this.grid[column][line];
 
                 callback(square);
             }
@@ -190,9 +190,9 @@ export default class Grid {
      * Clear the grid and its squares.
      */
     clear() {
-        for (var column = 0; column < this.column_size; column++) {
-            for (var line = 0; line < this.line_size; line++) {
-                var square = this.grid[column][line];
+        for (let column = 0; column < this.column_size; column++) {
+            for (let line = 0; line < this.line_size; line++) {
+                const square = this.grid[column][line];
 
                 square.clear();
             }

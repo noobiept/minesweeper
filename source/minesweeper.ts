@@ -105,7 +105,7 @@ export function placeMapValues(exclude: GridPosition) {
     }
 
     // add the numbers to the positions (number of mines in adjacent squares)
-    GRID.forEachSquare(function(square) {
+    GRID.forEachSquare(function (square) {
         if (square.getValue() !== SquareValue.mine) {
             const minesAround = GRID!.minesAround(square.column, square.line);
 
@@ -174,7 +174,7 @@ function revealAllMines() {
         throw new Error("Grid not available");
     }
 
-    GRID.forEachSquare(function(square) {
+    GRID.forEachSquare(function (square) {
         if (square.getValue() === SquareValue.mine) {
             GRID!.revealSquare(square);
         }
@@ -189,15 +189,15 @@ function mouseMove(event: MouseEvent) {
         throw new Error("Grid not available");
     }
 
-    var canvasRect = getCanvasRect();
+    const canvasRect = getCanvasRect();
 
-    var x = event.clientX - canvasRect.left;
-    var y = event.clientY - canvasRect.top;
+    const x = event.clientX - canvasRect.left;
+    const y = event.clientY - canvasRect.top;
 
-    var column = Math.floor(x / Square.size);
-    var line = Math.floor(y / Square.size);
+    const column = Math.floor(x / Square.size);
+    const line = Math.floor(y / Square.size);
 
-    var square = GRID.getSquare(column, line);
+    const square = GRID.getSquare(column, line);
 
     if (square) {
         if (CURRENT_MOUSE_OVER && square !== CURRENT_MOUSE_OVER) {

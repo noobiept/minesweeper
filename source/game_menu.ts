@@ -20,10 +20,10 @@ export function init() {
 
     columnSize.value = columnSizeStr;
     columnSizeValue.innerHTML = columnSizeStr;
-    columnSize.oninput = function() {
+    columnSize.oninput = function () {
         columnSizeValue.innerHTML = columnSize.value;
     };
-    columnSize.onchange = function() {
+    columnSize.onchange = function () {
         const currentColumnSize = parseInt(columnSize.value, 10);
         Options.setOption("columnSize", currentColumnSize);
     };
@@ -35,10 +35,10 @@ export function init() {
 
     lineSize.value = lineSizeStr;
     lineSizeValue.innerHTML = lineSizeStr;
-    lineSize.oninput = function() {
+    lineSize.oninput = function () {
         lineSizeValue.innerHTML = lineSize.value;
     };
-    lineSize.onchange = function() {
+    lineSize.onchange = function () {
         const currentLineSize = parseInt(lineSize.value, 10);
         Options.setOption("lineSize", currentLineSize);
     };
@@ -52,16 +52,16 @@ export function init() {
 
     numberOfMines.value = numberOfLinesStr;
     numberOfMinesValue.innerHTML = numberOfLinesStr;
-    numberOfMines.oninput = function() {
+    numberOfMines.oninput = function () {
         numberOfMinesValue.innerHTML = numberOfMines.value;
     };
-    numberOfMines.onchange = function() {
+    numberOfMines.onchange = function () {
         const currentNumberOfMines = parseInt(numberOfMines.value, 10);
         Options.setOption("numberOfMines", currentNumberOfMines);
     };
 
     // :: restart :: //
-    var restartButton = document.getElementById("Restart")!;
+    const restartButton = document.getElementById("Restart")!;
     restartButton.onclick = restart;
 
     // :: timer :: //

@@ -4,8 +4,8 @@ export interface HighScoreData {
     [name: string]: number[];
 }
 
-var HIGH_SCORE: HighScoreData = {};
-var MAX_SCORES_SAVED = 5;
+let HIGH_SCORE: HighScoreData = {};
+const MAX_SCORES_SAVED = 5;
 
 /**
  * Save the high-scores to the local storage.
@@ -34,7 +34,7 @@ export function add(
     mines: number,
     time: number
 ) {
-    var name = columns + "_" + lines + "_" + mines;
+    const name = columns + "_" + lines + "_" + mines;
 
     if (typeof HIGH_SCORE[name] == "undefined") {
         HIGH_SCORE[name] = [];
@@ -43,7 +43,7 @@ export function add(
     HIGH_SCORE[name].push(time);
 
     // have the better scores first (better means a lesser value (finished the map faster))
-    HIGH_SCORE[name].sort(function(a, b) {
+    HIGH_SCORE[name].sort(function (a, b) {
         return a - b;
     });
 
@@ -59,7 +59,7 @@ export function add(
  * Get the high-scores of the given columns/lines/mines combination.
  */
 export function get(columns: number, lines: number, mines: number) {
-    var key = columns + "_" + lines + "_" + mines;
+    const key = columns + "_" + lines + "_" + mines;
 
     if (typeof HIGH_SCORE[key] == "undefined") {
         return null;
