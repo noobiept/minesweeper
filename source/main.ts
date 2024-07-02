@@ -3,6 +3,8 @@ import * as HighScore from "./high_score.js";
 import * as MineSweeper from "./minesweeper.js";
 import * as Options from "./options.js";
 
+import "../css/style.css";
+
 let PRELOAD: createjs.LoadQueue;
 let STAGE: createjs.Stage;
 let CANVAS: HTMLCanvasElement;
